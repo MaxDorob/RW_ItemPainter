@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using Verse;
 
-namespace RWPaintingTool
+namespace RWPaintingTool;
+
+public partial class PaintingTool : Window
 {
-    public partial class PaintingTool : Window
+    public override void DoWindowContents(Rect inRect)
     {
-        public override void DoWindowContents(Rect inRect)
-        {
-            
-        }
+        
     }
 }

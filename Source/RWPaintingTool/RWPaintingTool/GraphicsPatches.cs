@@ -1,7 +1,6 @@
-﻿namespace RWPaintingTool
+﻿namespace RWPaintingTool;
+
+internal static class GraphicsPatches
 {
-    internal static class GraphicsPatches
-    {
         
-    }
 }
