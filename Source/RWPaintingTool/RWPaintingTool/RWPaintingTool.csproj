@@ -4,26 +4,24 @@
     <PropertyGroup>
         <RootNamespace>RWPaintingTool</RootNamespace>
         <AssemblyName>RWPaintingTool</AssemblyName>
-        <OutputPath>..\..\Assemblies</OutputPath>
+        <OutputPath>..\..\..\Assemblies</OutputPath>
         <TargetFramework>net481</TargetFramework>
         <OutputType>Library</OutputType>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <Copyright>Copyright © 2024 Maxim Switenko</Copyright>
         <LangVersion>latest</LangVersion>
+        <nullable>enable</nullable>
     </PropertyGroup>
+    
     <PropertyGroup>
         <PlatformTarget>AnyCPU</PlatformTarget>
         <DebugSymbols>true</DebugSymbols>
         <DebugType>pdbonly</DebugType>
         <Optimize>true</Optimize>
-        <OutputPath>bin\Debug\</OutputPath>
         <DefineConstants>DEBUG;TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
-
-        <OutputPath Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">bin\Debug\</OutputPath>
-        <OutputPath Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">bin\Release\</OutputPath>
     </PropertyGroup>
 
     <ItemGroup>
@@ -42,5 +40,20 @@
             <ExcludeAssets>runtime</ExcludeAssets>
             <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="TeleCore.AssetLoader">
+        <HintPath>..\..\..\Assemblies\TeleCore.AssetLoader.dll</HintPath>
+      </Reference>
+      <Reference Include="TeleCore.Events">
+        <HintPath>..\..\..\Assemblies\TeleCore.Events.dll</HintPath>
+      </Reference>
+      <Reference Include="TeleCore.Loader">
+        <HintPath>..\..\..\Assemblies\TeleCore.Loader.dll</HintPath>
+      </Reference>
+      <Reference Include="TeleCore.Shared">
+        <HintPath>..\..\..\Assemblies\TeleCore.Shared.dll</HintPath>
+      </Reference>
     </ItemGroup>
 </Project>

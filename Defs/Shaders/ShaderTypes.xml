@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ShaderTypeDef> 
+		<defName>IP_ColorPicker</defName>
+		<shaderPath>ColorPickerGradient</shaderPath>
+	</ShaderTypeDef>
+
+	<ShaderTypeDef> 
+		<defName>IP_AlphaPicker</defName>
+		<shaderPath>ColorPickerAlpha</shaderPath>
+	</ShaderTypeDef>
+
+	<ShaderTypeDef> 
+		<defName>IP_HuePicker</defName>
+		<shaderPath>ColorPickerHue</shaderPath>
+	</ShaderTypeDef>
+
+	<TeleCore.CustomShaderDef> 
+		<defName>CutoutMultiMask</defName>
+		<shaderPath>CutoutMultiMask</shaderPath>
+		<supportsMask>true</supportsMask>
+	</TeleCore.CustomShaderDef>
+
+</Defs>
