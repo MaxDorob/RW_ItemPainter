@@ -4,6 +4,12 @@ using Verse;
 
 namespace RWPaintingTool;
 
+
+public struct ThingState
+{
+    private Rot4 rotation;
+}
+
 public struct MaskSelection
 {
     public DefID<ThingDef> DefID { get; set; }
