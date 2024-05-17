@@ -1,4 +1,5 @@
-﻿using TeleCore.Loader;
+﻿using RimWorld;
+using TeleCore.Loader;
 using UnityEngine;
 using Verse;
 
@@ -7,7 +8,9 @@ namespace RWPaintingTool;
 
 public struct ThingState
 {
-    private Rot4 rotation;
+    private DefID<ThingDef> _def;
+    private DefID<BodyTypeDef>? _bodyType;
+    private Rot4 _rot4;
 }
 
 public struct MaskSelection

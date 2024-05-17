@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text.RegularExpressions;
 using HarmonyLib;
 using RimWorld;
 using TeleCore.Loader;
@@ -132,36 +133,7 @@ internal static class GraphicsPatches
                     
                     //Try to cache multi masks
                     var maskPath = __instance.maskPath ?? __instance.path;
-
-                    
-                    TLog.Message($"[RWPaintingTool] - Caching mask textures: {maskPath}");
-                    string[] maskFiles = null;
-
-                    //Potential masks
-                    if (Directory.Exists(__instance.path))
-                    {
-                        maskFiles = Directory.GetFiles(maskPath, maskPath + "*Mask_??");
-                    }
-                    else if (File.Exists(__instance.path))
-                    {
-                        maskFiles = Directory.GetFiles(Path.GetDirectoryName(__instance.path), Path.GetFileNameWithoutExtension(__instance.path) + "*Mask_??");
-                    }
-
-                    if (maskFiles == null)
-                    {
-                        //Found mask selection
-                        //Analyze state
-                        // Path/[Name] _BodyType _Rotation _MaskXX
-                        //Eg: Apparel/Armor/Maximus_backpack_Hulk_north
-                        
-                        // => _BodyType must be defined as a list in regex
-                        // => _Rotation must be defined as a list in regex
-                        // => _MaskXX must always be the last part of the string
-                        
-                        //Regex to find _BodyType _Rotation _MaskXX:
-                        // ^(?<Name>.+?)(?:_(?<BodyType>.+?))?(?:_(?<Rotation>.+?))_(?<Mask>.+)$
-                        
-                    }
+                    MultiMaskTracker.CacheMasks(maskPath, out bool alreadyCached);
 
                 }
             }

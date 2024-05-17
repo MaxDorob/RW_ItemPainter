@@ -44,13 +44,15 @@ public class GameComponent_ColorTracking : GameComponent
 public class ColorTracker : IExposable
 {
     private Thing _thing;
-
+    private MaskTracker _maskTracker;
+    
     private Color _one;
     private Color _two;
     private Color _three;
     private Color _four;
     private Color _five;
     private Color _six;
+
 
     
     private Color? _colorOneOverride;
@@ -60,6 +62,7 @@ public class ColorTracker : IExposable
     public ColorTracker(Thing thing)
     {
         _thing = thing;
+        _maskTracker = new MaskTracker(thing);
         _colorThree = Color.white;
     }
 
@@ -81,5 +84,30 @@ public class ColorTracker : IExposable
     public void Notify_ColorsChanged()
     {
         _thing.Notify_ColorChanged();
+    }
+}
+
+public class MaskTracker
+{
+    private Thing _thing;
+    private int _maskIndex;
+    private int _maskCount;
+
+    public MaskTracker(Thing thing)
+    {
+        _thing = thing;
+        Init();
+    }
+
+    private void Init()
+    {
+        //TODO: Move mask caching and loading in here
+        
+        //1. Find mask path used
+        //2. Discover associated mask count
+        //3. Cache only mask count and availabilty
+        //4. Only cache textures when requested specifically via selection
+
+        MultiMaskTracker.BeginCaching(_thing.def);
     }
 }

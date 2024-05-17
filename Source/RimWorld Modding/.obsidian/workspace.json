@@ -6,7 +6,7 @@
       {
         "id": "ba74019506bd11a1",
         "type": "tabs",
-        "dimension": 53.038309114927344,
+        "dimension": 53.03830911492733,
         "children": [
           {
             "id": "ca8d1df61fb540f8",
@@ -14,7 +14,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "RimWorld/Misc/Rendering.md",
+                "file": "Painting Framework/Mask Caching.md",
                 "mode": "source",
                 "source": false
               }
@@ -37,14 +37,18 @@
       {
         "id": "6b5c1ea1c170497a",
         "type": "tabs",
-        "dimension": 46.96169088507266,
+        "dimension": 46.96169088507267,
         "children": [
           {
             "id": "44bad0a4506026d1",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "TeleCore/TeleCore.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -113,7 +117,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "RimWorld/Misc/Rendering.md",
+                "file": "TeleCore/TeleCore.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -130,7 +134,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "RimWorld/Misc/Rendering.md",
+                "file": "TeleCore/TeleCore.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -153,7 +157,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "RimWorld/Misc/Rendering.md"
+                "file": "TeleCore/TeleCore.md"
               }
             }
           }
@@ -174,38 +178,39 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ca8d1df61fb540f8",
+  "active": "44bad0a4506026d1",
   "lastOpenFiles": [
-    "Painting Framework/Painting Framework.md",
-    "RimWorld/Misc/Rendering.md",
-    "Painting Framework/PaintableExtension.md",
-    "RimWorld/Codebase/Graphic.md",
+    "TeleCore/TeleCore.Events.md",
+    "TeleCore/TeleCore.Loader.md",
+    "TeleCore/TeleCore.Shared.md",
+    "TeleCore/TeleCore.md",
+    "TeleCore/TCShaderData.md",
+    "TeleCore/AssetLoader/CustomShaderDef.md",
+    "TeleCore/AssetLoader/TeleCore.AssetLoader.md",
+    "Painting Framework/Mask Caching.md",
+    "Relight",
     "RimWorld/Codebase/GraphicData.md",
+    "Painting Framework/PaintableExtension.md",
+    "RimWorld/Codebase/ThingWithComps.md",
     "RimWorld/Codebase/Pawn.md",
+    "RimWorld/Codebase/Apparel.md",
+    "RimWorld/Codebase/Graphic.md",
+    "RimWorld/Codebase/Graphic_StackCount.md",
+    "RimWorld/Codebase/Graphic_Random.md",
+    "RimWorld/Codebase/Graphic_Multi.md",
+    "RimWorld/RimWorld.md",
+    "Painting Framework/Painting Framework.md",
+    "Painting Framework/ColorTracker.md",
+    "RimWorld/Misc/Rendering.md",
     "RimWorld/Codebase/Pawn_DrawTracker.md",
     "RimWorld/Codebase/PawnRenderer.md",
     "RimWorld/Codebase/ShaderTypeDef.md",
     "RimWorld/Codebase/Thing.md",
     "RimWorld/Codebase/ThingDef.md",
-    "RimWorld/Misc/Masking Support.md",
-    "RimWorld/RimWorld.md",
     "RimWorld/Codebase",
     "RimWorld/Misc",
-    "TeleCore/AssetLoader/TeleCore.AssetLoader.md",
-    "TeleCore/AssetLoader/CustomShaderDef.md",
-    "TeleCore/TCShaderData.md",
     "TeleCore/AssetLoader",
-    "Unity/Material.md",
-    "Unity/Shader.md",
-    "Unity/Texture.md",
-    "Unity/Unity.md",
-    "Painting Framework/ColorTracker.md",
     "Unity",
-    "CutoutMultiMask.md",
-    "Painting Framework/Patches.md",
-    "TeleCore/TeleCore.md",
-    "TeleCore/TeleCore.Loader.md",
-    "TeleCore/TeleCore.Shared.md",
     "RimWorld",
     "TeleCore/Patches",
     "TiberiumRim",
