@@ -1,6 +1,18 @@
-﻿namespace RWPaintingTool;
+﻿using TeleCore.Loader;
+using Verse;
 
-public class DefInjector_MaskData
+namespace RWPaintingTool;
+
+public class DefInjector_MaskData : DefInjectBase
 {
-    
+    public override void OnThingDefInject(ThingDef thingDef)
+    {
+        MaskManager.CacheMasks(thingDef);
+    }
+
+    public override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        MaskManager.Resolve();
+    }
 }

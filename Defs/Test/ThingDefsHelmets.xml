@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-<!--	<ThingDef ParentName="ArmorHelmetMakeableBase">
+	<!--
+	<ThingDef ParentName="ArmorHelmetMakeableBase">
 		<defName>RWPainter_TestHelmet</defName>
 		<label>Color Test Helmet</label>
 		<description>.</description>
@@ -77,8 +78,14 @@
 		<tradeTags>
 		  <li>Armor</li>
 		</tradeTags>
-	  </ThingDef>-->
-
+		<modExtensions>
+			<li Class="RWPaintingTool.PaintableExtension">
+				<maskCount>9</maskCount>
+				<beginIndex>1</beginIndex>
+			</li>
+		</modExtensions>
+	</ThingDef>
+-->
 
 	  <ThingDef ParentName="ApparelMakeableBase">
 		<defName>RWPainter_ArmorsTest</defName>
@@ -162,9 +169,98 @@
 		</tradeTags>
 		<modExtensions>
 			<li Class="RWPaintingTool.PaintableExtension">
-
+				<maskCount>1</maskCount>
 			</li>
 		</modExtensions>
 	</ThingDef>
+
+
+<!--
+	<ThingDef ParentName="ApparelMakeableBase">
+		<defName>RWPainter_ArmorsTest2</defName>
+		<label>Colorable Armor Test 2</label>
+		<description>.</description>
+		<possessionCount>1</possessionCount>
+		<recipeMaker>
+		  <researchPrerequisite>ComplexClothing</researchPrerequisite>
+		  <displayPriority>210</displayPriority>
+		</recipeMaker>
+		<graphicData>
+		  <texPath>OtherArmor/Tacticus_torso_Hulk_south</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <shaderType>CutoutMultiMask</shaderType>
+		  <drawSize>0.85</drawSize>
+		</graphicData>
+		<costStuffCount>70</costStuffCount>
+		<stuffCategories>
+		  <li>Fabric</li>
+		  <li>Leathery</li>
+		</stuffCategories>
+		<thingCategories>
+		  <li>ApparelMisc</li>
+		</thingCategories>
+		<statBases>
+		  <MaxHitPoints>160</MaxHitPoints>
+		  <WorkToMake>7000</WorkToMake>
+		  <Mass>1.7</Mass>
+		  <StuffEffectMultiplierArmor>0.3</StuffEffectMultiplierArmor>
+		  <StuffEffectMultiplierInsulation_Cold>0.80</StuffEffectMultiplierInsulation_Cold>
+		  <StuffEffectMultiplierInsulation_Heat>0.30</StuffEffectMultiplierInsulation_Heat>
+		  <EquipDelay>1.5</EquipDelay>
+		</statBases>
+		<apparel>
+		  <bodyPartGroups>
+			<li>Torso</li>
+			<li>Neck</li>
+			<li>Shoulders</li>
+			<li>Arms</li>
+		  </bodyPartGroups>
+		  <wornGraphicPath>OtherArmor/Tacticus_torso</wornGraphicPath>
+		  <layers>
+			<li>Shell</li>
+		  </layers>
+		  <tags>
+			<li>IndustrialAdvanced</li>
+		  </tags>
+		  <defaultOutfitTags>
+			<li>Worker</li>
+		  </defaultOutfitTags>
+		  <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
+		</apparel>
+		<colorGenerator Class="ColorGenerator_Options">
+		  <options>
+			<li>
+			  <weight>10</weight>
+			  <only>(0.33,0.33,0.33)</only>
+			</li>
+			<li>
+			  <weight>10</weight>
+			  <only>(0.65,0.65,0.65)</only>
+			</li>
+			<li>
+			  <weight>10</weight>
+			  <only>(0.4,0.3,0.15)</only>
+			</li>
+			<li>
+			  <weight>15</weight>
+			  <min>(0.3,0.3,0.3)</min>
+			  <max>(0.5,0.5,0.5)</max>
+			</li>
+			<li>
+			  <weight>6</weight>
+			  <min>(0.5,0.5,0.5)</min>
+			  <max>(1,1,1)</max>
+			</li>
+		  </options>
+		</colorGenerator>
+		<tradeTags>
+		  <li>BasicClothing</li>
+		</tradeTags>
+		<modExtensions>
+			<li Class="RWPaintingTool.PaintableExtension">
+			</li>
+		</modExtensions>
+	</ThingDef>
+-->
 
 </Defs>

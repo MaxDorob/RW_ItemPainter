@@ -14,6 +14,11 @@ namespace RWPaintingTool;
 
 internal static class GraphicsPatches
 {
+    private static readonly int ColorThree = Shader.PropertyToID("_ColorThree");
+    private static readonly int ColorFour = Shader.PropertyToID("_ColorFour");
+    private static readonly int ColorFive = Shader.PropertyToID("_ColorFive");
+    private static readonly int ColorSix = Shader.PropertyToID("_ColorSix");
+
     internal static class ApparelPatches
     {
         [HarmonyPatch(typeof(ApparelGraphicRecordGetter), nameof(ApparelGraphicRecordGetter.TryGetGraphicApparel))]
@@ -33,7 +38,6 @@ internal static class GraphicsPatches
                     if(instruction == null) continue;
                     if (instruction.opcode == OpCodes.Ldsfld && instruction.operand == AccessTools.Field(typeof(ShaderDatabase), nameof(ShaderDatabase.Cutout)))
                     {
-                        TLog.Debug("Injecting shader selection");
                         yield return new CodeInstruction(OpCodes.Ldarg_0);
                         yield return new CodeInstruction(OpCodes.Call, _selectShaderMethod).WithLabels(instruction.labels);
                         continue;
@@ -43,7 +47,6 @@ internal static class GraphicsPatches
                             new[] { typeof(string), typeof(Shader), typeof(Vector2), typeof(Color) },
                             new[] { typeof(Graphic_Multi) }))
                     {
-                        TLog.Debug("Injecting graphic edit");
                         yield return instruction; // call GraphicDatabase.Get
                         enumer.MoveNext();
                         yield return enumer.Current; // stloc.2
@@ -62,7 +65,6 @@ internal static class GraphicsPatches
             {
                 if (apparel.def.HasModExtension<PaintableExtension>())
                 {
-                    TLog.Message($"[RWPaintingTool] - Found paintable apparel: {apparel.def.label}");
                     return ShaderDB.CutoutMultiMask;
                 }
                 return ShaderDatabase.Cutout;
@@ -71,12 +73,11 @@ internal static class GraphicsPatches
             internal static void ProcessGraphic(Apparel apparel, Graphic graphic)
             {
                 if (!apparel.def.HasModExtension<PaintableExtension>()) return;
-                TLog.Debug("Changing colors");
-                SetColorMat(graphic.MatNorth);
-                SetColorMat(graphic.MatEast);
-                SetColorMat(graphic.MatSouth);
-                SetColorMat(graphic.MatWest);
-                SetColorMat(graphic.MatSingle);
+                //SetColorMat(graphic.MatNorth);
+                //SetColorMat(graphic.MatEast);
+                //SetColorMat(graphic.MatSouth);
+                //SetColorMat(graphic.MatWest);
+                //SetColorMat(graphic.MatSingle);
             }
 
             internal static void SetColorMat(Material material)
@@ -92,49 +93,76 @@ internal static class GraphicsPatches
 
     internal static class GraphicPatches
     {
+        [HarmonyPatch(typeof(Thing), nameof(Thing.DrawColor), MethodType.Getter)]
+        internal static class ThingDrawColorPatch
+        {
+            public static void Postfix(Thing __instance, ref Color __result)
+            {
+            }
+        }
+        
+        [HarmonyPatch(typeof(Thing), nameof(Thing.DrawColorTwo), MethodType.Getter)]
+        internal static class ThingDrawColorTwoPatch
+        {
+            public static void Postfix(Thing __instance, ref Color __result)
+            {
+            }
+        }
+        
         [HarmonyPatch(typeof(GraphicData), nameof(GraphicData.GraphicColoredFor))]
         internal static class GraphicColoredForPatch
         {
-            //TODO: Ensure that unique instances for custom coloring are generated
-            public static bool Prefix(Thing thing)
+            public static bool Prefix(Thing t)
             {
-                var extension = thing.def.GetModExtension<PaintableExtension>();
-                if(extension != null)
-                {
-                    TLog.Message($"[RWPaintingTool] - Found paintable thing: {thing.def.label}");
-                    return false;
-                }
-
+                // var extension = thing.def.GetModExtension<PaintableExtension>();
+                // if(extension != null)
+                // {
+                //     TLog.Message($"[RWPaintingTool] - Found paintable thing: {thing.def.label}");
+                //     GraphicInitPatch.CurThing = thing;
+                //     return false;
+                // }
+                GraphicInitPatch.CurThing = t;
                 return true;
+            }
+            
+            public static void Postfix()
+            {
+                GraphicInitPatch.CurThing = null;
             }
         }
         
         [HarmonyPatch(typeof(Graphic), nameof(Graphic.Init))]
         internal static class GraphicInitPatch
         {
-            public static void Postfix(GraphicRequest req, Graphic __instance)
+            internal static Thing? CurThing = null;
+            
+            public static bool Prefix(ref GraphicRequest req, Graphic __instance)
             {
                 if (__instance.Shader.SupportsMaskTex())
                 {
-                    //Cache existing masks
-                    if (__instance is Graphic_Multi multi)
-                    {
-                        foreach (var mat in multi.mats)
-                        {
-                            var mask = mat.GetTexture("_MaskTex");
-                            //TODO:
-                        }
-                    }   
-                    else if (__instance is Graphic_Single single)
-                    {
-                        var mask = single.mat.GetTexture("_MaskTex");
-                        //TODO:
-                    }
-                    
-                    //Try to cache multi masks
-                    var maskPath = __instance.maskPath ?? __instance.path;
-                    MultiMaskTracker.CacheMasks(maskPath, out bool alreadyCached);
-
+                    //TODO:
+                    // if (MaskCache.TryGetMaskFor(CurThing, out string maskPath))
+                    // {
+                    //     req.maskPath = maskPath;
+                    // }
+                }
+                return true;
+            }
+        }
+        
+        [HarmonyPatch(typeof(MaterialPool), nameof(MaterialPool.MatFrom), new[] { typeof(MaterialRequest) })]
+        internal static class MaterialPoolMatFromPatch
+        {
+            public static void Postfix(MaterialRequest req, ref Material __result)
+            {
+                if (GraphicInitPatch.CurThing != null && req.shader.SupportsMultiColor())
+                {
+                    //TODO: Static handler?
+                    var tracker = Current.Game.GetComponent<GameComponent_ColorTracking>().GetTracker(GraphicInitPatch.CurThing);
+                    __result.SetColor(ColorThree, tracker.ColorThree);
+                    __result.SetColor(ColorFour, tracker.ColorFour);
+                    __result.SetColor(ColorFive, tracker.ColorFive);
+                    __result.SetColor(ColorSix, tracker.ColorSix);
                 }
             }
         }

@@ -1,0 +1,19 @@
+{
+	"nodes":[
+		{"id":"d19c084604b8c74e","type":"text","text":"Material","x":-40,"y":200,"width":250,"height":60},
+		{"id":"d023a39cafbff411","type":"text","text":"Graphic","x":0,"y":30,"width":250,"height":60},
+		{"id":"e32fe0d139bb17e1","type":"text","text":"Thing","x":60,"y":-160,"width":250,"height":60},
+		{"id":"f0d5496d30b4c889","type":"text","text":"Mask Selection","x":-280,"y":90,"width":170,"height":60},
+		{"id":"7a35f17cb75a704e","type":"text","text":"Mask","x":-605,"y":0,"width":250,"height":60},
+		{"id":"fe3bf9c4b73804bb","type":"text","text":"Colors","x":-605,"y":360,"width":250,"height":60},
+		{"id":"e272d7d71f76c323","type":"text","text":"Main Texture","x":-605,"y":210,"width":250,"height":50}
+	],
+	"edges":[
+		{"id":"a8ba40bc3bef7726","fromNode":"e32fe0d139bb17e1","fromSide":"bottom","toNode":"d023a39cafbff411","toSide":"top","label":"Get Graphic"},
+		{"id":"4fc623eb7c2116fb","fromNode":"d023a39cafbff411","fromSide":"bottom","toNode":"d19c084604b8c74e","toSide":"top"},
+		{"id":"6a7d3dd31e4bbabd","fromNode":"7a35f17cb75a704e","fromSide":"right","toNode":"f0d5496d30b4c889","toSide":"left"},
+		{"id":"d800de562268199c","fromNode":"e272d7d71f76c323","fromSide":"right","toNode":"d19c084604b8c74e","toSide":"left"},
+		{"id":"70c0ee22d9f3bd5c","fromNode":"fe3bf9c4b73804bb","fromSide":"right","toNode":"d19c084604b8c74e","toSide":"left"},
+		{"id":"f819031b4c370d68","fromNode":"f0d5496d30b4c889","fromSide":"right","toNode":"d19c084604b8c74e","toSide":"left"}
+	]
+}

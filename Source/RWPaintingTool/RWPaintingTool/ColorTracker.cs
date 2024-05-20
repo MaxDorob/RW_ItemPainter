@@ -9,10 +9,12 @@ namespace RWPaintingTool;
 public class GameComponent_ColorTracking : GameComponent
 {
     private Dictionary<Thing, ColorTracker> _trackers;
+    private Dictionary<Thing, MaskTracker> _masks;
     
     public GameComponent_ColorTracking(Game game)
     {
         _trackers = new Dictionary<Thing, ColorTracker>();
+        _masks = new Dictionary<Thing, MaskTracker>();
         GlobalEventHandler.Things.Spawned += OnThingSpawned;
         GlobalEventHandler.Things.Despawned += OnThingDeSpawned;
     }
@@ -20,10 +22,17 @@ public class GameComponent_ColorTracking : GameComponent
     private void OnThingSpawned(ThingStateChangedEventArgs args)
     {
         var thing = args.Thing;
-        if (_trackers.ContainsKey(thing)) return;
+        if (!_trackers.ContainsKey(thing))
+        {
+            var tracker = new ColorTracker(thing);
+            _trackers.Add(thing, tracker);
+        }
 
-        var tracker = new ColorTracker(thing);
-        _trackers.Add(thing, tracker);
+        if (!_masks.ContainsKey(thing))
+        {
+            var mask = new MaskTracker(thing);
+            _masks.Add(thing, mask);
+        }
     }
 
     private void OnThingDeSpawned(ThingStateChangedEventArgs args)
@@ -39,12 +48,21 @@ public class GameComponent_ColorTracking : GameComponent
         base.ExposeData();
         Scribe_Collections.Look(ref _trackers, "trackers", LookMode.Reference, LookMode.Deep);
     }
+
+    public ColorTracker GetTracker(Thing curThing)
+    {
+        return _trackers.TryGetValue(curThing, out var tracker) ? tracker : null;
+    }
+
+    public MaskTracker GetMaskTracker(Thing thing)
+    {
+        return _masks.TryGetValue(thing, out var mask) ? mask : null;
+    }
 }
 
 public class ColorTracker : IExposable
 {
     private Thing _thing;
-    private MaskTracker _maskTracker;
     
     private Color _one;
     private Color _two;
@@ -62,13 +80,15 @@ public class ColorTracker : IExposable
     public ColorTracker(Thing thing)
     {
         _thing = thing;
-        _maskTracker = new MaskTracker(thing);
         _colorThree = Color.white;
     }
 
     public Color ColorOne => _colorOneOverride ?? _thing.DrawColor;
     public Color ColorTwo => _colorTwoOverride ?? _thing.DrawColorTwo;
     public Color ColorThree => _colorThree ?? Color.white;
+    public Color ColorFour => _four;
+    public Color ColorFive => _five;
+    public Color ColorSix => _six;
 
     public void ExposeData()
     {
@@ -92,22 +112,11 @@ public class MaskTracker
     private Thing _thing;
     private int _maskIndex;
     private int _maskCount;
-
+    
+    public int CurMaskID => _maskIndex;
+    
     public MaskTracker(Thing thing)
     {
         _thing = thing;
-        Init();
-    }
-
-    private void Init()
-    {
-        //TODO: Move mask caching and loading in here
-        
-        //1. Find mask path used
-        //2. Discover associated mask count
-        //3. Cache only mask count and availabilty
-        //4. Only cache textures when requested specifically via selection
-
-        MultiMaskTracker.BeginCaching(_thing.def);
     }
 }
