@@ -238,7 +238,6 @@ public class Window_ThingColoring : Window
 
         var alphaLine = alphaPicker.x + alphaPicker.width * color.a;
         Widgets.DrawLineVertical(alphaLine, alphaPicker.y -2, alphaPicker.height+4);*/
-
     }
 
     private void RGBSlider(Color color, int mode)
@@ -274,6 +273,35 @@ public class Window_ThingColoring : Window
         DrawThing(bottomRect, _thing, Rot4.South, _colorsSet, 0);
     }
 
+    private RenderTexture WorkingTex;
+    private ComputeShader DrawShader;
+    
+    //Note: Some test stuff for drawing on a canvas texture
+    public void DrawingScene(Rect rect)
+    {
+        ComputeShader compute = DrawShader;
+        RenderTexture texture = WorkingTex; //A render texture that we feed into the compute shader
+
+        var canvasRect = rect;
+        
+        Widgets.BeginGroup(canvasRect);
+        var canvasArea = canvasRect.AtZero();
+        Widgets.DrawTextureFitted(canvasArea, texture, 1);
+
+        var mouse = Event.current.mousePosition;
+        var mouseNormalized = mouse - canvasRect.position;
+
+        var mouseDown = Event.current.isMouse && Event.current.button == 0; //Left mouse down
+        compute.SetBool("_IsDrawing", mouseDown);
+        if (mouseDown)
+        {
+            compute.SetVector("_MousePos", mouseNormalized);
+            //This tells the shader where to draw on the rendertexture
+        }
+        
+        Widgets.EndGroup();
+    }
+    
     private void DrawThing(Rect rect, Thing thing, Rot4 rot, SixColorSet colors, int maskId)
     {
         var render = GetRenderData(thing, rot);
