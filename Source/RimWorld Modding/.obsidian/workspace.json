@@ -6,7 +6,7 @@
       {
         "id": "ba74019506bd11a1",
         "type": "tabs",
-        "dimension": 13.210039630118892,
+        "dimension": 46.433289299867894,
         "children": [
           {
             "id": "ca8d1df61fb540f8",
@@ -37,21 +37,14 @@
       {
         "id": "6b5c1ea1c170497a",
         "type": "tabs",
-        "dimension": 86.78996036988111,
+        "dimension": 53.566710700132106,
         "children": [
           {
             "id": "44bad0a4506026d1",
             "type": "leaf",
             "state": {
-              "type": "canvas",
-              "state": {
-                "file": "Painting Framework/Untitled.canvas",
-                "viewState": {
-                  "x": -606.1368360449974,
-                  "y": -244.98773078434996,
-                  "zoom": 0.12407711013358524
-                }
-              }
+              "type": "graph",
+              "state": {}
             }
           }
         ]
@@ -120,7 +113,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Painting Framework/Untitled.canvas",
+                "file": "Painting Framework/Painting Framework.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -137,7 +130,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Painting Framework/Untitled.canvas",
+                "file": "Painting Framework/Painting Framework.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -160,7 +153,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Painting Framework/Untitled.canvas"
+                "file": "Painting Framework/Painting Framework.md"
               }
             }
           }
@@ -183,36 +176,36 @@
   },
   "active": "44bad0a4506026d1",
   "lastOpenFiles": [
-    "Painting Framework/Resolver.md",
     "Painting Framework/Painting Framework.md",
-    "Painting Framework/Untitled.canvas",
-    "Painting Framework/PaintableExtension.md",
-    "TeleCore/TeleCore.Events.md",
-    "TeleCore/TCShaderData.md",
     "TeleCore/TeleCore.md",
-    "RimWorld/Misc/Rendering.md",
-    "RimWorld/Codebase/ThingWithComps.md",
-    "RimWorld/Codebase/Graphic_StackCount.md",
-    "RimWorld/Codebase/Graphic_Random.md",
-    "RimWorld/Codebase/Graphic_Multi.md",
-    "RimWorld/Codebase/Apparel.md",
-    "Painting Framework/Mask Caching.md",
-    "RimWorld/Codebase/Graphic.md",
-    "RimWorld/Codebase/GraphicData.md",
-    "RimWorld/Codebase/Pawn.md",
-    "RimWorld/Codebase/Pawn_DrawTracker.md",
-    "RimWorld/Codebase/PawnRenderer.md",
-    "RimWorld/Codebase/ShaderTypeDef.md",
+    "Painting Framework/Patches.md",
+    "RimWorld/Misc/Masking Support.md",
     "RimWorld/Codebase/Thing.md",
     "RimWorld/Codebase/ThingDef.md",
-    "RimWorld/Misc/Masking Support.md",
+    "RimWorld/Codebase/ThingWithComps.md",
+    "RimWorld/Codebase/ShaderTypeDef.md",
+    "RimWorld/Codebase/PawnRenderer.md",
+    "RimWorld/Codebase/Pawn_DrawTracker.md",
+    "RimWorld/Codebase/Pawn.md",
+    "RimWorld/Codebase/GraphicData.md",
+    "RimWorld/Codebase/Graphic_Random.md",
+    "RimWorld/Codebase/Apparel.md",
+    "RimWorld/Codebase/Graphic.md",
+    "RimWorld/Misc/Rendering.md",
     "RimWorld/RimWorld.md",
+    "TeleCore/TCShaderData.md",
+    "TeleCore/TeleCore.Loader.md",
+    "Painting Framework/Untitled.canvas",
+    "Painting Framework/Resolver.md",
+    "Painting Framework/PaintableExtension.md",
+    "TeleCore/TeleCore.Events.md",
+    "RimWorld/Codebase/Graphic_StackCount.md",
+    "RimWorld/Codebase/Graphic_Multi.md",
+    "Painting Framework/Mask Caching.md",
     "RimWorld/Codebase",
     "RimWorld/Misc",
     "TeleCore/AssetLoader/TeleCore.AssetLoader.md",
-    "TeleCore/AssetLoader/CustomShaderDef.md",
     "TeleCore/AssetLoader",
-    "Unity/Material.md",
     "Unity",
     "RimWorld",
     "TeleCore/Patches",
