@@ -28,27 +28,16 @@ public struct SixColorSet
         }
         set
         {
-            switch (colorIndex)
+            _ = colorIndex switch
             {
-                case 0:
-                    ColorOne = value;
-                    break;
-                case 1:
-                    ColorTwo = value;
-                    break;
-                case 2:
-                    ColorThree = value;
-                    break;
-                case 3:
-                    ColorFour = value;
-                    break;
-                case 4:
-                    ColorFive = value;
-                    break;
-                case 5:
-                    ColorSix = value;
-                    break;
-            }
+                0 => ColorOne = value,
+                1 => ColorTwo = value,
+                2 => ColorThree = value,
+                3 => ColorFour = value,
+                4 => ColorFive = value,
+                5 => ColorSix = value,
+                _ => throw new System.ArgumentOutOfRangeException(nameof(colorIndex), colorIndex.ToString())
+            };
         }
     }
 }

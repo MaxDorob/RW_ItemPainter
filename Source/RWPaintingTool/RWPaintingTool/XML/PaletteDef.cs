@@ -12,16 +12,7 @@ public class PaletteGroupDef : Def
 
 public class PaletteDef : Def
 {
-    public Color colorOne;
-    public Color colorTwo;
-    public Color colorThree;
-    
-    public Palette Palette => new Palette
-    {
-        colorOne = colorOne,
-        colorTwo = colorTwo,
-        colorThree = colorThree
-    };
+    public Palette palette;
 }
 
 public struct Palette
@@ -29,4 +20,7 @@ public struct Palette
     public Color colorOne;
     public Color colorTwo;
     public Color colorThree;
+    public Color colorFour;
+    public Color colorFive;
+    public Color colorSix;
 }
