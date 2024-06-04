@@ -1,0 +1,4 @@
+---
+Calls:
+  - "[[PawnRenderTree.EnsureInitialized]]"
+---

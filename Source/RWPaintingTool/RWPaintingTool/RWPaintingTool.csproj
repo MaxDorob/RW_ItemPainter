@@ -3,67 +3,77 @@
 
     <PropertyGroup>
         <RootNamespace>RWPaintingTool</RootNamespace>
-        <AssemblyName>RWPaintingTool</AssemblyName>
-        <OutputPath>..\..\..\Assemblies</OutputPath>
-        <TargetFramework>net481</TargetFramework>
-        <OutputType>Library</OutputType>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <AssemblyName>ZRWPaintingTool</AssemblyName>
+        <!--Author-->
+        <Authors>Telefonmast</Authors>
+        <!--<Company>TeleGames</Company>-->
         <Copyright>Copyright © 2024 Maxim Switenko</Copyright>
-        <LangVersion>latest</LangVersion>
-        <nullable>enable</nullable>
-    </PropertyGroup>
-    
-    <PropertyGroup>
+
+        <!--Project-->
+        <TargetFramework>net481</TargetFramework>
+        <LangVersion>preview</LangVersion>
+        <Nullable>enable</Nullable>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+        <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+        <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+        
+        <!-- BUILD -->
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <OutputPath>..\..\..\Assemblies</OutputPath>
         <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>pdbonly</DebugType>
         <Optimize>true</Optimize>
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
+        <OutputType>Library</OutputType>
+
+        <!--Debug-->
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>portable</DebugType>
     </PropertyGroup>
     
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <DebugType>portable</DebugType>
-    </PropertyGroup>
-
     <ItemGroup>
-        <PackageReference Include="Krafs.Publicizer" Version="2.2.1">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4085" GeneratePathProperty="true" ExcludeAssets="runtime">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-
-        <PackageReference Include="Lib.Harmony" Version="2.3.3">
-            <PrivateAssets>all</PrivateAssets>
-            <ExcludeAssets>runtime</ExcludeAssets>
-            <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+        <Publicize Include="Assembly-CSharp;0Harmony" IncludeVirtualMembers="false" />
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Zetrith.Prepatcher" Version="*" />
+        <PackageReference Include="Krafs.Publicizer" Version="*">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="*" />
+        <PackageReference Include="Lib.Harmony" Version="*" ExcludeAssets="runtime" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Reference Include="0TeleCore.AssetLoader">
+        <HintPath>..\..\..\Assemblies\TeleCore.AssetLoader.dll</HintPath>
+      </Reference>
+      <Reference Include="0TeleCore.Events">
+        <HintPath>..\..\..\Assemblies\TeleCore.Events.dll</HintPath>
+      </Reference>
+      <Reference Include="0TeleCore.Loader">
+        <HintPath>..\..\..\Assemblies\TeleCore.Loader.dll</HintPath>
+      </Reference>
+      <Reference Include="0TeleCore.Patching">
+        <HintPath>..\..\..\Assemblies\TeleCore.Patching.dll</HintPath>
+      </Reference>
+      <Reference Include="0TeleCore.Shared">
+        <HintPath>..\..\..\Assemblies\TeleCore.Shared.dll</HintPath>
+      </Reference>
+      <Reference Include="0TeleCore.UI">
+        <HintPath>..\..\..\Assemblies\TeleCore.UI.dll</HintPath>
+      </Reference>
+      <Reference Include="dnlib">
+        <HintPath>..\..\..\..\HotSwap-1.5\Assemblies\dnlib.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
       <Reference Include="HotSwap">
-        <HintPath>..\..\..\Assemblies\HotSwap.dll</HintPath>
+        <HintPath>..\..\..\..\HotSwap-1.5\Assemblies\HotSwap.dll</HintPath>
+        <Private>False</Private>
       </Reference>
-      <Reference Include="TeleCore.AssetLoader">
-        <HintPath>..\..\..\Assemblies\0TeleCore.AssetLoader.dll</HintPath>
-      </Reference>
-      <Reference Include="TeleCore.Events">
-        <HintPath>..\..\..\Assemblies\0TeleCore.Events.dll</HintPath>
-      </Reference>
-      <Reference Include="TeleCore.Loader">
-        <HintPath>..\..\..\Assemblies\0TeleCore.Loader.dll</HintPath>
-      </Reference>
-      <Reference Include="TeleCore.Shared">
-        <HintPath>..\..\..\Assemblies\0TeleCore.Shared.dll</HintPath>
-      </Reference>
-      <Reference Include="TeleCore.UI">
-        <HintPath>..\..\..\Assemblies\0TeleCore.UI.dll</HintPath>
-      </Reference>
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Compile Remove="Window_ThingColoring.cs" />
     </ItemGroup>
 </Project>

@@ -1,0 +1,3 @@
+---
+Calls: "[[PawnRenderer.SetAllGraphicsDirty]]"
+---

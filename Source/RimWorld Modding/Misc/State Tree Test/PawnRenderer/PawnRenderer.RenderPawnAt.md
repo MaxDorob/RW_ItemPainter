@@ -1,0 +1,4 @@
+---
+Calls:
+  - "[[PawnRenderer.EnsureGraphicsInitialized]]"
+---

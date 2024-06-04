@@ -1,10 +1,13 @@
-﻿using LudeonTK;
+﻿using HotSwap;
+using LudeonTK;
+using TeleCore.Shared;
 using TeleCore.UI;
 using UnityEngine;
 using Verse;
 
 namespace RWPaintingTool;
 
+[HotSwappable]
 public partial class PaintingTool : Window
 {
     [TweakValue("_RWIP", 0f, 700f)]
@@ -13,28 +16,6 @@ public partial class PaintingTool : Window
     private ColorPicker _colorPicker;
     
     public override Vector2 InitialSize => new(950f, 750f);
-    
-    public PaintingTool(Thing thing)
-    {
-        forcePause = true;
-        
-        _thing = thing;
-        _colorPicker = new ColorPicker();
-        _colorPicker.ColorChanged += color => Notify_ColorChanged(color, _curColorIndex);
-        
-        //TODO Get correct colors and then set it too
-        _colorsSet = new SixColorSet
-        {
-            ColorOne = new Color(Rand.Value, Rand.Value, Rand.Value),
-            ColorTwo = new Color(Rand.Value, Rand.Value, Rand.Value),
-            ColorThree = new Color(Rand.Value, Rand.Value, Rand.Value),
-            ColorFour = new Color(Rand.Value, Rand.Value, Rand.Value),
-            ColorFive = new Color(Rand.Value, Rand.Value, Rand.Value),
-            ColorSix = new Color(Rand.Value, Rand.Value, Rand.Value),
-        };
-        
-        _colorPicker.SetColor(_colorsSet[0]);
-    }
     
     public override void DoWindowContents(Rect inRect)
     {
@@ -52,6 +33,13 @@ public partial class PaintingTool : Window
         
         Widgets.DrawMenuSection(rightPart);
         DrawColorTool(rightPart.ContractedBy(5).TopPartPixels(300).LeftPartPixels(300));
+
+        var maskRect = rightPart.BottomPartPixels(200).BottomPartPixels(100);
+        var paletteRect = rightPart.BottomPartPixels(300).TopPartPixels(200);
+        DrawMaskSelection(maskRect);
+        Widgets.DrawLineHorizontal(maskRect.x, maskRect.y, maskRect.width, TColor.WindowBGBorderColor);
+        DrawPaletteSelection(paletteRect);
+        Widgets.DrawLineHorizontal(paletteRect.x, paletteRect.y, paletteRect.width, TColor.WindowBGBorderColor);
     }
     
     private void DrawColorTool(Rect rect)
@@ -72,7 +60,8 @@ public partial class PaintingTool : Window
         //TODO: Improve hashcode perf
         var subDiv = new RectDivider(colorSelectRect.ContractedBy(0,2.5f), colorSelectRect.GetHashCode());
 
-        for (int i = 0; i < 6; i++)
+        //TODO: Reimplement 6 color mask
+        for (int i = 0; i < 3; i++)
         {
             var colorDiv = subDiv.NewRow(colorSelWidth - 5, VerticalJustification.Top, 5);
             var colorRect = colorDiv.Rect.Rounded();

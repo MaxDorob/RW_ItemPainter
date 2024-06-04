@@ -13,18 +13,20 @@ public partial class PaintingTool
         var topRect = group.TopPartPixels(help).ContractedBy(5);
         var middleRect = group.TopPartPixels(help*2).BottomPartPixels(help).ContractedBy(5);
         var bottomRect = group.TopPartPixels(help*3).BottomPartPixels(help).ContractedBy(5);
+
+        var maskId = _hoveredMaskIndex ?? _selectedMaskIndex;
         
         //Front
         Widgets.DrawBox(topRect, 1, BaseContent.GreyTex);
-        DrawThing(topRect, _thing, Rot4.South, _colorsSet, 0);
+        DrawThing(topRect, _thing, Rot4.South, _colorsSet, maskId);
         
         //Sideviews
         Widgets.DrawBox(middleRect, 1, BaseContent.GreyTex);
-        DrawThing(middleRect, _thing, Rot4.East, _colorsSet, 0);
+        DrawThing(middleRect, _thing, Rot4.East, _colorsSet, maskId);
         
         //Back
         Widgets.DrawBox(bottomRect, 1, BaseContent.GreyTex);
-        DrawThing(bottomRect, _thing, Rot4.North, _colorsSet, 0);
+        DrawThing(bottomRect, _thing, Rot4.North, _colorsSet, maskId);
     }
     
     private void DrawThing(Rect rect, Thing thing, Rot4 rot, SixColorSet colors, int maskId)
@@ -78,8 +80,9 @@ public partial class PaintingTool
         var result = BaseContent.BadMat;
         if (thing is Apparel apparel)
         {
-            if (ApparelGraphicRecordGetter.TryGetGraphicApparel(apparel, BodyTypeDefOf.Male, out var apparelGraphicRecord))
-                result = apparelGraphicRecord.graphic.MatAt(rotation, thing);
+            result = apparel.Graphic.MatAt(Rot4.South);
+            // if (ApparelGraphicRecordGetter.TryGetGraphicApparel(apparel, BodyTypeDefOf.Male, out var apparelGraphicRecord))
+            //     result = apparelGraphicRecord.graphic.MatAt(rotation, thing);
         }
         else
         {
@@ -101,7 +104,7 @@ public partial class PaintingTool
             ColorSix = material.GetColor("_ColorSix")
         };
         oldMask = MaskManager.IdFromTexture(material.GetTexture("_MaskTex"));
-
+        
         material.SetColor("_Color", colors.ColorOne);
         material.SetColor("_ColorTwo", colors.ColorTwo);
         material.SetColor("_ColorThree", colors.ColorThree);

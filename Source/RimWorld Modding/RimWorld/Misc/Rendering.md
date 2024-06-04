@@ -23,7 +23,7 @@ public virtual void Print(SectionLayer layer)        
 
 ###### Pawn
 
-Uses [[Pawn_DrawTracker|Drawer]].[[PawnRenderer|renderer]] to do the actual drawing of the [[Pawn]].
+Uses [[Pawn_DrawTracker|Drawer]].[[RimWorld/Codebase/PawnRenderer|renderer]] to do the actual drawing of the [[Pawn]].
 ```cs
 public override void DynamicDrawPhaseAt(DrawPhase phase, Vector3 drawLoc, 
 									   bool flip = false)        

@@ -3,16 +3,31 @@ using Verse;
 
 namespace RWPaintingTool;
 
-[StaticConstructorOnStartup]
 public static class UIStyles
 {
-    public static readonly GUIStyle TextFieldStyle;
+    private static bool _isReady = false;
+
+    private static GUIStyle _textField;
     
-    static UIStyles()
+    public static GUIStyle TextFieldStyle
     {
-        TextFieldStyle = new GUIStyle(GUI.skin.textField);
-        TextFieldStyle.normal.background = TextFieldStyle.active.background = ContentFinder<Texture2D>.Get("TextFieldStyleCustom");
-        TextFieldStyle.hover.background = TextFieldStyle.focused.background = ContentFinder<Texture2D>.Get("TextFieldStyleCustom_Sel");
-        TextFieldStyle.border = new RectOffset(2, 2, 2, 2);
+        get
+        {
+            Setup();
+            return _textField;
+        }
     }
+    
+    //
+    private static void Setup()
+    {
+        if (_isReady) return;
+        _textField = new GUIStyle(GUI.skin.textField);
+        _textField.normal.background = _textField.active.background = ContentFinder<Texture2D>.Get("TextFieldStyleCustom");
+        _textField.hover.background = _textField.focused.background = ContentFinder<Texture2D>.Get("TextFieldStyleCustom_Sel");
+        _textField.border = new RectOffset(2, 2, 2, 2);
+        _isReady = true;
+    }
+    
+    
 }

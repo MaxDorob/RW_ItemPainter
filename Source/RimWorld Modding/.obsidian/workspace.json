@@ -6,27 +6,15 @@
       {
         "id": "ba74019506bd11a1",
         "type": "tabs",
-        "dimension": 46.433289299867894,
+        "dimension": 20.145310435931307,
         "children": [
-          {
-            "id": "ca8d1df61fb540f8",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Painting Framework/Painting Framework.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
           {
             "id": "4be0a43edf0f5c50",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Painting Framework/Painting Framework.md",
+                "file": "ApparelGraphicRecordGetter.TryGetGraphicApparel.md",
                 "mode": "source",
                 "source": false
               }
@@ -35,9 +23,9 @@
         ]
       },
       {
-        "id": "6b5c1ea1c170497a",
+        "id": "d575719f670a0af3",
         "type": "tabs",
-        "dimension": 53.566710700132106,
+        "dimension": 79.85468956406869,
         "children": [
           {
             "id": "44bad0a4506026d1",
@@ -113,7 +101,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Painting Framework/Painting Framework.md",
+                "file": "ApparelGraphicRecordGetter.TryGetGraphicApparel.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -130,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Painting Framework/Painting Framework.md",
+                "file": "ApparelGraphicRecordGetter.TryGetGraphicApparel.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -153,7 +141,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Painting Framework/Painting Framework.md"
+                "file": "ApparelGraphicRecordGetter.TryGetGraphicApparel.md"
               }
             }
           }
@@ -174,43 +162,44 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "44bad0a4506026d1",
+  "active": "92ccae3df8ae0be0",
   "lastOpenFiles": [
-    "Painting Framework/Painting Framework.md",
-    "TeleCore/TeleCore.md",
-    "Painting Framework/Patches.md",
-    "RimWorld/Misc/Masking Support.md",
-    "RimWorld/Codebase/Thing.md",
+    "Misc",
+    "ApparelGraphicRecordGetter.TryGetGraphicApparel.md",
+    "PawnRenderTree.ProcessApparel.md",
+    "Misc/State Tree Test/PawnRenderTree/PawnRenderTree.SetupApparelNodes.md",
+    "Misc/State Tree Test/PawnRenderTree/PawnRenderTree.TrySetupGraphIfNeeded.md",
+    "Misc/State Tree Test/PawnRenderTree/PawnRenderTree.SetupDynamicNodes.md",
+    "Misc/State Tree Test/PawnRenderer/PawnRenderer.RenderPawnAt.md",
+    "PawnRenderTree.rootNode = null.md",
+    "Misc/State Tree Test/PawnRenderer/PawnRenderer.EnsureGraphicsInitialized.md",
+    "Misc/State Tree Test/PawnRenderer/PawnRenderer.md",
+    "Misc/State Tree Test/PawnRenderTree/PawnRenderTree.EnsureInitialized.md",
+    "Misc/State Tree Test/PawnRenderTree/PawnRenderTree.SetDirty.md",
+    "Misc/State Tree Test/PawnRenderTree/PawnRenderTree.nodeAncestors.md",
+    "Misc/State Tree Test/PawnRenderTree/PawnRenderTree.md",
+    "Misc/State Tree Test/PawnRenderer/PawnRenderer.SetAllGraphicsDirty.md",
+    "State Tree Test/LongEvent.md",
+    "Misc/State Tree Test/PawnRenderer/PawnRenderer.renderTree.md",
+    "Misc/State Tree Test/Apparel.Notify_ColorChanged.md",
+    "State Tree Test/LongEvent.SetAllGraphicsDirty.md",
+    "Misc/State Tree Test/Pawn_ApparelTracker.Notify_ApparelChanged.md",
+    "Misc/State Tree Test/PawnRenderer",
+    "Misc/State Tree Test/PawnRenderTree",
     "RimWorld/Codebase/ThingDef.md",
-    "RimWorld/Codebase/ThingWithComps.md",
-    "RimWorld/Codebase/ShaderTypeDef.md",
-    "RimWorld/Codebase/PawnRenderer.md",
-    "RimWorld/Codebase/Pawn_DrawTracker.md",
-    "RimWorld/Codebase/Pawn.md",
-    "RimWorld/Codebase/GraphicData.md",
-    "RimWorld/Codebase/Graphic_Random.md",
+    "RimWorld/PawnRenderTree.md",
+    "Misc/State Tree Test",
     "RimWorld/Codebase/Apparel.md",
-    "RimWorld/Codebase/Graphic.md",
-    "RimWorld/Misc/Rendering.md",
-    "RimWorld/RimWorld.md",
-    "TeleCore/TCShaderData.md",
-    "TeleCore/TeleCore.Loader.md",
+    "RimWorld/Codebase/PawnRenderer.md",
+    "RimWorld/Codebase/Pawn_ApparelTracker.md",
+    "Painting Framework/Painting Framework.md",
     "Painting Framework/Untitled.canvas",
-    "Painting Framework/Resolver.md",
-    "Painting Framework/PaintableExtension.md",
-    "TeleCore/TeleCore.Events.md",
-    "RimWorld/Codebase/Graphic_StackCount.md",
-    "RimWorld/Codebase/Graphic_Multi.md",
-    "Painting Framework/Mask Caching.md",
     "RimWorld/Codebase",
     "RimWorld/Misc",
-    "TeleCore/AssetLoader/TeleCore.AssetLoader.md",
     "TeleCore/AssetLoader",
     "Unity",
     "RimWorld",
     "TeleCore/Patches",
-    "TiberiumRim",
-    "TeleCore",
-    "Painting Framework"
+    "TiberiumRim"
   ]
 }

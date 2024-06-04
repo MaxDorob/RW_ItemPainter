@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using RimWorld;
 using Verse;
 
 namespace RWPaintingTool;
@@ -23,7 +22,8 @@ internal static class DebugPatches
                     {
                         var thing = apparel.WornApparel.Find(a => a.def.HasModExtension<PaintableExtension>());
                         if (thing == null) return;
-                        Find.WindowStack.Add(new Window_ThingColoring(thing));
+                        Find.WindowStack.Add(new PaintingTool(thing));
+                        //Find.WindowStack.Add(new Window_ThingColoring(thing));
                     }
                 });
             }

@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text.RegularExpressions;
 using HarmonyLib;
+using Mono.Cecil;
+using MonoMod.Utils;
+using Prepatcher;
 using RimWorld;
 using TeleCore.Loader;
-using TeleCore.Shared;
 using UnityEngine;
 using Verse;
+using Instruction = Mono.Cecil.Cil.Instruction;
 
 namespace RWPaintingTool;
 
@@ -19,6 +20,31 @@ internal static class GraphicsPatches
     private static readonly int ColorFive = Shader.PropertyToID("_ColorFive");
     private static readonly int ColorSix = Shader.PropertyToID("_ColorSix");
 
+    internal static class ThingPatches
+    {
+        [HarmonyPatch(typeof(Thing), nameof(Thing.DrawColor), MethodType.Getter)]
+        internal static class ColorPatch
+        {
+            public static bool Prefix(Thing __instance, ref Color __result)
+            {
+                var tracker = ColorTrackerDB.GetTracker(__instance);
+                __result = tracker.ColorOne;
+                return false;
+            }
+        }
+        
+        [HarmonyPatch(typeof(Thing), nameof(Thing.DrawColorTwo), MethodType.Getter)]
+        internal static class ColorTwoPatch
+        {
+            public static bool Prefix(Thing __instance, ref Color __result)
+            {
+               var tracker = ColorTrackerDB.GetTracker(__instance);
+                __result = tracker.ColorTwo;
+                return false;
+            }
+        }
+    }
+    
     internal static class ApparelPatches
     {
         [HarmonyPatch(typeof(ApparelGraphicRecordGetter), nameof(ApparelGraphicRecordGetter.TryGetGraphicApparel))]
@@ -157,13 +183,37 @@ internal static class GraphicsPatches
             {
                 if (GraphicInitPatch.CurThing != null && req.shader.SupportsMultiColor())
                 {
-                    //TODO: Static handler?
-                    var tracker = Current.Game.GetComponent<GameComponent_ColorTracking>().GetTracker(GraphicInitPatch.CurThing);
+                    var tracker = ColorTrackerDB.GetTracker(GraphicInitPatch.CurThing);
+                    var maskTracker = ColorTrackerDB.GetMaskTracker(GraphicInitPatch.CurThing);
+                    tracker.SetColorsOn(__result);
+                    TLog.Debug("Getting material data for: " + GraphicInitPatch.CurThing.def + " it would receive mask: " + maskTracker.CurMaskID);
+                    //__result.SetTexture("_Mask", MaskManager.GetMask(GraphicInitPatch.CurThing.def, maskTracker.CurMaskID));
                     __result.SetColor(ColorThree, tracker.ColorThree);
                     __result.SetColor(ColorFour, tracker.ColorFour);
                     __result.SetColor(ColorFive, tracker.ColorFive);
                     __result.SetColor(ColorSix, tracker.ColorSix);
                 }
+            }
+        }
+
+        internal static class PrepareGraphicPatchClass
+        {
+            //internal static MethodDefinition? _methodDef;
+            //internal static MethodBase? _method = AccessTools.Method(typeof(PrepareGraphicPatchClass), nameof(TestPatchCall));
+            internal static int calls = 0;
+            
+            //[FreePatch]
+            internal static void GetType(ModuleDefinition module)
+            {
+                //var type = module.GetType(nameof(Verse),nameof(GraphicDatabase));
+               //_methodDef = type.FindMethod(nameof(GraphicDatabase.GetInner));
+                //_methodDef.body.instructions.Insert(0, new Instruction(Mono.Cecil.Cil.OpCodes.Call, _method));
+                calls++;
+            }
+
+            private static void TestPatchCall()
+            {
+                TLog.Debug("Freepatched a prepatch to get inner!");
             }
         }
     }
