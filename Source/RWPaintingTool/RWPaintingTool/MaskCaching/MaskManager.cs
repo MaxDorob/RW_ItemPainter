@@ -11,18 +11,6 @@ using Verse;
 
 namespace RWPaintingTool;
 
-public struct TextureID
-{
-    public TextureID()
-    {
-    }
-
-    public DefID<ThingDef> Def { get; set; } = null;
-    public DefID<BodyTypeDef>? BodyType { get; set; } = null;
-    public int MaskID { get; set; } = -1;
-    public Rot4 Rotation { get; set; } = Rot4.Invalid;
-}
-
 public static class MaskManager
 {
     //All masks bound to a unique identifier
@@ -225,81 +213,6 @@ public static class MaskManager
                 _cachedMasksSingle.Add(defGroup2.Key.Def, defGroup2.Select(kvp => kvp.Value).ToList());
             }
         }
-        
-        //DEBUG OUTPUT
-        /*TLog.Debug($"Resolving done.. listing...");
-        if (_cachedMasksSingle.Count > 0)
-        {
-            TLog.Debug("# Cached Single:");
-            foreach (var kvp in _cachedMasksSingle)
-            {
-                TLog.Debug("## " + kvp.Key.defName);
-                foreach (var tex in kvp.Value)
-                {
-                    TLog.Debug($" - {tex.name}");
-                }
-            }
-        }
-        
-        if (_cachedMasksMulti.Count > 0)
-        {
-            TLog.Debug("# Cached Multi:");
-            foreach (var kvp in _cachedMasksMulti)
-            {
-                for (var i = 0; i < kvp.Value.Count; i++)
-                {
-                    var tex = kvp.Value[i];
-                    TLog.Debug($"GetMasksMulti({kvp.Key.defName})[{i}]");
-                    foreach (var subTex in tex)
-                    {
-                        TLog.Debug($" - {subTex.name}");
-                    }
-                }
-            }
-        }
-        
-        if (_cachedMasksBody.Count > 0)
-        {
-            TLog.Debug("# Cached Body:");
-            foreach (var kvp in _cachedMasksBody)
-            {
-                for (var i = 0; i < kvp.Value.Count; i++)
-                {
-                    var tex = kvp.Value[i];
-                    TLog.Debug($"GetMasksMulti({kvp.Key.Item1.defName}, {kvp.Key.Item2.defName})[{i}]");
-                    foreach (var subTex in tex)
-                    {
-                        TLog.Debug($" - {subTex.name}");
-                    }
-                }
-            }
-        }
-        
-        if (_cachedMasksRot.Count > 0)
-        {
-            TLog.Debug("# Cached Rot:");
-            foreach (var kvp in _cachedMasksRot)
-            {
-                TLog.Debug($"GetMasksMulti({kvp.Key.Item1.defName}, {kvp.Key.Item2.ToStringHuman()})");
-                foreach (var tex in kvp.Value)
-                {
-                    TLog.Debug($" - {tex.name}");
-                }
-            }
-        }
-        
-        if (_cachedMasksRotBody.Count > 0)
-        {
-            TLog.Debug("# Cached RotBody:");
-            foreach (var kvp in _cachedMasksRotBody)
-            {
-                TLog.Debug($"GetMasksMulti({kvp.Key.Item1.defName}, {kvp.Key.Item2.defName}, {kvp.Key.Item3.ToStringHuman()})");
-                foreach (var tex in kvp.Value)
-                {
-                    TLog.Debug($" - {tex.name}");
-                }
-            }
-        }*/
     }
     
     private static string[] GetMaskFiles(Def def, string rootPath)

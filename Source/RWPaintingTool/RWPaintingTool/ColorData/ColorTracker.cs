@@ -1,23 +1,7 @@
-﻿using System.Collections.Generic;
-using TeleCore.Events;
-using TeleCore.Events.Args;
-using UnityEngine;
+﻿using UnityEngine;
 using Verse;
 
 namespace RWPaintingTool;
-
-public class GameComponent_ColorTracking : GameComponent
-{
-    public GameComponent_ColorTracking(Game game)
-    {
-    }
-
-    public override void ExposeData()
-    {
-        base.ExposeData();
-        ColorTrackerDB.ExposeData();
-    }
-}
 
 public class ColorTracker : IExposable
 {

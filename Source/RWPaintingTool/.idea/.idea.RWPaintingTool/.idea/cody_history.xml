@@ -48,6 +48,36 @@
                 </messages>
                 <updatedAt value="2024-06-01T22:12:32.2433328" />
               </chat>
+              <chat>
+                <internalId value="78d08971-b1fe-4919-8ea5-e93eab5d4acb" />
+                <llm>
+                  <llm>
+                    <model value="anthropic/claude-3-opus-20240229" />
+                    <provider value="Anthropic" />
+                    <title value="Claude 3 Opus" />
+                  </llm>
+                </llm>
+              </chat>
+              <chat>
+                <internalId value="9ef8a6e8-ab58-4c92-86e8-66b9e3ea832a" />
+                <llm>
+                  <llm>
+                    <model value="anthropic/claude-3-opus-20240229" />
+                    <provider value="Anthropic" />
+                    <title value="Claude 3 Opus" />
+                  </llm>
+                </llm>
+              </chat>
+              <chat>
+                <internalId value="ba5f584f-90c4-4d92-8051-f5638f1a93f4" />
+                <llm>
+                  <llm>
+                    <model value="anthropic/claude-3-opus-20240229" />
+                    <provider value="Anthropic" />
+                    <title value="Claude 3 Opus" />
+                  </llm>
+                </llm>
+              </chat>
             </list>
           </chats>
           <defaultLlm>

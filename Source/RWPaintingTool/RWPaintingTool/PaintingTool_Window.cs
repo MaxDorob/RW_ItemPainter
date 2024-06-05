@@ -1,5 +1,4 @@
-﻿using HotSwap;
-using LudeonTK;
+﻿using LudeonTK;
 using TeleCore.Shared;
 using TeleCore.UI;
 using UnityEngine;
@@ -7,7 +6,6 @@ using Verse;
 
 namespace RWPaintingTool;
 
-[HotSwappable]
 public partial class PaintingTool : Window
 {
     [TweakValue("_RWIP", 0f, 700f)]
@@ -59,9 +57,9 @@ public partial class PaintingTool : Window
         
         //TODO: Improve hashcode perf
         var subDiv = new RectDivider(colorSelectRect.ContractedBy(0,2.5f), colorSelectRect.GetHashCode());
-
-        //TODO: Reimplement 6 color mask
-        for (int i = 0; i < 3; i++)
+        
+        //TODO: Get actual available colors (detect or read from extension)
+        for (int i = 0; i < 6; i++)
         {
             var colorDiv = subDiv.NewRow(colorSelWidth - 5, VerticalJustification.Top, 5);
             var colorRect = colorDiv.Rect.Rounded();

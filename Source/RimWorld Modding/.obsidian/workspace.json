@@ -6,7 +6,7 @@
       {
         "id": "ba74019506bd11a1",
         "type": "tabs",
-        "dimension": 20.145310435931307,
+        "dimension": 63.89380530973451,
         "children": [
           {
             "id": "4be0a43edf0f5c50",
@@ -25,7 +25,7 @@
       {
         "id": "d575719f670a0af3",
         "type": "tabs",
-        "dimension": 79.85468956406869,
+        "dimension": 36.10619469026549,
         "children": [
           {
             "id": "44bad0a4506026d1",
@@ -101,7 +101,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "ApparelGraphicRecordGetter.TryGetGraphicApparel.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +117,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "ApparelGraphicRecordGetter.TryGetGraphicApparel.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -140,9 +138,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "ApparelGraphicRecordGetter.TryGetGraphicApparel.md"
-              }
+              "state": {}
             }
           }
         ]
@@ -162,10 +158,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "92ccae3df8ae0be0",
+  "active": "44bad0a4506026d1",
   "lastOpenFiles": [
-    "Misc",
     "ApparelGraphicRecordGetter.TryGetGraphicApparel.md",
+    "Misc",
     "PawnRenderTree.ProcessApparel.md",
     "Misc/State Tree Test/PawnRenderTree/PawnRenderTree.SetupApparelNodes.md",
     "Misc/State Tree Test/PawnRenderTree/PawnRenderTree.TrySetupGraphIfNeeded.md",
@@ -199,7 +195,6 @@
     "TeleCore/AssetLoader",
     "Unity",
     "RimWorld",
-    "TeleCore/Patches",
-    "TiberiumRim"
+    "TeleCore/Patches"
   ]
 }

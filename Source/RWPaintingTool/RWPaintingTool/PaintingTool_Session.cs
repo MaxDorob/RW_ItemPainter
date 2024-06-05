@@ -15,10 +15,10 @@ public partial class PaintingTool
     private int _curColorIndex = 0;
     private int _highLightedIndex = -1;
     
-    public bool IsPawn => _carryingPawn != null;
-
     private ColorTracker _tracker;
     private MaskTracker _maskTracker;
+    
+    public bool IsPawn => _carryingPawn != null;
     
     public PaintingTool(Thing thing)
     {

@@ -5,7 +5,7 @@ using Verse;
 
 namespace RWPaintingTool;
 
-public static class ColorTrackerDB
+internal static class ColorTrackerDB
 {
     private static Dictionary<Thing, ColorTracker> _trackers;
     private static Dictionary<Thing, MaskTracker> _masks;
@@ -31,6 +31,8 @@ public static class ColorTrackerDB
     private static void OnThingSpawned(ThingStateChangedEventArgs args)
     {
         var thing = args.Thing;
+        var data = thing.def.GetModExtension<PaintableExtension>();
+        //TODO: Pass data into trackers as needed
         if (!_trackers.ContainsKey(thing))
         {
             var tracker = new ColorTracker(thing);
