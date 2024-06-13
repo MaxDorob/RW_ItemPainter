@@ -11,6 +11,7 @@ namespace RWPaintingTool;
 public partial class PaintingTool
 {
     private Vector2 _maskScrollPos;
+    
     private int? _hoveredMaskIndex;
     private int _selectedMaskIndex;
     
@@ -43,6 +44,7 @@ public partial class PaintingTool
             if (Widgets.ButtonImage(maskRect, textures[i], Color.white, Color.white))
             {
                 _selectedMaskIndex = i;
+                Notify_MaskChanged();
             }
         }
         if(!anyHovered)

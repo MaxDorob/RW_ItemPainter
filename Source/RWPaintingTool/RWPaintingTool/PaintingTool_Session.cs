@@ -66,4 +66,10 @@ public partial class PaintingTool
         _tracker.Notify_ColorsChanged();
         
     }
+
+    private void Notify_MaskChanged()
+    {
+        _maskTracker.SetMaskID(_selectedMaskIndex);
+        _tracker.Notify_ColorsChanged();
+    }
 }

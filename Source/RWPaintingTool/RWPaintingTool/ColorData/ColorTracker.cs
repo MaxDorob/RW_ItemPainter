@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using RimWorld;
+using TeleCore.Loader;
+using UnityEngine;
 using Verse;
 
 namespace RWPaintingTool;
@@ -68,6 +70,21 @@ public class ColorTracker : IExposable
         _thing.Notify_ColorChanged();
     }
 
+    internal void SetColorsOn(Graphic graphic)
+    {
+        if (graphic is Graphic_Multi multi)
+        {
+            SetColorsOn(multi.MatEast);
+            SetColorsOn(multi.MatWest);
+            SetColorsOn(multi.MatNorth);
+            SetColorsOn(multi.MatSouth);    
+            return;
+        }
+        
+        //
+        SetColorsOn(graphic.MatSingle);
+    }
+    
     public void SetColorsOn(Material material)
     {
         material.SetColor("_Color", ColorOne);
@@ -84,11 +101,63 @@ public class MaskTracker
     private Thing _thing;
     private int _maskIndex;
     private int _maskCount;
-    
+    private static readonly int MaskTex = Shader.PropertyToID("_MaskTex");
+
     public int CurMaskID => _maskIndex;
+
+    public BodyTypeDef? BodyType
+    {
+        get
+        {
+            if (_thing is Apparel apparel)
+            {
+                if (apparel.Wearer != null)
+                {
+                    return apparel.Wearer.story.bodyType;
+                }
+                return BodyTypeDefOf.Male;
+            }
+
+            return null;
+        }
+    }
     
     public MaskTracker(Thing thing)
     {
         _thing = thing;
+    }
+
+    internal void SetMaskID(int selectedMaskIndex)
+    {
+        _maskIndex = selectedMaskIndex;
+    }
+    
+    public void SetMaskOn(Graphic graphic)
+    {
+        if (graphic is Graphic_Multi multi)
+        {
+            SetMaskOn(multi.MatEast, Rot4.East);
+            SetMaskOn(multi.MatWest, Rot4.West);
+            SetMaskOn(multi.MatNorth, Rot4.North);
+            SetMaskOn(multi.MatSouth, Rot4.South);
+            return;
+        }
+
+        //
+        SetMaskOn(graphic.MatSingle, Rot4.North);
+    }
+
+    private void SetMaskOn(Material material, Rot4 rotation)
+    {
+        var id = new TextureID
+        {
+            Def = _thing.def,
+            BodyType = BodyType,
+            MaskID = CurMaskID,
+            Rotation = rotation
+        };
+            
+        var mask = MaskManager.GetMask(id);
+        material.SetTexture(MaskTex, mask);
     }
 }

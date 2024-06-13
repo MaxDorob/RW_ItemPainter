@@ -119,6 +119,8 @@ internal static class GraphicsPatches
 
     internal static class GraphicPatches
     {
+        internal static Thing CurThing;
+        
         [HarmonyPatch(typeof(Thing), nameof(Thing.DrawColor), MethodType.Getter)]
         internal static class ThingDrawColorPatch
         {
@@ -147,21 +149,19 @@ internal static class GraphicsPatches
                 //     GraphicInitPatch.CurThing = thing;
                 //     return false;
                 // }
-                GraphicInitPatch.CurThing = t;
+                CurThing = t;
                 return true;
             }
             
             public static void Postfix()
             {
-                GraphicInitPatch.CurThing = null;
+                CurThing = null;
             }
         }
         
         [HarmonyPatch(typeof(Graphic), nameof(Graphic.Init))]
         internal static class GraphicInitPatch
         {
-            internal static Thing? CurThing = null;
-            
             public static bool Prefix(ref GraphicRequest req, Graphic __instance)
             {
                 if (__instance.Shader.SupportsMaskTex())
@@ -181,12 +181,12 @@ internal static class GraphicsPatches
         {
             public static void Postfix(MaterialRequest req, ref Material __result)
             {
-                if (GraphicInitPatch.CurThing != null && req.shader.SupportsMultiColor())
+                if (CurThing != null && req.shader.SupportsMultiColor())
                 {
-                    var tracker = ColorTrackerDB.GetTracker(GraphicInitPatch.CurThing);
-                    var maskTracker = ColorTrackerDB.GetMaskTracker(GraphicInitPatch.CurThing);
+                    var tracker = ColorTrackerDB.GetTracker(CurThing);
+                    var maskTracker = ColorTrackerDB.GetMaskTracker(CurThing);
                     tracker.SetColorsOn(__result);
-                    TLog.Debug("Getting material data for: " + GraphicInitPatch.CurThing.def + " it would receive mask: " + maskTracker.CurMaskID);
+                    TLog.Debug("Getting material data for: " + CurThing.def + " it would receive mask: " + maskTracker.CurMaskID);
                     //__result.SetTexture("_Mask", MaskManager.GetMask(GraphicInitPatch.CurThing.def, maskTracker.CurMaskID));
                     __result.SetColor(ColorThree, tracker.ColorThree);
                     __result.SetColor(ColorFour, tracker.ColorFour);
@@ -196,24 +196,68 @@ internal static class GraphicsPatches
             }
         }
 
-        internal static class PrepareGraphicPatchClass
+        [HarmonyPatch(typeof(ApparelGraphicRecordGetter), nameof(ApparelGraphicRecordGetter.TryGetGraphicApparel))]
+        internal static class ApparelGraphicRecordGetterTryGetGraphicApparelPatch
         {
-            //internal static MethodDefinition? _methodDef;
-            //internal static MethodBase? _method = AccessTools.Method(typeof(PrepareGraphicPatchClass), nameof(TestPatchCall));
-            internal static int calls = 0;
+            private static readonly MethodInfo GraphicChange = AccessTools.Method(typeof(ApparelGraphicRecordGetterTryGetGraphicApparelPatch), nameof(ChangeGraphic));
+            private static readonly MethodInfo ShaderGetter = AccessTools.Method(typeof(ApparelGraphicRecordGetterTryGetGraphicApparelPatch), nameof(GetShader));
             
-            //[FreePatch]
-            internal static void GetType(ModuleDefinition module)
+            public static bool Prefix(Apparel apparel)
             {
-                //var type = module.GetType(nameof(Verse),nameof(GraphicDatabase));
-               //_methodDef = type.FindMethod(nameof(GraphicDatabase.GetInner));
-                //_methodDef.body.instructions.Insert(0, new Instruction(Mono.Cecil.Cil.OpCodes.Call, _method));
-                calls++;
+                CurThing = apparel;
+                return true;
             }
 
-            private static void TestPatchCall()
+            public static void Postfix()
             {
-                TLog.Debug("Freepatched a prepatch to get inner!");
+                CurThing = null;
+            }
+            
+            public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                foreach (var instruction in instructions)
+                {
+                    //Change Shader
+                    if (instruction.opcode == OpCodes.Ldloc_0) //This is where the GraphicDatabase.Get call begins
+                    {
+                        yield return new CodeInstruction(OpCodes.Ldloc_1);
+                        yield return new CodeInstruction(OpCodes.Ldarg_0);
+                        yield return new CodeInstruction(OpCodes.Call, ShaderGetter);
+                        yield return new CodeInstruction(OpCodes.Stloc_1);
+                    }
+                    if (instruction.opcode == OpCodes.Stloc_2)
+                    {
+                        //Found where graphic is stored, manipulate
+                        yield return instruction;
+                        yield return new CodeInstruction(OpCodes.Ldloc_2);
+                        yield return new CodeInstruction(OpCodes.Ldarg_0);
+                        yield return new CodeInstruction(OpCodes.Call, GraphicChange);
+                        yield return new CodeInstruction(OpCodes.Stloc_2);
+                    }
+                    yield return instruction;
+                }
+            }
+
+            private static Shader GetShader(Shader shader, Apparel apparel)
+            {
+                if (apparel.def.GetModExtension<PaintableExtension>() != null)
+                {
+                    return ShaderDB.CutoutMultiMask;
+                }
+                return shader;
+            }
+            
+            private static Graphic ChangeGraphic(Graphic graphic, Apparel apparel)
+            {
+                if (graphic.Shader.SupportsMultiColor())
+                {
+                    var tracker = ColorTrackerDB.GetTracker(apparel);
+                    var maskTracker = ColorTrackerDB.GetMaskTracker(apparel);
+                    
+                    maskTracker.SetMaskOn(graphic);
+                    tracker.SetColorsOn(graphic);
+                }
+                return graphic;
             }
         }
     }

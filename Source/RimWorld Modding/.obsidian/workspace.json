@@ -6,7 +6,6 @@
       {
         "id": "ba74019506bd11a1",
         "type": "tabs",
-        "dimension": 63.89380530973451,
         "children": [
           {
             "id": "4be0a43edf0f5c50",
@@ -19,23 +18,21 @@
                 "source": false
               }
             }
-          }
-        ]
-      },
-      {
-        "id": "d575719f670a0af3",
-        "type": "tabs",
-        "dimension": 36.10619469026549,
-        "children": [
+          },
           {
             "id": "44bad0a4506026d1",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "UI/UIElement.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -101,6 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "UI/UIElement.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -117,6 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "UI/UIElement.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +137,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "UI/UIElement.md"
+              }
             }
           }
         ]
@@ -160,6 +161,9 @@
   },
   "active": "44bad0a4506026d1",
   "lastOpenFiles": [
+    "UI/Untitled.canvas",
+    "UI/UIElement.md",
+    "UI",
     "ApparelGraphicRecordGetter.TryGetGraphicApparel.md",
     "Misc",
     "PawnRenderTree.ProcessApparel.md",
@@ -188,13 +192,11 @@
     "RimWorld/Codebase/Apparel.md",
     "RimWorld/Codebase/PawnRenderer.md",
     "RimWorld/Codebase/Pawn_ApparelTracker.md",
-    "Painting Framework/Painting Framework.md",
     "Painting Framework/Untitled.canvas",
     "RimWorld/Codebase",
     "RimWorld/Misc",
     "TeleCore/AssetLoader",
     "Unity",
-    "RimWorld",
-    "TeleCore/Patches"
+    "RimWorld"
   ]
 }

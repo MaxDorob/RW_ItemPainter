@@ -1,0 +1,8 @@
+{
+	"nodes":[
+		{"id":"bc0ee2750dd80bb4","x":-400,"y":-250,"width":260,"height":247,"type":"group","label":"UIElement (Parent)"},
+		{"id":"de298ec4d6c67c00","x":-380,"y":-216,"width":220,"height":180,"type":"group","label":"UIElement"},
+		{"id":"57a3bc38399a0716","x":-360,"y":-200,"width":180,"height":60,"type":"text","text":""}
+	],
+	"edges":[]
+}
