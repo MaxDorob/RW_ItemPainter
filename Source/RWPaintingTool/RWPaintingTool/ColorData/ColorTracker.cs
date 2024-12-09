@@ -9,22 +9,35 @@ public class ColorTracker : IExposable
 {
     private Thing _thing;
     
-    private Color? _one;
+    private Color? _one; 
     private Color? _two;
-    private Color? _three;
-    private Color _four;
-    private Color _five;
-    private Color _six;
+    private Color _three = Color.white;
+    private Color _four = Color.white;
+    private Color _five = Color.white;
+    private Color _six = Color.white;
 
-    public ColorTracker(Thing thing)
+    public ColorTracker(Thing thing, PaintableExtension extension)
     {
         _thing = thing;
-        _three = Color.white;
+        var palette = extension.paletteDef != null ? extension.paletteDef.palette : extension.defaultPalette;
+        if (palette is { } pal)
+        {
+            SetColor(0, pal.colorOne);
+            SetColor(1, pal.colorTwo);
+            SetColor(2, pal.colorThree);
+            SetColor(3, pal.colorFour);
+            SetColor(4, pal.colorFive);
+            SetColor(5, pal.colorSix);
+        }
+        //_one = _two = _three = _four = _five = _six = Color.white;
     }
+    
+    internal Color? ColorOneNullable => _one;
+    internal Color? ColorTwoNullable => _two;
 
     public Color ColorOne => _one ?? _thing.DrawColor;
-    public Color ColorTwo => _two ?? _thing.DrawColorTwo;
-    public Color ColorThree => _three ?? Color.white;
+    public Color ColorTwo => _two?? _thing.DrawColorTwo;
+    public Color ColorThree => _three;
     public Color ColorFour => _four;
     public Color ColorFive => _five;
     public Color ColorSix => _six;
@@ -96,7 +109,7 @@ public class ColorTracker : IExposable
     }
 }
 
-public class MaskTracker
+public class MaskTracker : IExposable
 {
     private Thing _thing;
     private int _maskIndex;
@@ -136,8 +149,12 @@ public class MaskTracker
     {
         if (graphic is Graphic_Multi multi)
         {
-            SetMaskOn(multi.MatEast, Rot4.East);
-            SetMaskOn(multi.MatWest, Rot4.West);
+            if (multi.eastFlipped)
+                SetMaskOn(multi.MatWest, Rot4.West);
+            
+            if (multi.westFlipped)
+                SetMaskOn(multi.MatEast, Rot4.East);
+            
             SetMaskOn(multi.MatNorth, Rot4.North);
             SetMaskOn(multi.MatSouth, Rot4.South);
             return;
@@ -159,5 +176,12 @@ public class MaskTracker
             
         var mask = MaskManager.GetMask(id);
         material.SetTexture(MaskTex, mask);
+    }
+
+    public void ExposeData()
+    {
+        Scribe_References.Look(ref _thing, "thing");
+        Scribe_Values.Look(ref _maskIndex, "maskIndex");
+        Scribe_Values.Look(ref _maskCount, "maskCount");
     }
 }

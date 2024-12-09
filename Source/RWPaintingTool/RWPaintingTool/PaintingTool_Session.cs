@@ -1,4 +1,5 @@
-﻿using TeleCore.Loader;
+﻿using RimWorld;
+using TeleCore.Loader;
 using TeleCore.UI;
 using UnityEngine;
 using Verse;
@@ -18,10 +19,30 @@ public partial class PaintingTool
     private ColorTracker _tracker;
     private MaskTracker _maskTracker;
     
+    // Sides
+    private Material _north;
+    private Material _south;
+    private Material _east;
+    private Material _west;
+    
     public bool IsPawn => _carryingPawn != null;
     
     public PaintingTool(Thing thing)
     {
+        //Resolve graphic
+        var graphic = thing.Graphic;
+        if (thing is Apparel apparel)
+        {
+            ApparelGraphicRecordGetter.TryGetGraphicApparel(apparel, BodyTypeDefOf.Male, out var apparelGraphicRecord);
+            graphic = apparelGraphicRecord.graphic;
+        }
+        
+        _north = graphic.MatNorth;
+        _south = graphic.MatSouth;
+        _east = graphic.MatEast;
+        _west = graphic.MatWest;
+
+        //
         forcePause = true;
         
         _thing = thing;
@@ -38,8 +59,8 @@ public partial class PaintingTool
         
         _colorsSet = new SixColorSet
         {
-            ColorOne = _tracker.ColorOne,
-            ColorTwo = _tracker.ColorTwo,
+            ColorOne = thing.DrawColor, // _tracker.ColorOne,
+            ColorTwo = thing.DrawColorTwo, // _tracker.ColorTwo,
             ColorThree = _tracker.ColorThree,
             ColorFour = _tracker.ColorFour,
             ColorFive = _tracker.ColorFive,
@@ -47,6 +68,11 @@ public partial class PaintingTool
         };
         
         _colorPicker.SetColor(_colorsSet[0]);
+    }
+    
+    private void SetPalette(Palette palette)
+    {
+        _colorsSet = palette;
     }
     
     private void Notify_ColorChanged(Color color, int index)

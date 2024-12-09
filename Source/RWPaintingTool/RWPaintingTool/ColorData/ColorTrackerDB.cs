@@ -1,65 +1,52 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using TeleCore.Events;
 using TeleCore.Events.Args;
+using TeleCore.Loader;
 using Verse;
 
 namespace RWPaintingTool;
 
 internal static class ColorTrackerDB
 {
-    private static Dictionary<Thing, ColorTracker> _trackers;
-    private static Dictionary<Thing, MaskTracker> _masks;
+    private static Dictionary<int, ColorTracker> _trackers = new();
+    private static Dictionary<int, MaskTracker> _masks = new();
 
     static ColorTrackerDB()
     {
-        _trackers = new Dictionary<Thing, ColorTracker>();
-        _masks = new Dictionary<Thing, MaskTracker>();
-        
         GlobalEventHandler.Things.Spawned += OnThingSpawned;
-        //GlobalEventHandler.Things.Despawned += OnThingDeSpawned;
         GlobalEventHandler.Things.Discarded += OnThingDiscarded;
-        
     }
 
     private static void OnThingDiscarded(ThingStateChangedEventArgs args)
     {
-        var thing = args.Thing;
-        if (!_trackers.ContainsKey(thing)) return;
-        _trackers.Remove(thing);
+        var id = args.Thing.thingIDNumber;
+        _trackers.Remove(id);
+        _masks.Remove(id);
     }
 
     private static void OnThingSpawned(ThingStateChangedEventArgs args)
     {
         var thing = args.Thing;
+        var id = thing.thingIDNumber;
         var data = thing.def.GetModExtension<PaintableExtension>();
-        //TODO: Pass data into trackers as needed
-        if (!_trackers.ContainsKey(thing))
-        {
-            var tracker = new ColorTracker(thing);
-            _trackers.Add(thing, tracker);
-        }
-
-        if (!_masks.ContainsKey(thing))
-        {
-            var mask = new MaskTracker(thing);
-            _masks.Add(thing, mask);
-        }
+        if(data == null) return;
+        if (_trackers.ContainsKey(id)) return;
+        TLog.Debug("Registering tracker for thing: " + thing);
+        _trackers[id] = new ColorTracker(thing, data);
+        _masks[id] = new MaskTracker(thing);
     }
     
     internal static void ExposeData()
     {
-        Scribe_Collections.Look(ref _trackers, "trackers", LookMode.Reference, LookMode.Deep);
-        Scribe_Collections.Look(ref _masks, "trackers", LookMode.Reference, LookMode.Deep);
-
+        Scribe_Collections.Look(ref _trackers, "trackers", LookMode.Value, LookMode.Deep);
+        Scribe_Collections.Look(ref _masks, "masks", LookMode.Value, LookMode.Deep);
     }
     
-    public static ColorTracker GetTracker(Thing curThing)
-    {
-        return _trackers.TryGetValue(curThing, out var tracker) ? tracker : null;
-    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ColorTracker? GetTracker(Thing thing) => _trackers.GetValueOrDefault(thing.thingIDNumber);
 
-    public static MaskTracker GetMaskTracker(Thing thing)
-    {
-        return _masks.TryGetValue(thing, out var mask) ? mask : null;
-    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static MaskTracker? GetMaskTracker(Thing thing) => _masks.GetValueOrDefault(thing.thingIDNumber);
 }

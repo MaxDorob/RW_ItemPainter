@@ -18,23 +18,23 @@ public partial class PaintingTool
         
         //Front
         Widgets.DrawBox(topRect, 1, BaseContent.GreyTex);
-        DrawThing(topRect, _thing, Rot4.South, _colorsSet, maskId);
+        DrawThing(topRect, Rot4.South, _colorsSet, maskId);
         
         //Sideviews
         Widgets.DrawBox(middleRect, 1, BaseContent.GreyTex);
-        DrawThing(middleRect, _thing, Rot4.East, _colorsSet, maskId);
+        DrawThing(middleRect, Rot4.East, _colorsSet, maskId);
         
         //Back
         Widgets.DrawBox(bottomRect, 1, BaseContent.GreyTex);
-        DrawThing(bottomRect, _thing, Rot4.North, _colorsSet, maskId);
+        DrawThing(bottomRect, Rot4.North, _colorsSet, maskId);
     }
     
-    private void DrawThing(Rect rect, Thing thing, Rot4 rot, SixColorSet colors, int maskId)
+    private void DrawThing(Rect rect, Rot4 rot, SixColorSet colors, int maskId)
     {
-        var render = GetRenderData(thing, rot);
+        var render = GetRenderData(rot);
         var mask = new TextureID
         {
-            Def = thing.def,
+            Def = _thing.def,
             BodyType = BodyTypeDefOf.Male,
             MaskID = maskId,
             Rotation = rot
@@ -75,21 +75,18 @@ public partial class PaintingTool
         };
     }
     
-    private (Texture2D Tex, Material Mat) GetRenderData(Thing thing, Rot4 rotation)
+    private (Texture2D Tex, Material Mat) GetRenderData(Rot4 rotation)
     {
-        var result = BaseContent.BadMat;
-        if (thing is Apparel apparel)
-        {
-            result = apparel.Graphic.MatAt(Rot4.South);
-            // if (ApparelGraphicRecordGetter.TryGetGraphicApparel(apparel, BodyTypeDefOf.Male, out var apparelGraphicRecord))
-            //     result = apparelGraphicRecord.graphic.MatAt(rotation, thing);
-        }
-        else
-        {
-            result = thing.Graphic.MatAt(rotation, thing);
-        }
-
-        return (result.mainTexture as Texture2D, result);
+        if (rotation == Rot4.North)
+            return (_north.mainTexture as Texture2D, _north)!;
+        
+        if (rotation == Rot4.East)
+            return (_east.mainTexture as Texture2D, _east)!;
+        
+        if (rotation == Rot4.South)
+            return (_south.mainTexture as Texture2D, _south)!;
+        
+        return (_west.mainTexture as Texture2D, _west)!;
     }
     
     private void ChangeData(Material material, SixColorSet colors, TextureID mask, out SixColorSet oldColors, out TextureID oldMask)

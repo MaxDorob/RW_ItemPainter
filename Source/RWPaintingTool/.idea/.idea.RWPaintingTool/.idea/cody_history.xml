@@ -88,6 +88,46 @@
                   </llm>
                 </llm>
               </chat>
+              <chat>
+                <internalId value="bdc004b6-5026-4baf-935f-642910cb4986" />
+                <llm>
+                  <llm>
+                    <model value="anthropic/claude-3-opus-20240229" />
+                    <provider value="Anthropic" />
+                    <title value="Claude 3 Opus" />
+                  </llm>
+                </llm>
+              </chat>
+              <chat>
+                <internalId value="946e696d-309c-4840-b771-ac6c1be69c0e" />
+                <llm>
+                  <llm>
+                    <model value="anthropic/claude-3-opus-20240229" />
+                    <provider value="Anthropic" />
+                    <title value="Claude 3 Opus" />
+                  </llm>
+                </llm>
+              </chat>
+              <chat>
+                <internalId value="0a1afd98-f2cb-47ef-b941-0fceea899d04" />
+                <llm>
+                  <llm>
+                    <model value="anthropic/claude-3-opus-20240229" />
+                    <provider value="Anthropic" />
+                    <title value="Claude 3 Opus" />
+                  </llm>
+                </llm>
+              </chat>
+              <chat>
+                <internalId value="2a8f6047-35e9-465c-bf05-75799875bc5a" />
+                <llm>
+                  <llm>
+                    <model value="anthropic/claude-3-opus-20240229" />
+                    <provider value="Anthropic" />
+                    <title value="Claude 3 Opus" />
+                  </llm>
+                </llm>
+              </chat>
             </list>
           </chats>
           <defaultLlm>

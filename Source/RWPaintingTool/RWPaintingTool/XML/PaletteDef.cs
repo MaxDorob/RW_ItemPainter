@@ -23,4 +23,9 @@ public struct Palette
     public Color colorFour;
     public Color colorFive;
     public Color colorSix;
+
+    public static implicit operator SixColorSet(Palette palette)
+    {
+        return new SixColorSet(palette.colorOne, palette.colorTwo, palette.colorThree, palette.colorFour, palette.colorFive, palette.colorSix);
+    }
 }

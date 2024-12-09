@@ -170,10 +170,40 @@
 		<modExtensions>
 			<li Class="RWPaintingTool.PaintableExtension">
 				<maskCount>1</maskCount>
+				<defaultPalette>
+					<colorOne>(120,120,110)</colorOne>
+					<colorTwo>(216,230,216)</colorTwo>
+					<colorThree>(132,132,192)</colorThree>
+				</defaultPalette>
 			</li>
 		</modExtensions>
 	</ThingDef>
 
+	<RWPaintingTool.PaletteDef>
+		<defName>Palette1</defName>
+		<label>test palette</label>
+		<palette>
+			<colorOne>(125,255,208)</colorOne>
+			<colorTwo>(255,161,237)</colorTwo>
+			<colorThree>(217,185,89)</colorThree>
+			<colorFour>(1,1,0)</colorFour>
+			<colorFive>(0,1,1)</colorFive>
+			<colorSix>(1,0,1)</colorSix>
+		</palette>
+	</RWPaintingTool.PaletteDef>
+
+	<RWPaintingTool.PaletteDef>
+		<defName>Palette2</defName>
+		<label>other palette</label>
+		<palette>
+			<colorOne>(1,1,0)</colorOne>
+			<colorTwo>(0,1,1)</colorTwo>
+			<colorThree>(1,0,1)</colorThree>
+			<colorFour>(1,0,0)</colorFour>
+			<colorFive>(0,1,0)</colorFive>
+			<colorSix>(0,0,1)</colorSix>
+		</palette>
+	</RWPaintingTool.PaletteDef>
 
 <!--
 	<ThingDef ParentName="ApparelMakeableBase">

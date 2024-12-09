@@ -2,14 +2,14 @@
 
 namespace RWPaintingTool;
 
-public struct SixColorSet
+public struct SixColorSet(Color one, Color two, Color three, Color four, Color five, Color six)
 {
-    public Color ColorOne { get; set; }
-    public Color ColorTwo { get; set; }
-    public Color ColorThree { get; set; }
-    public Color ColorFour { get; set; }
-    public Color ColorFive { get; set; }
-    public Color ColorSix { get; set; }
+    public Color ColorOne { get; set; } = one;
+    public Color ColorTwo { get; set; } = two;
+    public Color ColorThree { get; set; } = three;
+    public Color ColorFour { get; set; } = four;
+    public Color ColorFive { get; set; } = five;
+    public Color ColorSix { get; set; } = six;
 
     public Color this[int colorIndex]
     {

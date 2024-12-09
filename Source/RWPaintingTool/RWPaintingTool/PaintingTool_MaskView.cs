@@ -8,8 +8,12 @@ using Verse.Noise;
 
 namespace RWPaintingTool;
 
+[StaticConstructorOnStartup]
 public partial class PaintingTool
 {
+    private static Texture2D borderWhite05 = SolidColorMaterials.NewSolidColorTexture(TColor.White05);
+    private static Texture2D borderWhite025 = SolidColorMaterials.NewSolidColorTexture(TColor.White025);
+    
     private Vector2 _maskScrollPos;
     
     private int? _hoveredMaskIndex;
@@ -41,12 +45,9 @@ public partial class PaintingTool
                 anyHovered = true;
             }
 
-            if (Widgets.ButtonImage(maskRect, textures[i], Color.white, Color.white))
-            {
-                _selectedMaskIndex = i;
-                Notify_MaskChanged();
-            }
+            DrawMaskOption(maskRect, textures[i], i);
         }
+        
         if(!anyHovered)
         {
             _hoveredMaskIndex = null;
@@ -54,6 +55,37 @@ public partial class PaintingTool
 
         Widgets.EndScrollView();
         Widgets.EndGroup();
+    }
+
+    private static Material RenderMat = new Material(ShaderDB.CutoutMultiMask);
+    
+    private void DrawMaskOption(Rect rect, Texture2D mask, int index)
+    {
+        var hovered = Mouse.IsOver(rect);
+        var selBorder = _selectedMaskIndex == index? BaseContent.WhiteTex : borderWhite025;
+        selBorder = hovered ? borderWhite05 : selBorder;
+        
+        RenderMaskMat(rect, mask);
+        Widgets.DrawBox(rect, 2, selBorder);
+        
+        if (Widgets.ButtonInvisible(rect))
+        {
+            _selectedMaskIndex = index;
+            Notify_MaskChanged();
+        }
+    }
+
+    private void RenderMaskMat(Rect rect, Texture2D mask)
+    {
+        RenderMat.SetTexture("_MainTex", _south.mainTexture);
+        RenderMat.SetTexture("_MaskTex", mask);
+        RenderMat.SetColor("_Color", Color.red);
+        RenderMat.SetColor("_ColorTwo", Color.green);
+        RenderMat.SetColor("_ColorThree", Color.blue);
+        RenderMat.SetColor("_ColorFour", Color.cyan);
+        RenderMat.SetColor("_ColorFive", Color.yellow);
+        RenderMat.SetColor("_ColorSix", Color.magenta);
+        Widgets.DrawTextureFitted(rect, _south.mainTexture, 1, RenderMat);
     }
     
     private List<Texture2D> GetTextures()

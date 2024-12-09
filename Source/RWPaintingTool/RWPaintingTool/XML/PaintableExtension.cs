@@ -8,4 +8,7 @@ public class PaintableExtension : DefModExtension
     public int beginIndex = 0;
     public int colors = 3;
     public string maskPath;
+
+    public Palette? defaultPalette;
+    public PaletteDef paletteDef;
 }

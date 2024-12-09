@@ -9,7 +9,7 @@ namespace RWPaintingTool;
 public partial class PaintingTool : Window
 {
     [TweakValue("_RWIP", 0f, 700f)]
-    private static readonly float colorsWidthPx = 448f;
+    private static float colorsWidthPx = 448f;
     
     private ColorPicker _colorPicker;
     
@@ -17,6 +17,7 @@ public partial class PaintingTool : Window
     
     public override void DoWindowContents(Rect inRect)
     {
+        Text.Font = GameFont.Small; //Reset font
         Text.Anchor = TextAnchor.UpperLeft;
         Widgets.Label(inRect, _thing.LabelCap);
         Text.Anchor = 0;
@@ -54,6 +55,13 @@ public partial class PaintingTool : Window
         //Widgets.DrawHighlight(colorSelectRect);
         
         var res = _colorPicker.Draw(colorPickerRect.position);
+        var paletteRect = new Rect(res.xMax, res.y, rect.width - res.width, res.height);
+
+        GUI.color = Color.red;
+        Widgets.DrawHighlight(res);
+        GUI.color = Color.blue;
+        Widgets.DrawHighlight(paletteRect);
+        GUI.color= Color.white;
         
         //TODO: Improve hashcode perf
         var subDiv = new RectDivider(colorSelectRect.ContractedBy(0,2.5f), colorSelectRect.GetHashCode());
