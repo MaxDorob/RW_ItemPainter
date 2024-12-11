@@ -30,7 +30,7 @@ public class ColorTracker : IExposable
         }
         //_one = _two = _three = _four = _five = _six = Color.white;
     }
-    
+    public ColorTracker() { }
     internal Color? ColorOneNullable => _one;
     internal Color? ColorTwoNullable => _two;
 
@@ -139,6 +139,7 @@ public class MaskTracker : IExposable
         _thing = thing;
     }
 
+    public MaskTracker() { }
     internal void SetMaskID(int selectedMaskIndex)
     {
         _maskIndex = selectedMaskIndex;
