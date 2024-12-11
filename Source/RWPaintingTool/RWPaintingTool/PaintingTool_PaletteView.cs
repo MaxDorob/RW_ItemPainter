@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using TeleCore.Shared;
-using TeleCore.UI;
 using UnityEngine;
 using Verse;
 
@@ -16,7 +14,7 @@ public partial class PaintingTool
         Widgets.BeginGroup(inRect);
         
         inRect = inRect.AtZero();
-        Widgets.DrawBoxSolid(inRect, TColor.BGDarker);
+        Widgets.DrawBoxSolid(inRect, Colors.BGDarker);
         
         //Settings bar
         //TODO: Palette group selection dropdown: All/Specific Def

@@ -1,39 +1,37 @@
-﻿using System.Collections.Generic;
+﻿using HarmonyLib;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using TeleCore.Events;
-using TeleCore.Events.Args;
-using TeleCore.Loader;
 using Verse;
 
 namespace RWPaintingTool;
-
+[HarmonyPatch]
 internal static class ColorTrackerDB
 {
     private static Dictionary<int, ColorTracker> _trackers = new();
     private static Dictionary<int, MaskTracker> _masks = new();
 
-    static ColorTrackerDB()
-    {
-        GlobalEventHandler.Things.Spawned += OnThingSpawned;
-        GlobalEventHandler.Things.Discarded += OnThingDiscarded;
-    }
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(Thing), nameof(Thing.Discard))]
 
-    private static void OnThingDiscarded(ThingStateChangedEventArgs args)
+    private static void OnThingDiscarded(Thing __instance)
     {
-        var id = args.Thing.thingIDNumber;
+        var id = __instance.thingIDNumber;
         _trackers.Remove(id);
         _masks.Remove(id);
     }
-
-    private static void OnThingSpawned(ThingStateChangedEventArgs args)
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(Thing), nameof(Thing.SpawnSetup))]
+    private static void OnThingSpawned(Thing __instance)
     {
-        var thing = args.Thing;
+        var thing = __instance;
         var id = thing.thingIDNumber;
         var data = thing.def.GetModExtension<PaintableExtension>();
         if(data == null) return;
         if (_trackers.ContainsKey(id)) return;
-        TLog.Debug("Registering tracker for thing: " + thing);
+#if DEBUG
+        Log.Warning("Registering tracker for thing: " + thing);
+#endif
         _trackers[id] = new ColorTracker(thing, data);
         _masks[id] = new MaskTracker(thing);
     }

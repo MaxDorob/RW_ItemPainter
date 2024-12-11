@@ -3,7 +3,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using RimWorld;
-using TeleCore.Loader;
 using UnityEngine;
 using Verse;
 
@@ -59,7 +58,7 @@ internal static class GraphicsPatches
 
             CurThing = null;
         }
-        
+
         private static Graphic ChangeGraphic(Graphic graphic, Thing apparel)
         {
             if (graphic.Shader.SupportsMultiColor())
@@ -68,7 +67,7 @@ internal static class GraphicsPatches
                 var maskTracker = ColorTrackerDB.GetMaskTracker(apparel);
 
                 maskTracker.SetMaskOn(graphic);
-                tracker.SetColorsOn(graphic);
+                tracker.SetColorssOn(graphic);
             }
 
             return graphic;
@@ -101,9 +100,21 @@ internal static class GraphicsPatches
             if (CurThing != null && req.shader.SupportsMultiColor())
             {
                 var tracker = ColorTrackerDB.GetTracker(CurThing);
+                if (tracker == null)
+                {
+                    Log.WarningOnce("maskTracker is null", 7236811);
+                    return;
+                }
                 var maskTracker = ColorTrackerDB.GetMaskTracker(CurThing);
-                tracker.SetColorsOn(__result);
-                TLog.Debug("Getting material data for: " + CurThing.def + " it would receive mask: " + maskTracker.CurMaskID);
+                if (maskTracker == null)
+                {
+                    Log.WarningOnce("maskTracker is null", 7236812);
+                    return;
+                }
+                tracker.SetColorssOn(__result);
+#if DEBUG
+                Log.Message("Getting material data for: " + CurThing.def + " it would receive mask: " + maskTracker.CurMaskID);
+#endif
                 //__result.SetTexture("_Mask", MaskManager.GetMask(GraphicInitPatch.CurThing.def, maskTracker.CurMaskID));
                 __result.SetColor(ColorThree, tracker.ColorThree);
                 __result.SetColor(ColorFour, tracker.ColorFour);
@@ -161,13 +172,17 @@ internal static class GraphicsPatches
             }
         }
 
-        internal static Shader SelectShader(Apparel? apparel)
+        internal static Shader SelectShader(Apparel apparel)
         {
-            if (apparel != null && apparel.def.HasModExtension<PaintableExtension>())
+            if (apparel != null && apparel.def == null)
+            {
+                Log.Warning($"{apparel} def is null for some reason");
+            }
+            if (apparel != null && (apparel.def?.HasModExtension<PaintableExtension>() ?? false))
             {
                 return ShaderDB.CutoutMultiMask;
             }
-
+            
             return ShaderDatabase.Cutout;
         }
 
@@ -177,9 +192,18 @@ internal static class GraphicsPatches
             {
                 var tracker = ColorTrackerDB.GetTracker(apparel);
                 var maskTracker = ColorTrackerDB.GetMaskTracker(apparel);
-
+                if (tracker == null)
+                {
+                    Log.WarningOnce("maskTracker is null", 7236813);
+                    return graphic;
+                }
+                if (maskTracker == null)
+                {
+                    Log.WarningOnce("maskTracker is null", 7236814);
+                    return graphic;
+                }
                 maskTracker.SetMaskOn(graphic);
-                tracker.SetColorsOn(graphic);
+                tracker.SetColorssOn(graphic);
             }
 
             return graphic;

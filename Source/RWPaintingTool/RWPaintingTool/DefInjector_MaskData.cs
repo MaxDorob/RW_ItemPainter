@@ -1,18 +1,18 @@
-﻿using TeleCore.Loader;
+﻿using RimWorld;
 using Verse;
 
 namespace RWPaintingTool;
 
-public class DefInjector_MaskData : DefInjectBase
-{
-    public override void OnThingDefInject(ThingDef thingDef)
-    {
-        MaskManager.CacheMasks(thingDef);
-    }
 
-    public override void Dispose(bool disposing)
+[StaticConstructorOnStartup]
+public class DefInjector_MaskData
+{
+    static DefInjector_MaskData()
     {
-        base.Dispose(disposing);
+        foreach (var def in DefDatabase<ThingDef>.AllDefs)
+        {
+            MaskManager.CacheMasks(def);
+        }
         MaskManager.Resolve();
     }
 }

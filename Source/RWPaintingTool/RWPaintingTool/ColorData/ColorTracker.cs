@@ -1,5 +1,4 @@
 ﻿using RimWorld;
-using TeleCore.Loader;
 using UnityEngine;
 using Verse;
 
@@ -22,12 +21,12 @@ public class ColorTracker : IExposable
         var palette = extension.paletteDef != null ? extension.paletteDef.palette : extension.defaultPalette;
         if (palette is { } pal)
         {
-            SetColor(0, pal.colorOne);
-            SetColor(1, pal.colorTwo);
-            SetColor(2, pal.colorThree);
-            SetColor(3, pal.colorFour);
-            SetColor(4, pal.colorFive);
-            SetColor(5, pal.colorSix);
+            SetColors(0, pal.colorOne);
+            SetColors(1, pal.colorTwo);
+            SetColors(2, pal.colorThree);
+            SetColors(3, pal.colorFour);
+            SetColors(4, pal.colorFive);
+            SetColors(5, pal.colorSix);
         }
         //_one = _two = _three = _four = _five = _six = Color.white;
     }
@@ -42,7 +41,7 @@ public class ColorTracker : IExposable
     public Color ColorFive => _five;
     public Color ColorSix => _six;
     
-    public void SetColor(int index, Color color)
+    public void SetColors(int index, Color color)
     {
         switch (index)
         {
@@ -83,22 +82,22 @@ public class ColorTracker : IExposable
         _thing.Notify_ColorChanged();
     }
 
-    internal void SetColorsOn(Graphic graphic)
+    internal void SetColorssOn(Graphic graphic)
     {
         if (graphic is Graphic_Multi multi)
         {
-            SetColorsOn(multi.MatEast);
-            SetColorsOn(multi.MatWest);
-            SetColorsOn(multi.MatNorth);
-            SetColorsOn(multi.MatSouth);    
+            SetColorssOn(multi.MatEast);
+            SetColorssOn(multi.MatWest);
+            SetColorssOn(multi.MatNorth);
+            SetColorssOn(multi.MatSouth);    
             return;
         }
         
         //
-        SetColorsOn(graphic.MatSingle);
+        SetColorssOn(graphic.MatSingle);
     }
     
-    public void SetColorsOn(Material material)
+    public void SetColorssOn(Material material)
     {
         material.SetColor("_Color", ColorOne);
         material.SetColor("_ColorTwo", ColorTwo);

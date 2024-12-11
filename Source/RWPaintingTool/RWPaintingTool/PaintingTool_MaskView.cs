@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using RimWorld;
-using TeleCore.Shared;
-using TeleCore.UI;
 using UnityEngine;
 using Verse;
 using Verse.Noise;
@@ -11,8 +9,8 @@ namespace RWPaintingTool;
 [StaticConstructorOnStartup]
 public partial class PaintingTool
 {
-    private static Texture2D borderWhite05 = SolidColorMaterials.NewSolidColorTexture(TColor.White05);
-    private static Texture2D borderWhite025 = SolidColorMaterials.NewSolidColorTexture(TColor.White025);
+    private static Texture2D borderWhite05 = SolidColorMaterials.NewSolidColorTexture(Colors.White05);
+    private static Texture2D borderWhite025 = SolidColorMaterials.NewSolidColorTexture(Colors.White025);
     
     private Vector2 _maskScrollPos;
     
@@ -24,7 +22,7 @@ public partial class PaintingTool
         inRect = inRect.ContractedBy(1);
         Widgets.BeginGroup(inRect);
         inRect = inRect.AtZero();
-        Widgets.DrawBoxSolid(inRect, TColor.BGDarker);
+        Widgets.DrawBoxSolid(inRect, Colors.BGDarker);
         var textures = GetTextures();
         var scrollWidth = Mathf.Max(textures.Count * inRect.height, inRect.width);
         var scrollRect = new Rect(0,0, scrollWidth, inRect.height);

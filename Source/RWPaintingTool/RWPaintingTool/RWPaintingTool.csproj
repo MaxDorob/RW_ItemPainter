@@ -45,37 +45,6 @@
     </ItemGroup>
     
     <ItemGroup>
-      <Reference Include="0TeleCore.AssetLoader">
-        <HintPath>..\..\..\Assemblies\TeleCore.AssetLoader.dll</HintPath>
-      </Reference>
-      <Reference Include="0TeleCore.Events">
-        <HintPath>..\..\..\Assemblies\TeleCore.Events.dll</HintPath>
-      </Reference>
-      <Reference Include="0TeleCore.Loader">
-        <HintPath>..\..\..\Assemblies\TeleCore.Loader.dll</HintPath>
-      </Reference>
-      <Reference Include="0TeleCore.Patching">
-        <HintPath>..\..\..\Assemblies\TeleCore.Patching.dll</HintPath>
-      </Reference>
-      <Reference Include="0TeleCore.Shared">
-        <HintPath>..\..\..\Assemblies\TeleCore.Shared.dll</HintPath>
-      </Reference>
-      <Reference Include="0TeleCore.UI">
-        <HintPath>..\..\..\Assemblies\TeleCore.UI.dll</HintPath>
-      </Reference>
-        <!--
-      <Reference Include="dnlib">
-        <HintPath>..\..\..\..\HotSwap-1.5\Assemblies\dnlib.dll</HintPath>
-        <Private>False</Private>
-      </Reference>
-      <Reference Include="HotSwap">
-        <HintPath>..\..\..\..\HotSwap-1.5\Assemblies\HotSwap.dll</HintPath>
-        <Private>False</Private>
-      </Reference>
-        -->
-    </ItemGroup>
-    
-    <ItemGroup>
       <Compile Remove="Window_ThingColoring.cs" />
     </ItemGroup>
 </Project>

@@ -1,6 +1,4 @@
 ﻿using LudeonTK;
-using TeleCore.Shared;
-using TeleCore.UI;
 using UnityEngine;
 using Verse;
 
@@ -36,9 +34,9 @@ public partial class PaintingTool : Window
         var maskRect = rightPart.BottomPartPixels(200).BottomPartPixels(100);
         var paletteRect = rightPart.BottomPartPixels(300).TopPartPixels(200);
         DrawMaskSelection(maskRect);
-        Widgets.DrawLineHorizontal(maskRect.x, maskRect.y, maskRect.width, TColor.WindowBGBorderColor);
+        Widgets.DrawLineHorizontal(maskRect.x, maskRect.y, maskRect.width, Widgets.WindowBGBorderColor);
         DrawPaletteSelection(paletteRect);
-        Widgets.DrawLineHorizontal(paletteRect.x, paletteRect.y, paletteRect.width, TColor.WindowBGBorderColor);
+        Widgets.DrawLineHorizontal(paletteRect.x, paletteRect.y, paletteRect.width, Widgets.WindowBGBorderColor);
     }
     
     private void DrawColorTool(Rect rect)
@@ -87,7 +85,7 @@ public partial class PaintingTool : Window
             if (Widgets.ButtonInvisible(colorRect))
             {
                 _curColorIndex = i;
-                _colorPicker.SetColor(color);
+                _colorPicker.SetColors(color);
             }
         }
     }

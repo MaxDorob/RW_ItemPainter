@@ -1,6 +1,4 @@
 ﻿using RimWorld;
-using TeleCore.Loader;
-using TeleCore.UI;
 using UnityEngine;
 using Verse;
 
@@ -54,8 +52,8 @@ public partial class PaintingTool
         _maskTracker = ColorTrackerDB.GetMaskTracker(_thing);
         _selectedMaskIndex = _maskTracker.CurMaskID;
         
-        TLog.Debug("Tracker: " + (_tracker != null));
-        TLog.Debug("MaskTracker: " + (_maskTracker != null));
+        //TLog.Debug("Tracker: " + (_tracker != null));
+        //TLog.Debug("MaskTracker: " + (_maskTracker != null));
         
         _colorsSet = new SixColorSet
         {
@@ -67,7 +65,7 @@ public partial class PaintingTool
             ColorSix = _tracker.ColorSix
         };
         
-        _colorPicker.SetColor(_colorsSet[0]);
+        _colorPicker.SetColors(_colorsSet[0]);
     }
     
     private void SetPalette(Palette palette)
@@ -83,12 +81,12 @@ public partial class PaintingTool
     public override void Close(bool doCloseSound = true)
     {
         base.Close(doCloseSound);
-        _tracker.SetColor(0, _colorsSet.ColorOne);
-        _tracker.SetColor(1, _colorsSet.ColorTwo);
-        _tracker.SetColor(2, _colorsSet.ColorThree);
-        _tracker.SetColor(3, _colorsSet.ColorFour);
-        _tracker.SetColor(4, _colorsSet.ColorFive);
-        _tracker.SetColor(5, _colorsSet.ColorSix);
+        _tracker.SetColors(0, _colorsSet.ColorOne);
+        _tracker.SetColors(1, _colorsSet.ColorTwo);
+        _tracker.SetColors(2, _colorsSet.ColorThree);
+        _tracker.SetColors(3, _colorsSet.ColorFour);
+        _tracker.SetColors(4, _colorsSet.ColorFive);
+        _tracker.SetColors(5, _colorsSet.ColorSix);
         _tracker.Notify_ColorsChanged();
         
     }

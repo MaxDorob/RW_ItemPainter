@@ -192,7 +192,7 @@ namespace RWPaintingTool
             if (flag7)
             {
                 Color color2 = ColorPicker.HexToColor(hex);
-                this.SetColor(color2);
+                this.SetColors(color2);
                 Action<Color> colorChanged = this.ColorChanged;
                 if (colorChanged != null)
                 {
@@ -281,7 +281,7 @@ namespace RWPaintingTool
         }
 
         // Token: 0x06000013 RID: 19 RVA: 0x00002D9C File Offset: 0x00000F9C
-        public void SetColor(Color color)
+        public void SetColors(Color color)
         {
             float num;
             float num2;
