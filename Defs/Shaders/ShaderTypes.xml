@@ -16,10 +16,9 @@
 		<shaderPath>ColorPickerHue</shaderPath>
 	</ShaderTypeDef>
 
-	<TeleCore.CustomShaderDef> 
+	<ShaderTypeDef> 
 		<defName>CutoutMultiMask</defName>
 		<shaderPath>CutoutMultiMask</shaderPath>
-		<supportsMask>true</supportsMask>
-	</TeleCore.CustomShaderDef>
+	</ShaderTypeDef>
 
 </Defs>
