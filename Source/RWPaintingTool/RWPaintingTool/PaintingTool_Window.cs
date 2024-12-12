@@ -144,7 +144,6 @@ public partial class PaintingTool : Dialog_StylingStation
             var isSelected = i == _curColorIndex;
             var mouseOver = colorRect.Contains(Event.current.mousePosition);
             var isHighlighted = isSelected || mouseOver;
-            Log.Message($"{colorSelectRect}, {i} {colorDiv}, {colorRect}");
             Widgets.DrawBoxSolid(colorRect, color);
             if (mouseOver)
             {
