@@ -177,6 +177,7 @@ namespace RWPaintingTool
             bool flag3 = UIUtils.DrawTextureWithSlider(rect13, BaseContent.BadTex, this.blueMat, ref num7, 0f, 255f, null);
             if (flag || flag2 || flag3)
             {
+                Log.Message($"{num2} {num3} {num4} - {num5} {num6} {num7}");
                 num2 = (int)num5;
                 num3 = (int)num6;
                 num4 = (int)num7;
@@ -193,13 +194,16 @@ namespace RWPaintingTool
             {
                 Color color2 = ColorPicker.HexToColor(hex);
                 this.SetColors(color2);
+                num2 = (int)(color2.r * 255);
+                num3 = (int)(color2.g * 255);
+                num4 = (int)(color2.b * 255);
                 Action<Color> colorChanged = this.ColorChanged;
                 if (colorChanged != null)
                 {
                     colorChanged(color2);
                 }
             }
-            if (flag4 || flag5 || flag6)
+            if (flag || flag2 || flag3 || flag4 || flag5 || flag6 || flag7)
             {
                 this.RGBChanged(new ColorInt(num2, num3, num4));
             }
@@ -226,7 +230,7 @@ namespace RWPaintingTool
             bool flag12 = UIUtils.TextFieldNumeric<int>(rect9, ref num9, 0f, 100f);
             bool flag13 = UIUtils.TextFieldNumeric<int>(rect10, ref num10, 0f, 100f);
             GUI.skin.textField = textField;
-            if (flag11 || flag12 || flag13)
+            if (flag8 || flag9 || flag10 || flag11 || flag12 || flag13)
             {
                 this.HSVChanged(num8, num9, num10);
             }
