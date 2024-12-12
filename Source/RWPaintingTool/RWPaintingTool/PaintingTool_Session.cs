@@ -25,7 +25,7 @@ public partial class PaintingTool
     
     public bool IsPawn => _carryingPawn != null;
     
-    public PaintingTool(Thing thing)
+    public void SetFor(Thing thing)
     {
         //Resolve graphic
         var graphic = thing.Graphic;
@@ -76,6 +76,14 @@ public partial class PaintingTool
     private void Notify_ColorChanged(Color color, int index)
     {
         _colorsSet[index] = color;
+        apparelColors[_thing as Apparel] = color;
+        _tracker.SetColors(0, _colorsSet.ColorOne);
+        _tracker.SetColors(1, _colorsSet.ColorTwo);
+        _tracker.SetColors(2, _colorsSet.ColorThree);
+        _tracker.SetColors(3, _colorsSet.ColorFour);
+        _tracker.SetColors(4, _colorsSet.ColorFive);
+        _tracker.SetColors(5, _colorsSet.ColorSix);
+        _tracker.Notify_ColorsChanged();
     }
 
     public override void Close(bool doCloseSound = true)

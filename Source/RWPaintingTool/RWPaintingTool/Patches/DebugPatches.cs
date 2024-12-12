@@ -22,7 +22,7 @@ internal static class DebugPatches
                     {
                         var thing = apparel.WornApparel.Find(a => a.def.HasModExtension<PaintableExtension>());
                         if (thing == null) return;
-                        Find.WindowStack.Add(new PaintingTool(thing));
+                        Find.WindowStack.Add(new PaintingTool(__instance, null));
                         //Find.WindowStack.Add(new Window_ThingColoring(thing));
                     }
                 });
