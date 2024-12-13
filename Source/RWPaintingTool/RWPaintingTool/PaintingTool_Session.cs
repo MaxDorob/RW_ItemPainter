@@ -48,7 +48,7 @@ public partial class PaintingTool
     
     private void SetPalette(Palette palette)
     {
-        _colorsSet = palette;
+        _tracker.TempColorSet = _colorsSet = palette;
     }
     
     private void Notify_ColorChanged(Color color, int index)
