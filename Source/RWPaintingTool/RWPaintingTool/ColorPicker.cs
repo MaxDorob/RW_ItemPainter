@@ -177,7 +177,6 @@ namespace RWPaintingTool
             bool flag3 = UIUtils.DrawTextureWithSlider(rect13, BaseContent.BadTex, this.blueMat, ref num7, 0f, 255f, null);
             if (flag || flag2 || flag3)
             {
-                Log.Message($"{num2} {num3} {num4} - {num5} {num6} {num7}");
                 num2 = (int)num5;
                 num3 = (int)num6;
                 num4 = (int)num7;
