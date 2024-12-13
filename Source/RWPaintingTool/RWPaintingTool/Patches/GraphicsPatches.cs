@@ -67,7 +67,7 @@ internal static class GraphicsPatches
                 var maskTracker = ColorTrackerDB.GetMaskTracker(apparel);
 
                 maskTracker.SetMaskOn(graphic);
-                tracker.SetColorssOn(graphic);
+                tracker.SetColorsOn(graphic);
             }
 
             return graphic;
@@ -203,7 +203,7 @@ internal static class GraphicsPatches
                     return graphic;
                 }
                 maskTracker.SetMaskOn(graphic);
-                tracker.SetColorssOn(graphic);
+                tracker.SetColorsOn(graphic);
             }
 
             return graphic;

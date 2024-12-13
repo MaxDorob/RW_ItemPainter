@@ -82,7 +82,7 @@ public class ColorTracker : IExposable
         _thing.Notify_ColorChanged();
     }
 
-    internal void SetColorssOn(Graphic graphic)
+    internal void SetColorsOn(Graphic graphic)
     {
         if (graphic is Graphic_Multi multi)
         {
