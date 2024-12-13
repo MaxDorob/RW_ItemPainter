@@ -59,25 +59,18 @@ public partial class PaintingTool
         {
             return;
         }
-        _tracker.SetColors(0, _colorsSet.ColorOne);
-        _tracker.SetColors(1, _colorsSet.ColorTwo);
-        _tracker.SetColors(2, _colorsSet.ColorThree);
-        _tracker.SetColors(3, _colorsSet.ColorFour);
-        _tracker.SetColors(4, _colorsSet.ColorFive);
-        _tracker.SetColors(5, _colorsSet.ColorSix);
+        _tracker.TempColorSet = _colorsSet;
         _tracker.Notify_ColorsChanged();
     }
 
     public override void Close(bool doCloseSound = true)
     {
         base.Close(doCloseSound);
-        _tracker.SetColors(0, _colorsSet.ColorOne);
-        _tracker.SetColors(1, _colorsSet.ColorTwo);
-        _tracker.SetColors(2, _colorsSet.ColorThree);
-        _tracker.SetColors(3, _colorsSet.ColorFour);
-        _tracker.SetColors(4, _colorsSet.ColorFive);
-        _tracker.SetColors(5, _colorsSet.ColorSix);
-        _tracker.Notify_ColorsChanged();
+        foreach (var apparel in pawn.apparel.WornApparel)
+        {
+            var colorTracker = ColorTrackerDB.GetTracker(apparel);
+            colorTracker?.Reset();
+        }
         
     }
 

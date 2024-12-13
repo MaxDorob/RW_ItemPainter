@@ -7,13 +7,15 @@ namespace RWPaintingTool;
 public class ColorTracker : IExposable
 {
     private Thing _thing;
-    
-    private Color? _one; 
+
+    private Color? _one;
     private Color? _two;
     private Color _three = Color.white;
     private Color _four = Color.white;
     private Color _five = Color.white;
     private Color _six = Color.white;
+
+    public SixColorSet? TempColorSet { get; set; }
 
     public ColorTracker(Thing thing, PaintableExtension extension)
     {
@@ -34,13 +36,13 @@ public class ColorTracker : IExposable
     internal Color? ColorOneNullable => _one;
     internal Color? ColorTwoNullable => _two;
 
-    public Color ColorOne => _one ?? _thing.DrawColor;
-    public Color ColorTwo => _two?? _thing.DrawColorTwo;
-    public Color ColorThree => _three;
-    public Color ColorFour => _four;
-    public Color ColorFive => _five;
-    public Color ColorSix => _six;
-    
+    public Color ColorOne => TempColorSet?.ColorOne ?? _one ?? _thing.DrawColor;
+    public Color ColorTwo => TempColorSet?.ColorTwo ?? _two ?? _thing.DrawColorTwo;
+    public Color ColorThree => TempColorSet?.ColorThree ?? _three;
+    public Color ColorFour => TempColorSet?.ColorFour ?? _four;
+    public Color ColorFive => TempColorSet?.ColorFive ?? _five;
+    public Color ColorSix => TempColorSet?.ColorSix ?? _six;
+
     public void SetColors(int index, Color color)
     {
         switch (index)
@@ -89,14 +91,14 @@ public class ColorTracker : IExposable
             SetColorsOn(multi.MatEast);
             SetColorsOn(multi.MatWest);
             SetColorsOn(multi.MatNorth);
-            SetColorsOn(multi.MatSouth);    
+            SetColorsOn(multi.MatSouth);
             return;
         }
-        
+
         //
         SetColorsOn(graphic.MatSingle);
     }
-    
+
     public void SetColorsOn(Material material)
     {
         material.SetColor("_Color", ColorOne);
@@ -130,6 +132,24 @@ public class ColorTracker : IExposable
             _six = value.ColorSix;
         }
     }
+    public void Reset()
+    {
+        TempColorSet = null;
+    }
+    public void Commit()
+    {
+        if (TempColorSet == null)
+        {
+            return;
+        }
+        this.SetColors(0, TempColorSet.Value.ColorOne);
+        this.SetColors(1, TempColorSet.Value.ColorTwo);
+        this.SetColors(2, TempColorSet.Value.ColorThree);
+        this.SetColors(3, TempColorSet.Value.ColorFour);
+        this.SetColors(4, TempColorSet.Value.ColorFive);
+        this.SetColors(5, TempColorSet.Value.ColorSix);
+        TempColorSet = null;
+    }
 }
 
 public class MaskTracker : IExposable
@@ -157,7 +177,7 @@ public class MaskTracker : IExposable
             return null;
         }
     }
-    
+
     public MaskTracker(Thing thing)
     {
         _thing = thing;
@@ -168,17 +188,17 @@ public class MaskTracker : IExposable
     {
         _maskIndex = selectedMaskIndex;
     }
-    
+
     public void SetMaskOn(Graphic graphic)
     {
         if (graphic is Graphic_Multi multi)
         {
             if (multi.eastFlipped)
                 SetMaskOn(multi.MatWest, Rot4.West);
-            
+
             if (multi.westFlipped)
                 SetMaskOn(multi.MatEast, Rot4.East);
-            
+
             SetMaskOn(multi.MatNorth, Rot4.North);
             SetMaskOn(multi.MatSouth, Rot4.South);
             return;
@@ -197,7 +217,7 @@ public class MaskTracker : IExposable
             MaskID = CurMaskID,
             Rotation = rotation
         };
-            
+
         var mask = MaskManager.GetMask(id);
         material.SetTexture(MaskTex, mask);
     }

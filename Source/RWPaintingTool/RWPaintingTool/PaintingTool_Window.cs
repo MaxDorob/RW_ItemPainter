@@ -77,6 +77,42 @@ public partial class PaintingTool : Dialog_StylingStation
         Widgets.DrawLineHorizontal(paletteRect.x, paletteRect.y, paletteRect.width, Widgets.WindowBGBorderColor);
     }
 
+    private void DrawBottomButtons(Rect inRect)
+    {
+        if (Widgets.ButtonText(new Rect(inRect.x, inRect.yMax - Dialog_StylingStation.ButSize.y, Dialog_StylingStation.ButSize.x, Dialog_StylingStation.ButSize.y), "Cancel".Translate(), true, true, true, null))
+        {
+            this.Reset(true);
+            this.Close(true);
+        }
+        if (Widgets.ButtonText(new Rect(inRect.xMin + inRect.width / 2f - Dialog_StylingStation.ButSize.x / 2f, inRect.yMax - Dialog_StylingStation.ButSize.y, Dialog_StylingStation.ButSize.x, Dialog_StylingStation.ButSize.y), "Reset".Translate(), true, true, true, null))
+        {
+            this.Reset(true);
+            SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
+        }
+        if (Widgets.ButtonText(new Rect(inRect.xMax - Dialog_StylingStation.ButSize.x, inRect.yMax - Dialog_StylingStation.ButSize.y, Dialog_StylingStation.ButSize.x, Dialog_StylingStation.ButSize.y), "Accept".Translate(), true, true, true, null))
+        {
+            if (this.pawn.story.hairDef != this.initialHairDef || this.pawn.style.beardDef != this.initialBeardDef || this.pawn.style.FaceTattoo != this.initialFaceTattoo || this.pawn.style.BodyTattoo != this.initialBodyTattoo || this.pawn.story.HairColor != this.desiredHairColor)
+            {
+                if (!this.DevMode)
+                {
+                    this.pawn.style.SetupNextLookChangeData(this.pawn.story.hairDef, this.pawn.style.beardDef, this.pawn.style.FaceTattoo, this.pawn.style.BodyTattoo, new Color?(this.desiredHairColor));
+                    this.Reset(false);
+                    this.pawn.jobs.TryTakeOrderedJob(JobMaker.MakeJob(JobDefOf.UseStylingStation, this.stylingStation), new JobTag?(JobTag.Misc), false);
+                }
+                else
+                {
+                    this.pawn.story.HairColor = this.desiredHairColor;
+                    this.pawn.style.Notify_StyleItemChanged();
+                }
+            }
+            this.ApplyApparelColors();
+            foreach (var apparel in pawn.apparel.WornApparel)
+            {
+                ColorTrackerDB.GetTracker(apparel)?.Commit();
+            }
+            this.Close(true);
+        }
+    }
 
     private void DrawColorTool(Rect rect)
     {
