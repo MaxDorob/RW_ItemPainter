@@ -86,18 +86,18 @@ public class ColorTracker : IExposable
     {
         if (graphic is Graphic_Multi multi)
         {
-            SetColorssOn(multi.MatEast);
-            SetColorssOn(multi.MatWest);
-            SetColorssOn(multi.MatNorth);
-            SetColorssOn(multi.MatSouth);    
+            SetColorsOn(multi.MatEast);
+            SetColorsOn(multi.MatWest);
+            SetColorsOn(multi.MatNorth);
+            SetColorsOn(multi.MatSouth);    
             return;
         }
         
         //
-        SetColorssOn(graphic.MatSingle);
+        SetColorsOn(graphic.MatSingle);
     }
     
-    public void SetColorssOn(Material material)
+    public void SetColorsOn(Material material)
     {
         material.SetColor("_Color", ColorOne);
         material.SetColor("_ColorTwo", ColorTwo);
