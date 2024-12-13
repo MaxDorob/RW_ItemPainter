@@ -170,19 +170,20 @@ public partial class PaintingTool : Dialog_StylingStation
         var colorSize = ColorPicker.DefaultSize;
         var colorSelWidth = colorSize.y / 6;
         var subDiv = new RectDivider(colorSelectRect.ContractedBy(0, 2.5f), colorSelectRect.GetHashCode());
-        for (int i = 6 - 1; i >= 0; i--)
+        for (int i = 0; i < 6; i++)
         {
             var color = colorsSet[i];
             if (color == default(Color))
             {
                 continue;
             }
-            var colorDiv = subDiv.NewCol(colorSelWidth - 5, HorizontalJustification.Right, 5);
+            var colorDiv = subDiv.NewCol(colorSelWidth - 5, HorizontalJustification.Left, 5);
             var colorRect = colorDiv.Rect.Rounded();
             var isSelected = i == _curColorIndex && _thing == apparel;
             var mouseOver = colorRect.Contains(Event.current.mousePosition);
             var isHighlighted = isSelected || mouseOver;
             Widgets.DrawBoxSolid(colorRect, color);
+            Widgets.Label(colorRect.RightHalf(), (i + 1).ToString());
             if (mouseOver)
             {
                 _highLightedIndex = i;
