@@ -18,10 +18,6 @@ public partial class PaintingTool
     private MaskTracker _maskTracker;
     
     // Sides
-    private Material _north;
-    private Material _south;
-    private Material _east;
-    private Material _west;
     
     public bool IsPawn => _carryingPawn != null;
     
@@ -29,16 +25,6 @@ public partial class PaintingTool
     {
         //Resolve graphic
         var graphic = thing.Graphic;
-        if (thing is Apparel apparel)
-        {
-            ApparelGraphicRecordGetter.TryGetGraphicApparel(apparel, BodyTypeDefOf.Male, out var apparelGraphicRecord);
-            graphic = apparelGraphicRecord.graphic;
-        }
-        
-        _north = graphic.MatNorth;
-        _south = graphic.MatSouth;
-        _east = graphic.MatEast;
-        _west = graphic.MatWest;
 
         //
         forcePause = true;
@@ -49,21 +35,13 @@ public partial class PaintingTool
         
         //TODO Get correct colors and then set it too
         _tracker = ColorTrackerDB.GetTracker(_thing);
-        _maskTracker = ColorTrackerDB.GetMaskTracker(_thing);
-        _selectedMaskIndex = _maskTracker.CurMaskID;
+        //_maskTracker = ColorTrackerDB.GetMaskTracker(_thing);
+        //_selectedMaskIndex = _maskTracker.CurMaskID;
         
         //TLog.Debug("Tracker: " + (_tracker != null));
         //TLog.Debug("MaskTracker: " + (_maskTracker != null));
         
-        _colorsSet = new SixColorSet
-        {
-            ColorOne = thing.DrawColor, // _tracker.ColorOne,
-            ColorTwo = thing.DrawColorTwo, // _tracker.ColorTwo,
-            ColorThree = _tracker.ColorThree,
-            ColorFour = _tracker.ColorFour,
-            ColorFive = _tracker.ColorFive,
-            ColorSix = _tracker.ColorSix
-        };
+        _colorsSet = _tracker?.ColorSet ?? new SixColorSet() { ColorOne = _thing.DrawColor};
         
         _colorPicker.SetColors(_colorsSet[0]);
     }
@@ -77,6 +55,10 @@ public partial class PaintingTool
     {
         _colorsSet[index] = color;
         apparelColors[_thing as Apparel] = color;
+        if (_tracker == null)
+        {
+            return;
+        }
         _tracker.SetColors(0, _colorsSet.ColorOne);
         _tracker.SetColors(1, _colorsSet.ColorTwo);
         _tracker.SetColors(2, _colorsSet.ColorThree);
@@ -101,7 +83,7 @@ public partial class PaintingTool
 
     private void Notify_MaskChanged()
     {
-        _maskTracker.SetMaskID(_selectedMaskIndex);
+        //_maskTracker.SetMaskID(_selectedMaskIndex);
         _tracker.Notify_ColorsChanged();
     }
 }

@@ -6,59 +6,59 @@ namespace RWPaintingTool;
 
 public partial class PaintingTool
 {
-    private void DrawItemPreview(Rect rect)
-    {
-        var help = Mathf.Floor(rect.height / 3);
-        var group = rect.LeftPartPixels(help);
-        var topRect = group.TopPartPixels(help).ContractedBy(5);
-        var middleRect = group.TopPartPixels(help*2).BottomPartPixels(help).ContractedBy(5);
-        var bottomRect = group.TopPartPixels(help*3).BottomPartPixels(help).ContractedBy(5);
+    //private void DrawItemPreview(Rect rect)
+    //{
+    //    var help = Mathf.Floor(rect.height / 3);
+    //    var group = rect.LeftPartPixels(help);
+    //    var topRect = group.TopPartPixels(help).ContractedBy(5);
+    //    var middleRect = group.TopPartPixels(help*2).BottomPartPixels(help).ContractedBy(5);
+    //    var bottomRect = group.TopPartPixels(help*3).BottomPartPixels(help).ContractedBy(5);
 
-        var maskId = _hoveredMaskIndex ?? _selectedMaskIndex;
+    //    var maskId = _hoveredMaskIndex ?? _selectedMaskIndex;
         
-        //Front
-        Widgets.DrawBox(topRect, 1, BaseContent.GreyTex);
-        DrawThing(topRect, Rot4.South, _colorsSet, maskId);
+    //    //Front
+    //    Widgets.DrawBox(topRect, 1, BaseContent.GreyTex);
+    //    DrawThing(topRect, Rot4.South, _colorsSet, maskId);
         
-        //Sideviews
-        Widgets.DrawBox(middleRect, 1, BaseContent.GreyTex);
-        DrawThing(middleRect, Rot4.East, _colorsSet, maskId);
+    //    //Sideviews
+    //    Widgets.DrawBox(middleRect, 1, BaseContent.GreyTex);
+    //    DrawThing(middleRect, Rot4.East, _colorsSet, maskId);
         
-        //Back
-        Widgets.DrawBox(bottomRect, 1, BaseContent.GreyTex);
-        DrawThing(bottomRect, Rot4.North, _colorsSet, maskId);
-    }
+    //    //Back
+    //    Widgets.DrawBox(bottomRect, 1, BaseContent.GreyTex);
+    //    DrawThing(bottomRect, Rot4.North, _colorsSet, maskId);
+    //}
     
     private void DrawThing(Rect rect, Rot4 rot, SixColorSet colors, int maskId)
     {
-        var render = GetRenderData(rot);
-        var mask = new TextureID
-        {
-            Def = _thing.def,
-            BodyType = BodyTypeDefOf.Male,
-            MaskID = maskId,
-            Rotation = rot
-        };
+        //var render = GetRenderData(rot);
+        //var mask = new TextureID
+        //{
+        //    Def = _thing.def,
+        //    BodyType = BodyTypeDefOf.Male,
+        //    MaskID = maskId,
+        //    Rotation = rot
+        //};
 
-        Color oldCol = Color.white;
-        if (_highLightedIndex != -1)
-        {
-            oldCol = colors[_highLightedIndex];
-            colors[_highLightedIndex] = ColorFor(_highLightedIndex);
-        }
+        //Color oldCol = Color.white;
+        //if (_highLightedIndex != -1)
+        //{
+        //    oldCol = colors[_highLightedIndex];
+        //    colors[_highLightedIndex] = ColorFor(_highLightedIndex);
+        //}
         
-        ChangeData(render.Mat, colors, mask, out var oldColors, out var oldMask);
+        //ChangeData(render.Mat, colors, mask, out var oldColors, out var oldMask);
 
-        if (_highLightedIndex != -1)
-        {
-            colors[_highLightedIndex] = oldCol;
-            _highLightedIndex = -1;
-        }
+        //if (_highLightedIndex != -1)
+        //{
+        //    colors[_highLightedIndex] = oldCol;
+        //    _highLightedIndex = -1;
+        //}
 
-        Graphics.DrawTexture(rect, render.Tex, 0, 0, 0, 0, render.Mat);
+        //Graphics.DrawTexture(rect, render.Tex, 0, 0, 0, 0, render.Mat);
         
-        //Reset
-        ChangeData(render.Mat, oldColors, oldMask, out _, out _);
+        ////Reset
+        //ChangeData(render.Mat, oldColors, oldMask, out _, out _);
     }
     
     private static Color ColorFor(int index)
@@ -75,19 +75,19 @@ public partial class PaintingTool
         };
     }
     
-    private (Texture2D Tex, Material Mat) GetRenderData(Rot4 rotation)
-    {
-        if (rotation == Rot4.North)
-            return (_north.mainTexture as Texture2D, _north)!;
+    //private (Texture2D Tex, Material Mat) GetRenderData(Rot4 rotation)
+    //{
+    //    if (rotation == Rot4.North)
+    //        return (_north.mainTexture as Texture2D, _north)!;
         
-        if (rotation == Rot4.East)
-            return (_east.mainTexture as Texture2D, _east)!;
+    //    if (rotation == Rot4.East)
+    //        return (_east.mainTexture as Texture2D, _east)!;
         
-        if (rotation == Rot4.South)
-            return (_south.mainTexture as Texture2D, _south)!;
+    //    if (rotation == Rot4.South)
+    //        return (_south.mainTexture as Texture2D, _south)!;
         
-        return (_west.mainTexture as Texture2D, _west)!;
-    }
+    //    return (_west.mainTexture as Texture2D, _west)!;
+    //}
     
     private void ChangeData(Material material, SixColorSet colors, TextureID mask, out SixColorSet oldColors, out TextureID oldMask)
     {

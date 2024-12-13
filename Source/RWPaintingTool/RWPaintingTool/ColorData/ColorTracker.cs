@@ -106,6 +106,30 @@ public class ColorTracker : IExposable
         material.SetColor("_ColorFive", ColorFive);
         material.SetColor("_ColorSix", ColorSix);
     }
+    public SixColorSet ColorSet
+    {
+        get
+        {
+            return new SixColorSet
+            {
+                ColorOne = ColorOne,
+                ColorTwo = ColorTwo,
+                ColorThree = ColorThree,
+                ColorFour = ColorFour,
+                ColorFive = ColorFive,
+                ColorSix = ColorSix
+            };
+        }
+        set
+        {
+            _one = value.ColorOne;
+            _two = value.ColorTwo;
+            _three = value.ColorThree;
+            _four = value.ColorFour;
+            _five = value.ColorFive;
+            _six = value.ColorSix;
+        }
+    }
 }
 
 public class MaskTracker : IExposable

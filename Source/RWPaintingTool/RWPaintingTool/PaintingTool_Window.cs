@@ -54,7 +54,7 @@ public partial class PaintingTool : Dialog_StylingStation
         }
 
         inRect = originalInRect.RightPart(0.3f);
-        
+
         Text.Font = GameFont.Small; //Reset font
         Text.Anchor = TextAnchor.UpperLeft;
         Widgets.Label(inRect, _thing.LabelCap);
@@ -80,7 +80,7 @@ public partial class PaintingTool : Dialog_StylingStation
 
     private void DrawColorTool(Rect rect)
     {
-        
+
         rect = rect.Rounded();
         var colorSize = ColorPicker.DefaultSize;
         var subRect = rect.LeftPartPixels(colorSize.x);
@@ -127,21 +127,23 @@ public partial class PaintingTool : Dialog_StylingStation
         //    }
         //}
     }
-    private /*static*/ void DrawMaskEditableColors(Rect colorSelectRect, Thing apparel)
+    private /*static*/ void DrawMaskEditableColors(Rect colorSelectRect, Apparel apparel)
     {
+        var colorsSet = ColorTrackerDB.GetTracker(apparel)?.ColorSet ?? new SixColorSet() { ColorOne = apparelColors[apparel] };
+
         var colorSize = ColorPicker.DefaultSize;
         var colorSelWidth = colorSize.y / 6;
         var subDiv = new RectDivider(colorSelectRect.ContractedBy(0, 2.5f), colorSelectRect.GetHashCode());
         for (int i = 6 - 1; i >= 0; i--)
         {
-            var color = _colorsSet[i];
+            var color = colorsSet[i];
             if (color == default(Color))
             {
                 continue;
             }
             var colorDiv = subDiv.NewCol(colorSelWidth - 5, HorizontalJustification.Right, 5);
             var colorRect = colorDiv.Rect.Rounded();
-            var isSelected = i == _curColorIndex;
+            var isSelected = i == _curColorIndex && _thing == apparel;
             var mouseOver = colorRect.Contains(Event.current.mousePosition);
             var isHighlighted = isSelected || mouseOver;
             Widgets.DrawBoxSolid(colorRect, color);
