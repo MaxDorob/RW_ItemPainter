@@ -42,8 +42,9 @@ public partial class PaintingTool
         //TLog.Debug("MaskTracker: " + (_maskTracker != null));
         
         _colorsSet = _tracker?.ColorSet ?? new SixColorSet() { ColorOne = _thing.DrawColor};
+        _curColorIndex = 0;
         
-        _colorPicker.SetColors(_colorsSet[0]);
+        _colorPicker.SetColors(_colorsSet[_curColorIndex]);
     }
     
     private void SetPalette(Palette palette)

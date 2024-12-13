@@ -219,7 +219,7 @@ public partial class PaintingTool : Dialog_StylingStation
                 if (!this.pawn.apparel.IsLocked(apparel) || this.DevMode)
                 {
                     float num3;
-                    Widgets.ColorSelector(rect2, ref color, this.AllColors, out num3, Widgets.GetIconFor(apparel.def, apparel.Stuff, apparel.StyleDef, null), 22, 2, new Action<Color, Rect>(this.ColorSelecterExtraOnGUI));
+                    var colorChanged = Widgets.ColorSelector(rect2, ref color, this.AllColors, out num3, Widgets.GetIconFor(apparel.def, apparel.Stuff, apparel.StyleDef, null), 22, 2, new Action<Color, Rect>(this.ColorSelecterExtraOnGUI));
                     float num4 = rect2.x;
                     if (this.pawn.Ideo != null && !Find.IdeoManager.classicMode)
                     {
@@ -248,7 +248,15 @@ public partial class PaintingTool : Dialog_StylingStation
                     {
                         num++;
                     }
-                    this.apparelColors[apparel] = color;
+                    if (colorChanged)
+                    {
+                        if (_thing != apparel)
+                        {
+                            SetFor(apparel);
+                        }
+
+                        Notify_ColorChanged(color, _curColorIndex);
+                    }
                 }
                 else
                 {
@@ -262,7 +270,7 @@ public partial class PaintingTool : Dialog_StylingStation
                 num2 += 34f;
             }
         }
-        if (this.pawn.Spawned)
+        if (false && this.pawn.Spawned)
         {
             if (num > 0)
             {
