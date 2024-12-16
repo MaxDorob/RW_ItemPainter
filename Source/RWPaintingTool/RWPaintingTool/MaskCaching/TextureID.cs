@@ -10,7 +10,11 @@ public struct TextureID
     }
 
     public ThingDef Def { get; set; }
-    public BodyTypeDef? BodyType { get; set; } = null;
+    public BodyTypeDef BodyType { get; set; } = null;
     public int MaskID { get; set; } = -1;
     public Rot4 Rotation { get; set; } = Rot4.Invalid;
+    public override string ToString()
+    {
+        return $"{Def}\n{BodyType?.ToString() ?? "null"}\n{MaskID}\n{Rotation.ToStringHuman()}";
+    }
 }
