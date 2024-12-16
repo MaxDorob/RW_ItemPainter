@@ -152,7 +152,6 @@ internal static class GraphicsPatches
                 if (instruction.opcode == OpCodes.Ldsfld && instruction.operand ==
                     AccessTools.Field(typeof(ShaderDatabase), nameof(ShaderDatabase.Cutout)))
                 {
-                    yield return new CodeInstruction(OpCodes.Ldarg_0);
                     yield return new CodeInstruction(OpCodes.Call, _selectShaderMethod).WithLabels(instruction.labels);
                     continue;
                 }
@@ -172,12 +171,9 @@ internal static class GraphicsPatches
             }
         }
 
-        internal static Shader SelectShader(Apparel apparel)
+        internal static Shader SelectShader()
         {
-            if (apparel != null && apparel.def == null)
-            {
-                Log.Warning($"{apparel} def is null for some reason");
-            }
+            Apparel apparel = CurThing as Apparel;
             if (apparel != null && (apparel.def?.HasModExtension<PaintableExtension>() ?? false))
             {
                 return ShaderDB.CutoutMultiMask;
