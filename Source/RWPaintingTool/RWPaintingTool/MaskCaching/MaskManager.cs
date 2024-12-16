@@ -48,7 +48,20 @@ public static class MaskManager
 
     public static Texture2D GetMask(TextureID id)
     {
-        return _masks.TryGetValue(id, out var texture) ? texture : null;
+        var originalId = id;
+        if (!_masks.TryGetValue(id, out Texture2D result))
+        {
+            if (id.BodyType != null)
+            {
+                id.BodyType = null;
+                _masks.TryGetValue(id, out result);
+            }
+        }
+        if(result == null)
+        {
+            Log.Error($"{originalId}\n\nAll masks of {id.Def}:\n{string.Join("\n\n", _masks.Keys.Where(x=>x.Def == id.Def))}");
+        }
+        return result;
     }
 
     public static Texture2D GetMask(ThingDef forDef, int maskID, Rot4? withRotation = null, BodyTypeDef? withBodyType = null)
@@ -120,6 +133,7 @@ public static class MaskManager
             var texture = ContentFinder<Texture2D>.Get(file);
             TryCache(thingDef, file, texture);
         }
+
     }
 
     private static void TryCache(ThingDef def, string path, Texture2D texture)
@@ -151,6 +165,11 @@ public static class MaskManager
                 MaskID = maskID,
                 Rotation = rotation
             }, texture);
+            //Log.Message($"Cached {}")
+        }
+        else
+        {
+            Log.Error($"Can't cache {path}");
         }
     }
 
