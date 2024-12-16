@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-	<!--
+	
 	<ThingDef ParentName="ArmorHelmetMakeableBase">
 		<defName>RWPainter_TestHelmet</defName>
 		<label>Color Test Helmet</label>
@@ -16,7 +16,7 @@
 		  <displayPriority>205</displayPriority>
 		</recipeMaker>
 		<graphicData>
-		  <texPath>Helmets/Maximus_helmet_simple</texPath>
+		  <texPath>Armor/commissar/helmet/_item</texPath>
 		  <graphicClass>Graphic_Single</graphicClass>
 		  <shaderType>CutoutMultiMask</shaderType>
 		</graphicData>
@@ -43,7 +43,7 @@
 		  <bodyPartGroups>
 			<li>UpperHead</li>
 		  </bodyPartGroups>
-		  <wornGraphicPath>Helmets/Maximus_helmet_simple</wornGraphicPath>
+		  <wornGraphicPath>Armor/commissar/helmet/Hat</wornGraphicPath>
 		  <layers>
 			<li>Overhead</li>
 		  </layers>
@@ -80,12 +80,14 @@
 		</tradeTags>
 		<modExtensions>
 			<li Class="RWPaintingTool.PaintableExtension">
-				<maskCount>9</maskCount>
-				<beginIndex>1</beginIndex>
+				<defaultPalette>
+					<colorOne>(120,120,110)</colorOne>
+					<colorTwo>(216,230,216)</colorTwo>
+				</defaultPalette>
 			</li>
 		</modExtensions>
 	</ThingDef>
--->
+
 
 	  <ThingDef ParentName="ApparelMakeableBase">
 		<defName>RWPainter_ArmorsTest</defName>
