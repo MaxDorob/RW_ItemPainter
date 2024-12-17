@@ -140,7 +140,7 @@ public static class MaskManager
     {
         var bodyTypes = "Male|Female|Thin|Fat|Hulk";
         var cardinalDirections = "North|South|East|West";
-        var regs = $@"^(?<Path>.*\/)(?<Name>[^_/]+(?:_[^_/]+)*?)(?:_(?<BodyType>{bodyTypes}))?(?:_(?<Mask>Mask\d+))?(?:_(?<Rotation>{cardinalDirections}))?$";
+        var regs = $@"^(?<Path>.*\/)(?<Name>[^_/]+(?:_[^_/]+)*?)(?:_(?<BodyType>{bodyTypes}))?(?:_(?<Mask>Mask\d+))?(?:_(?<Rotation>{cardinalDirections}))?(?<VanillaMask>m\d?)?$";
         var reg = new Regex(regs, RegexOptions.IgnoreCase);
         var match = reg.Match(path);
         if (match.Success)
@@ -150,12 +150,19 @@ public static class MaskManager
             var bodyType = match.Groups["BodyType"].Value;
             var cardinalDirection = match.Groups["Rotation"].Value;
             var mask = match.Groups["Mask"].Value;
+            if (string.IsNullOrWhiteSpace(mask))
+            {
+                mask = match.Groups["VanillaMask"].Value;
+            }
 
             Regex regex = new Regex(@"\d+");
             Match maskNum = regex.Match(mask);
 
             var bodyTypeDef = DefDatabase<BodyTypeDef>.GetNamed(bodyType, false);
-            var maskID = int.Parse(maskNum.Value);
+            if (!int.TryParse(maskNum.Value, out var maskID))
+            {
+                maskID = 0;
+            }
             var rotation = Rot4.FromString(cardinalDirection.CapitalizeFirst());
 
             _masks.Add(new TextureID
@@ -165,7 +172,6 @@ public static class MaskManager
                 MaskID = maskID,
                 Rotation = rotation
             }, texture);
-            //Log.Message($"Cached {}")
         }
         else
         {
@@ -244,14 +250,29 @@ public static class MaskManager
         var fileName = Path.GetFileNameWithoutExtension(fullPath);
 
         Log.Message($"{directoryPath}, {fileName}");
-        string[] maskFiles = Directory.GetFiles(directoryPath, fileName + "*_Mask*");
+        var maskFiles = Directory.GetFiles(directoryPath).Where(IsMaskFile).ToArray();
         for (var i = 0; i < maskFiles.Length; i++)
         {
             maskFiles[i] = Path.Combine(Path.GetDirectoryName(rootPath), Path.GetFileNameWithoutExtension(maskFiles[i])).Replace("\\", "/");
         }
         return maskFiles;
     }
-
+    private static bool IsMaskFile(string fileName)
+    {
+        fileName = Path.GetFileNameWithoutExtension(fileName);
+        if (fileName.Contains("_Mask"))
+        {
+            return true;
+        }
+        if (fileName.Contains("northm", StringComparison.OrdinalIgnoreCase) || 
+            fileName.Contains("southm", StringComparison.OrdinalIgnoreCase) ||
+            fileName.Contains("eastm", StringComparison.OrdinalIgnoreCase)  ||
+            fileName.Contains("westm", StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+        return false;
+    }
     public static TextureID IdFromTexture(Texture getTexture)
     {
         var id = _masks.FirstOrDefault(kvp => kvp.Value == getTexture).Key;
