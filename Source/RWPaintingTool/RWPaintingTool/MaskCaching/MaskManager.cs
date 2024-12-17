@@ -126,7 +126,7 @@ public static class MaskManager
 
         if (maskFiles == null) return;
 #if DEBUG
-        Log.Message($"Discovered {maskFiles.Length} maskFiles");
+        Log.Message($"Discovered {maskFiles.Length} maskFiles:\n{string.Join("\n", maskFiles)}");
 #endif
         foreach (var file in maskFiles)
         {
@@ -243,6 +243,7 @@ public static class MaskManager
         var directoryPath = Path.GetDirectoryName(fullPath);
         var fileName = Path.GetFileNameWithoutExtension(fullPath);
 
+        Log.Message($"{directoryPath}, {fileName}");
         string[] maskFiles = Directory.GetFiles(directoryPath, fileName + "*_Mask*");
         for (var i = 0; i < maskFiles.Length; i++)
         {
