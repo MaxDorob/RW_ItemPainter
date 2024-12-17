@@ -249,7 +249,6 @@ public static class MaskManager
         var directoryPath = Path.GetDirectoryName(fullPath);
         var fileName = Path.GetFileNameWithoutExtension(fullPath);
 
-        Log.Message($"{directoryPath}, {fileName}");
         var maskFiles = Directory.GetFiles(directoryPath).Where(IsMaskFile).ToArray();
         for (var i = 0; i < maskFiles.Length; i++)
         {
