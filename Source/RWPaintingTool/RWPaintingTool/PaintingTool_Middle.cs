@@ -15,11 +15,7 @@ namespace RWPaintingTool
         {
 
             inRect.SplitHorizontally(ButSize.y, out var apparelButtonRect, out inRect);
-            var apparelLabel = "Some apparel";
-            if (Widgets.ButtonText(apparelButtonRect, apparelLabel))
-            {
-
-            }
+            Widgets.Dropdown(apparelButtonRect, _thing, (p) => p, MenuGenerator, _thing?.Label, _thing?.UIIconOverride as Texture2D);
             inRect.SplitHorizontallyWithMargin(out var pawnRect, out var bottomButtonsRect, out _, bottomHeight: ButSize.y * 3 + Margin * 2);
             DrawPawn(pawnRect);
 
@@ -33,6 +29,18 @@ namespace RWPaintingTool
             Widgets.ButtonText(new Rect(rect2.x, y, rect2.width, ButSize.y), "Accept".Translate());
 
 
+        }
+
+        private IEnumerable<Widgets.DropdownMenuElement<Thing>> MenuGenerator(Thing thing)
+        {
+            foreach (var apparel in pawn.apparel.WornApparel.Where(x=>x.def.HasModExtension<PaintableExtension>()))
+            {
+                yield return new Widgets.DropdownMenuElement<Thing>()
+                {
+                    option = new FloatMenuOption(apparel.Label, () => _thing = apparel),
+                    payload = apparel
+                };
+            }
         }
 
         Rot4 rotation = Rot4.South;
