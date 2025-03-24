@@ -111,11 +111,11 @@ internal static class GraphicsPatches
                     Log.WarningOnce("maskTracker is null", 7236812);
                     return;
                 }
-                tracker.SetColorsOn(__result);
 #if DEBUG
                 Log.Message("Getting material data for: " + CurThing.def + " it would receive mask: " + maskTracker.CurMaskID);
 #endif
                 //__result.SetTexture("_Mask", MaskManager.GetMask(GraphicInitPatch.CurThing.def, maskTracker.CurMaskID));
+                __result.SetColor("ColorTwo", tracker.ColorTwo);
                 __result.SetColor(ColorThree, tracker.ColorThree);
                 __result.SetColor(ColorFour, tracker.ColorFour);
                 __result.SetColor(ColorFive, tracker.ColorFive);

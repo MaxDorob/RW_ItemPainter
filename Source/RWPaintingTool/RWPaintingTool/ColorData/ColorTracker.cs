@@ -86,20 +86,25 @@ public class ColorTracker : IExposable
 
     internal void SetColorsOn(Graphic graphic)
     {
+        SetColorsOn(graphic, ColorOne, ColorTwo, ColorThree, ColorFour, ColorFive, ColorSix);
+    }
+
+    internal void SetColorsOn(Graphic graphic, Color ColorOne, Color ColorTwo, Color ColorThree, Color ColorFour, Color ColorFive, Color ColorSix)
+    {
         if (graphic is Graphic_Multi multi)
         {
-            SetColorsOn(multi.MatEast);
-            SetColorsOn(multi.MatWest);
-            SetColorsOn(multi.MatNorth);
-            SetColorsOn(multi.MatSouth);
+            SetColorsOn(multi.MatEast, ColorOne, ColorTwo, ColorThree, ColorFour, ColorFive, ColorSix);
+            SetColorsOn(multi.MatWest, ColorOne, ColorTwo, ColorThree, ColorFour, ColorFive, ColorSix);
+            SetColorsOn(multi.MatNorth, ColorOne, ColorTwo, ColorThree, ColorFour, ColorFive, ColorSix);
+            SetColorsOn(multi.MatSouth, ColorOne, ColorTwo, ColorThree, ColorFour, ColorFive, ColorSix);
             return;
         }
 
         //
-        SetColorsOn(graphic.MatSingle);
+        SetColorsOn(graphic.MatSingle, ColorOne, ColorTwo, ColorThree, ColorFour, ColorFive, ColorSix);
     }
 
-    public void SetColorsOn(Material material)
+    public void SetColorsOn(Material material, Color ColorOne, Color ColorTwo, Color ColorThree, Color ColorFour, Color ColorFive, Color ColorSix)
     {
         material.SetColor("_Color", ColorOne);
         material.SetColor("_ColorTwo", ColorTwo);
