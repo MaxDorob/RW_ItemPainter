@@ -31,9 +31,11 @@ namespace RWPaintingTool
 
         }
 
+        private IEnumerable<Apparel> PaintableApparel => pawn.apparel.WornApparel.Where(x => x.def.HasModExtension<PaintableExtension>());
+
         private IEnumerable<Widgets.DropdownMenuElement<Thing>> MenuGenerator(Thing thing)
         {
-            foreach (var apparel in pawn.apparel.WornApparel.Where(x=>x.def.HasModExtension<PaintableExtension>()))
+            foreach (var apparel in PaintableApparel)
             {
                 yield return new Widgets.DropdownMenuElement<Thing>()
                 {
@@ -47,7 +49,12 @@ namespace RWPaintingTool
         private void DrawPawn(Rect rect)
         {
             //Widgets.BeginGroup(rect);
+            var colorTrackers = PaintableApparel.Select(a => ColorTrackerDB.GetTracker(a));
 
+            foreach (var colorTracker in colorTrackers)
+            {
+                colorTracker.ShouldUseTemp = true;
+            }
             Rect position = rect.ContractedBy(Margin);
             RenderTexture image = PortraitsCache.Get(this.pawn, new Vector2(position.width, position.height), rotation, Dialog_StylingStation.PortraitOffset, 1.1f, true, true, this.showHeadgear, this.showClothes, this.apparelColors, new Color?(this.desiredHairColor), true, null);
             GUI.DrawTexture(position, image);
@@ -63,7 +70,10 @@ namespace RWPaintingTool
             {
                 rotation = new Rot4(rotation.AsInt + 1);
             }
-            
+            foreach (var colorTracker in colorTrackers)
+            {
+                colorTracker.ShouldUseTemp = false;
+            }
 
             //Widgets.EndGroup();
         }

@@ -15,7 +15,36 @@ public class ColorTracker : IExposable
     private Color _five = Color.white;
     private Color _six = Color.white;
 
-    public SixColorSet? TempColorSet { get; set; }
+    private bool shouldUseTemp = false;
+    private SixColorSet? tempColorSet;
+
+    public SixColorSet? TempColorSet
+    {
+        get => tempColorSet;
+        set
+        {
+            tempColorSet = value;
+            if (value == null)
+            {
+                shouldUseTemp = false;
+            }
+        }
+    }
+    public bool ShouldUseTemp
+    {
+        get
+        {
+            return shouldUseTemp && tempColorSet != null;
+        }
+        set
+        {
+            if (value && tempColorSet == null)
+            {
+                Log.Warning("tempColorSet is null and forced to use temp values");
+            }
+            shouldUseTemp = true;
+        }
+    }
 
     public ColorTracker(Thing thing, PaintableExtension extension)
     {
@@ -36,12 +65,12 @@ public class ColorTracker : IExposable
     internal Color? ColorOneNullable => _one;
     internal Color? ColorTwoNullable => _two;
 
-    public Color ColorOne => TempColorSet?.ColorOne ?? _one ?? _thing.DrawColor;
-    public Color ColorTwo => TempColorSet?.ColorTwo ?? _two ?? _thing.DrawColorTwo;
-    public Color ColorThree => TempColorSet?.ColorThree ?? _three;
-    public Color ColorFour => TempColorSet?.ColorFour ?? _four;
-    public Color ColorFive => TempColorSet?.ColorFive ?? _five;
-    public Color ColorSix => TempColorSet?.ColorSix ?? _six;
+    public Color ColorOne => ShouldUseTemp ? TempColorSet.Value.ColorOne : _one ?? _thing.DrawColor;
+    public Color ColorTwo => ShouldUseTemp ? TempColorSet.Value.ColorTwo : _two ?? _thing.DrawColorTwo;
+    public Color ColorThree => ShouldUseTemp ? TempColorSet.Value.ColorThree :  _three;
+    public Color ColorFour => ShouldUseTemp ? TempColorSet.Value.ColorFour : _four;
+    public Color ColorFive => ShouldUseTemp ? TempColorSet.Value.ColorFive : _five;
+    public Color ColorSix => ShouldUseTemp ? TempColorSet.Value.ColorSix : _six;
 
     public void SetColors(int index, Color color)
     {
