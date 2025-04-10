@@ -27,6 +27,7 @@ internal static class GraphicsPatches
             {
                 Log.Error($"Trying to change curThing from {curThing} to {value}");
             }
+            colors = null;
             curThing = value;
         }
     }
