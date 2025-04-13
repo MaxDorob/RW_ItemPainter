@@ -13,20 +13,20 @@ namespace RWPaintingTool
     public static class RWPT_GraphicDatabase
     {
         private static Dictionary<RWPT_GraphicRequest, Graphic> allGraphics = new Dictionary<RWPT_GraphicRequest, Graphic>();
-        private static Dictionary<Type, Func<GraphicRequest, Graphic>> cachedGraphicGetters = new Dictionary<Type, Func<GraphicRequest, Graphic>>();
+        private static Dictionary<Type, Func<RWPT_GraphicRequest, Graphic>> cachedGraphicGetters = new Dictionary<Type, Func<RWPT_GraphicRequest, Graphic>>();
         public static Graphic Get(RWPT_GraphicRequest req)
         {
             try
             {
                 Log.Message($"Trying to get getter:\n{req}");
-                Func<GraphicRequest, Graphic> func;
+                Func<RWPT_GraphicRequest, Graphic> func;
                 if (!cachedGraphicGetters.TryGetValue(req.graphicClass, out func))
                 {
                     MethodInfo method = AccessTools.Method(typeof(RWPT_GraphicDatabase),nameof(GetInner), generics: (new Type[]
                     {
                         req.graphicClass
                     }));
-                    func = (Func<GraphicRequest, Graphic>)Delegate.CreateDelegate(typeof(Func<GraphicRequest, Graphic>), method);
+                    func = (Func<RWPT_GraphicRequest, Graphic>)Delegate.CreateDelegate(typeof(Func<RWPT_GraphicRequest, Graphic>), method);
                     cachedGraphicGetters.Add(req.graphicClass, func);
                 }
                 return func(req);
@@ -59,13 +59,14 @@ namespace RWPaintingTool
                     return default(T);
                 }
                 graphic = Activator.CreateInstance<T>();
-                graphic.Init(req);
+                var vanillaReq = (GraphicRequest)req;
+                Log.Warning($"{vanillaReq.maskPath}, {vanillaReq.shader?.SupportsMaskTex().ToString() ?? "null"}");
+                graphic.Init(vanillaReq);
                 
 
 
 
                 allGraphics.Add(req, graphic);
-                GraphicDatabase.allGraphics.Add(req, graphic);
             }
             return (T)((object)graphic);
         }

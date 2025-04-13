@@ -213,7 +213,18 @@ public class MaskTracker : IExposable
         //
         SetMaskOn(graphic.MatSingle, Rot4.North);
     }
+    public Texture2D GetMask(Rot4 rotation)
+    {
+        var id = new TextureID
+        {
+            Def = _thing.def,
+            BodyType = BodyType,
+            MaskID = CurMaskID,
+            Rotation = rotation
+        };
 
+        return MaskManager.GetMask(id);
+    }
     private void SetMaskOn(Material material, Rot4 rotation)
     {
         var id = new TextureID

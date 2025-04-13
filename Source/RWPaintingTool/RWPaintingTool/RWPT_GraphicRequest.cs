@@ -12,6 +12,7 @@ namespace RWPaintingTool
         {
 
         }
+        public RWPT_GraphicRequest(Type graphicClass, string path, Shader shader, Vector2 drawSize, string maskPath, params Color[] colors) : this(graphicClass, path, shader, drawSize, null, 0, null, maskPath, colors) { }
         public RWPT_GraphicRequest(Type graphicClass, string path, Shader shader, Vector2 drawSize, GraphicData graphicData, int renderQueue, List<ShaderParameter> shaderParameters, string maskPath, params Color[] colors)
         {
             this.graphicClass = graphicClass;

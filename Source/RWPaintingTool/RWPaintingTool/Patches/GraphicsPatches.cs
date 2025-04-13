@@ -104,7 +104,71 @@ internal static class GraphicsPatches
         internal static void Postfix() => CurThing = null;
     }
 
+    [HarmonyPatch(typeof(Graphic_Multi), nameof(Graphic_Multi.Init))]
+    internal static class Graphic_Multi_Patch
+    {
+        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var getMethod = AccessTools.Method(typeof(ContentFinder<Texture2D>), nameof(ContentFinder<Texture2D>.Get));
+            var result = instructions.ToList();
+            var lastTextureGetterIndex = result.IndexOf(result.Last(x => x.Calls(getMethod)));
+            result.InsertRange(lastTextureGetterIndex + 2,
+                [new CodeInstruction(OpCodes.Ldloc_1), CodeInstruction.Call(typeof(Graphic_Multi_Patch), nameof(Graphic_Multi_Patch.ChangeMasksIfNeeded))]
+                );
 
+            return result;
+        }
+
+        public static void ChangeMasksIfNeeded(Texture2D[] masksArray)
+        {
+            var thing = CurThing;
+            if (masksArray == null || thing == null)
+            {
+                return;
+            }
+            var maskManager = ColorTrackerDB.GetMaskTracker(thing);
+            if (maskManager != null)
+            {
+                masksArray[0] = maskManager.GetMask(Rot4.North) ?? masksArray[0];
+                masksArray[1] = maskManager.GetMask(Rot4.East) ?? masksArray[1];
+                masksArray[2] = maskManager.GetMask(Rot4.South) ?? masksArray[2];
+                masksArray[3] = maskManager.GetMask(Rot4.West) ?? masksArray[3];
+            }
+
+        }
+    }
+
+    [HarmonyPatch(typeof(Graphic_Single), nameof(Graphic_Single.Init))]
+    internal static class Graphic_Single_Patch
+    {
+        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var field = AccessTools.Field(typeof(MaterialRequest), nameof(MaterialRequest.maskTex));
+            foreach (var instruction in instructions)
+            {
+                if (instruction.StoresField(field))
+                {
+                    yield return CodeInstruction.Call(typeof(Graphic_Single_Patch), nameof(Graphic_Single_Patch.ChangeMaskIfNeeded));
+                }
+                yield return instruction;
+            }
+        }
+
+        public static Texture2D ChangeMaskIfNeeded(Texture2D texture)
+        {
+            var thing = CurThing;
+            if (thing == null)
+            {
+                return texture;
+            }
+            var maskManager = ColorTrackerDB.GetMaskTracker(thing);
+            if (maskManager != null)
+            {
+                texture = maskManager.GetMask(Rot4.South) ?? texture;
+            }
+            return texture;
+        }
+    }
     //[HarmonyPatch]
     //internal static class GraphicDBPatch
     //{
@@ -144,93 +208,73 @@ internal static class GraphicsPatches
             //Log.Message(__result);
             if (Colors != null)
             {
-                Log.Message($"Changing material. Colors is null {Colors == null}, {string.Join(", ", Colors)}");
                 __result = RWPT_MaterialPool.MatFrom(new RWPT_MaterialRequest(req, Colors));
             }
         }
     }
 
 
-    //[HarmonyPatch(typeof(ApparelGraphicRecordGetter), nameof(ApparelGraphicRecordGetter.TryGetGraphicApparel))]
-    //internal static class ApparelGraphicRecordGetterTryGetGraphicApparelPatch
-    //{
-    //    private static readonly MethodInfo GraphicChange =
-    //        AccessTools.Method(typeof(ApparelGraphicRecordGetterTryGetGraphicApparelPatch), nameof(ChangeGraphic));
+    [HarmonyPatch(typeof(ApparelGraphicRecordGetter), nameof(ApparelGraphicRecordGetter.TryGetGraphicApparel))]
+    internal static class ApparelGraphicRecordGetterTryGetGraphicApparelPatch
+    {
+        private static readonly MethodInfo GraphicChange =
+            AccessTools.Method(typeof(ApparelGraphicRecordGetterTryGetGraphicApparelPatch), nameof(ChangeGraphicIfNeeded));
 
-    //    private static MethodInfo _selectShaderMethod =
-    //        AccessTools.Method(typeof(ApparelGraphicRecordGetterTryGetGraphicApparelPatch), nameof(SelectShader));
 
-    //    public static bool Prefix(Apparel apparel)
-    //    {
-    //        CurThing = apparel;
-    //        return true;
-    //    }
+        public static void Prefix(Apparel apparel)
+        {
+            CurThing = apparel;
+        }
 
-    //    public static void Postfix()
-    //    {
-    //        CurThing = null;
-    //    }
+        public static void Postfix()
+        {
+            CurThing = null;
+        }
 
-    //    public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-    //    {
-    //        foreach (var instruction in instructions)
-    //        {
-    //            //Change Shader
-    //            if (instruction.opcode == OpCodes.Ldsfld && instruction.operand ==
-    //                AccessTools.Field(typeof(ShaderDatabase), nameof(ShaderDatabase.Cutout)))
-    //            {
-    //                yield return new CodeInstruction(OpCodes.Call, _selectShaderMethod).WithLabels(instruction.labels);
-    //                continue;
-    //            }
+        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            foreach (var instruction in instructions)
+            {
 
-    //            if (instruction.opcode == OpCodes.Stloc_2)
-    //            {
-    //                //Found where graphic is stored, manipulate
-    //                yield return instruction;
-    //                yield return new CodeInstruction(OpCodes.Ldloc_2);
-    //                yield return new CodeInstruction(OpCodes.Ldarg_0);
-    //                yield return new CodeInstruction(OpCodes.Call, GraphicChange);
-    //                yield return new CodeInstruction(OpCodes.Stloc_2);
-    //                continue;
-    //            }
+                if (instruction.opcode == OpCodes.Stloc_2)
+                {
+                    //Found where graphic is stored, manipulate
+                    yield return instruction;
+                    yield return new CodeInstruction(OpCodes.Ldloc_2);
+                    yield return new CodeInstruction(OpCodes.Ldarg_0);
+                    yield return new CodeInstruction(OpCodes.Ldloc_0);
+                    yield return new CodeInstruction(OpCodes.Call, GraphicChange);
+                    yield return new CodeInstruction(OpCodes.Stloc_2);
+                    continue;
+                }
 
-    //            yield return instruction;
-    //        }
-    //    }
+                yield return instruction;
+            }
+        }
 
-    //    internal static Shader SelectShader()
-    //    {
-    //        Apparel apparel = CurThing as Apparel;
-    //        if (apparel != null && (apparel.def?.HasModExtension<PaintableExtension>() ?? false))
-    //        {
-    //            return ShaderDB.CutoutMultiMask;
-    //        }
 
-    //        return ShaderDatabase.Cutout;
-    //    }
+        private static Graphic ChangeGraphicIfNeeded(Graphic graphic, Thing apparel, string path)
+        {
+            CurThing = apparel;
+            if (Colors != null && !string.IsNullOrWhiteSpace(MaskPath))
+            {
+                graphic = RWPT_GraphicDatabase.Get(new RWPT_GraphicRequest(typeof(Graphic_Multi), path, ShaderDB.CutoutMultiMask, apparel.def.graphicData.drawSize, MaskPath, Colors));
+            }
 
-    //    private static Graphic ChangeGraphic(Graphic graphic, Thing apparel)
-    //    {
-    //        if (graphic.Shader.SupportsMultiColor())
-    //        {
-    //            var tracker = ColorTrackerDB.GetTracker(apparel);
-    //            var maskTracker = ColorTrackerDB.GetMaskTracker(apparel);
-    //            if (tracker == null)
-    //            {
-    //                Log.WarningOnce("maskTracker is null", 7236813);
-    //                return graphic;
-    //            }
-    //            if (maskTracker == null)
-    //            {
-    //                Log.WarningOnce("maskTracker is null", 7236814);
-    //                return graphic;
-    //            }
-    //            maskTracker.SetMaskOn(graphic);
-    //            tracker.SetColorsOn(graphic);
-    //        }
+            return graphic;
+        }
+    }
 
-    //        return graphic;
-    //    }
-    //}
+    [HarmonyPatch(typeof(ShaderUtility), nameof(ShaderUtility.SupportsMaskTex))]
+    internal static class ShaderUtility_SupportsMaskTex
+    {
+        public static void Postfix(Shader shader, ref bool __result)
+        {
+            if (shader == ShaderDB.CutoutMultiMask)
+            {
+                __result = true;
+            }
+        }
+    }
 
 }
