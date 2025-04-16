@@ -18,7 +18,6 @@ namespace RWPaintingTool
         {
             try
             {
-                Log.Message($"Trying to get getter:\n{req}");
                 Func<RWPT_GraphicRequest, Graphic> func;
                 if (!cachedGraphicGetters.TryGetValue(req.graphicClass, out func))
                 {
@@ -48,7 +47,6 @@ namespace RWPaintingTool
 
         internal static T GetInner<T>(RWPT_GraphicRequest req) where T : Graphic, new()
         {
-            Log.Message($"Trying to get {req}");
             req.renderQueue = ((req.renderQueue == 0 && req.graphicData != null) ? req.graphicData.renderQueue : req.renderQueue);
             Graphic graphic;
             if (!allGraphics.TryGetValue(req, out graphic))
@@ -60,7 +58,6 @@ namespace RWPaintingTool
                 }
                 graphic = Activator.CreateInstance<T>();
                 var vanillaReq = (GraphicRequest)req;
-                Log.Warning($"{vanillaReq.maskPath}, {vanillaReq.shader?.SupportsMaskTex().ToString() ?? "null"}");
                 graphic.Init(vanillaReq);
                 
 

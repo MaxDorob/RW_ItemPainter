@@ -14,7 +14,6 @@ namespace RWPaintingTool
 
         public static Material MatFrom(RWPT_MaterialRequest req)
         {
-            Log.Message(req);
 
             if (!UnityData.IsInMainThread)
             {

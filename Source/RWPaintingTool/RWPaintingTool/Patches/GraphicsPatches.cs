@@ -45,7 +45,6 @@ internal static class GraphicsPatches
                     if (colorTracker != null)
                     {
                         colors = [colorTracker.ColorOne, colorTracker.ColorTwo, colorTracker.ColorThree, colorTracker.ColorFour, colorTracker.ColorFive, colorTracker.ColorSix];
-                        Log.Message(string.Join(", ", colors));
                     }
                 }
             }
