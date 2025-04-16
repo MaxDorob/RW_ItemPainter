@@ -46,7 +46,7 @@ public static class MaskManager
         return _cachedMasksBody.GetValueOrDefault((forDef, bodyType));
     }
 
-    public static Texture2D GetMask(TextureID id)
+    public static Texture2D GetMask(TextureID id, bool silent = false)
     {
         var originalId = id;
         if (!_masks.TryGetValue(id, out Texture2D result))
@@ -57,7 +57,7 @@ public static class MaskManager
                 _masks.TryGetValue(id, out result);
             }
         }
-        if(result == null)
+        if(result == null && !silent)
         {
             Log.Error($"{originalId}\n\nAll masks of {id.Def}:\n{string.Join("\n\n", _masks.Keys.Where(x=>x.Def == id.Def))}");
         }

@@ -132,7 +132,7 @@ internal static class GraphicsPatches
                 masksArray[0] = maskManager.GetMask(Rot4.North) ?? masksArray[0];
                 masksArray[1] = maskManager.GetMask(Rot4.East) ?? masksArray[1];
                 masksArray[2] = maskManager.GetMask(Rot4.South) ?? masksArray[2];
-                masksArray[3] = maskManager.GetMask(Rot4.West) ?? masksArray[3];
+                masksArray[3] = maskManager.GetMask(Rot4.West, true) ?? masksArray[3];
             }
 
         }
