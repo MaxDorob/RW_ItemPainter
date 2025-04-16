@@ -22,6 +22,10 @@ namespace RWPaintingTool
             }
             private set
             {
+                if (this._color == value)
+                {
+                    return;
+                }
                 this._color = value;
                 Action<Color> colorChanged = this.ColorChanged;
                 if (colorChanged == null)
@@ -290,7 +294,7 @@ namespace RWPaintingTool
             float num2;
             float num3;
             Color.RGBToHSV(color, out num, out num2, out num3);
-            this._color = color;
+            this.Color = color;
             this._colorInt = new ColorInt(color);
             this._HSVRaw = new Vector3(num, num2, num3);
             this._HSVInt = new Vector3Int((int)(num * 360f), (int)(num2 * 100f), (int)(num3 * 100f));
