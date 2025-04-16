@@ -42,7 +42,7 @@ public class ColorTracker : IExposable
             {
                 Log.Warning("tempColorSet is null and forced to use temp values");
             }
-            shouldUseTemp = true;
+            shouldUseTemp = value;
         }
     }
 
@@ -67,7 +67,8 @@ public class ColorTracker : IExposable
 
     public Color ColorOne => ShouldUseTemp ? TempColorSet.Value.ColorOne : _one ?? _thing.DrawColor;
     public Color ColorTwo => ShouldUseTemp ? TempColorSet.Value.ColorTwo : _two ?? _thing.DrawColorTwo;
-    public Color ColorThree => ShouldUseTemp ? TempColorSet.Value.ColorThree :  _three;
+    public Color ColorThree => ShouldUseTemp ? TempColorSet.Value.ColorThree : _three;
+
     public Color ColorFour => ShouldUseTemp ? TempColorSet.Value.ColorFour : _four;
     public Color ColorFive => ShouldUseTemp ? TempColorSet.Value.ColorFive : _five;
     public Color ColorSix => ShouldUseTemp ? TempColorSet.Value.ColorSix : _six;
