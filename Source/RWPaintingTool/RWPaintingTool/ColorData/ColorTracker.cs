@@ -155,6 +155,7 @@ public class ColorTracker : IExposable
         this.SetColors(4, TempColorSet.Value.ColorFive);
         this.SetColors(5, TempColorSet.Value.ColorSix);
         TempColorSet = null;
+        _thing.Notify_ColorChanged();
     }
 }
 
