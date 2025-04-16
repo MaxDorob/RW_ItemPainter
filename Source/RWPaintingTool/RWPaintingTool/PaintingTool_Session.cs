@@ -66,7 +66,6 @@ public partial class PaintingTool
             return;
         }
         _tracker.TempColorSet = _colorsSet;
-        _tracker.Notify_ColorsChanged();
     }
 
     public override void Close(bool doCloseSound = true)
