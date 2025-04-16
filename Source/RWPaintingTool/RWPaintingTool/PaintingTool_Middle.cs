@@ -26,9 +26,18 @@ namespace RWPaintingTool
             y += ButSize.y;
             Widgets.CheckboxLabeled(new Rect(rect2.x, y, rect2.width, ButSize.y), "ShowApparel".Translate(), ref this.showClothes, false, null, null, false, false);
             y += ButSize.y + Margin;
-            Widgets.ButtonText(new Rect(rect2.x, y, rect2.width, ButSize.y), "Accept".Translate());
+            if(Widgets.ButtonText(new Rect(rect2.x, y, rect2.width, ButSize.y), "Accept".Translate()))
+            {
+                Accept();
+            }
 
 
+        }
+
+        private void Accept()
+        {
+            this._tracker.Commit();
+            this.Close();
         }
 
         private IEnumerable<Apparel> PaintableApparel => pawn.apparel.WornApparel.Where(x => x.def.HasModExtension<PaintableExtension>());
