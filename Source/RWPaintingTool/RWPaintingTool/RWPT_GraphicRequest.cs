@@ -48,10 +48,12 @@ namespace RWPaintingTool
             {
                 this.path = BaseContent.BadTexPath;
             }
-            return
-                Gen.HashCombine(
-                    Gen.HashCombine<List<ShaderParameter>>(Gen.HashCombine<int>(Gen.HashCombine<GraphicData>(Gen.HashCombineStruct<Color>(Gen.HashCombineStruct<Color>(Gen.HashCombineStruct<Vector2>(Gen.HashCombine<Shader>(Gen.HashCombine<string>(Gen.HashCombine<Texture2D>(Gen.HashCombine<string>(Gen.HashCombine<Type>(0, this.graphicClass), this.path), this.texture), this.maskPath), this.shader), this.drawSize), this.colors.ElementAtOrDefault(0)), this.colors.ElementAtOrDefault(1)), this.graphicData), this.renderQueue), this.shaderParameters),
-                    colors);
+            var hash = Gen.HashCombine<List<ShaderParameter>>(Gen.HashCombine<int>(Gen.HashCombine<GraphicData>(Gen.HashCombineStruct<Vector2>(Gen.HashCombine<Shader>(Gen.HashCombine<string>(Gen.HashCombine<Texture2D>(Gen.HashCombine<string>(Gen.HashCombine<Type>(0, this.graphicClass), this.path), this.texture), this.maskPath), this.shader), this.drawSize), this.graphicData), this.renderQueue), this.shaderParameters);
+            foreach (var color in this.colors)
+            {
+                hash = Gen.HashCombine(hash, color);
+            }
+            return hash;
 
         }
 

@@ -75,7 +75,12 @@ namespace Verse
 
         public override int GetHashCode()
         {
-            return Gen.HashCombine<List<ShaderParameter>>(Gen.HashCombineInt(Gen.HashCombine<Texture2D>(Gen.HashCombine<Texture>(Gen.HashCombine(Gen.HashCombine<Shader>(0, this.shader), this.colors), this.mainTex), this.maskTex), this.renderQueue), this.shaderParameters);
+            var hash = Gen.HashCombine<List<ShaderParameter>>(Gen.HashCombineInt(Gen.HashCombine<Texture2D>(Gen.HashCombine<Texture>(Gen.HashCombine<Shader>(0, this.shader), this.mainTex), this.maskTex), this.renderQueue), this.shaderParameters);
+            foreach(Color color in this.colors)
+            {
+                hash = Gen.HashCombine(hash, color);
+            }
+            return hash;
         }
 
         public override bool Equals(object obj)
