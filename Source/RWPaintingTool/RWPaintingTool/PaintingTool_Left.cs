@@ -15,7 +15,18 @@ namespace RWPaintingTool
             DrawPaletteSelection(inRect.TopPart(0.8f));
             DrawPalleteButtons(inRect.BottomPart(0.2f));
         }
-        private IReadOnlyList<PaletteDef> Palettes => DefDatabase<PaletteDef>.AllDefsListForReading;
+        IList<IPalette> cachedPalettes;
+        private IList<IPalette> Palettes
+        {
+            get
+            {
+                if (cachedPalettes == null)
+                {
+                    cachedPalettes = DefDatabase<PaletteDef>.AllDefsListForReading.Cast<IPalette>().Union(Current.Game.GetComponent<CustomPaletteStore>().customPalettes).ToList();
+                }
+                return cachedPalettes;
+            }
+        }
 
         private void DrawPaletteSelection(Rect inRect)
         {
@@ -44,13 +55,14 @@ namespace RWPaintingTool
                 var oldset = _colorsSet;
                 if (Mouse.IsOver(rect))
                 {
-                    _colorsSet = palette.palette;
+                    _colorsSet = palette.Palette;
                 }
                 _colorsSet = oldset;
 
                 if (Widgets.ButtonInvisible(rect))
                 {
-                    SetPalette(palette.palette);
+                    lastSelectedPalette = palette;
+                    SetPalette(palette.Palette);
                 }
 
                 xy = new Vector2(inRect.x, xy.y + heightPer + Margin / 2);
@@ -60,18 +72,25 @@ namespace RWPaintingTool
             Widgets.EndGroup();
         }
 
-        private void DrawPaletteOption(Rect rect, PaletteDef palette)
+        private void DrawPaletteOption(Rect rect, IPalette palette)
         {
             DrawHover(rect);
             rect = rect.ContractedBy(2).Rounded();
 
-            var label = palette.LabelCap;
+            var label = palette.Label;
             var labelSize = Text.CalcSize(label);
             var leftOver = rect.height - labelSize.y;
             var labelRect = rect.TopPartPixels(labelSize.y).Rounded();
             var colorRect = rect.BottomPartPixels(leftOver).Rounded();
 
-            Widgets.Label(labelRect, label);
+            if (palette is CustomPalette customPalette)
+            {
+                customPalette.Label = Widgets.TextField(labelRect, label);
+            }
+            else
+            {
+                Widgets.Label(labelRect, label);
+            }
 
             var parts = colorRect.width / 6;
             var col1R = new Rect(colorRect.x, colorRect.y, parts, colorRect.height);
@@ -81,12 +100,12 @@ namespace RWPaintingTool
             var col5R = new Rect(colorRect.x + parts * 4, colorRect.y, parts, colorRect.height);
             var col6R = new Rect(colorRect.x + parts * 5, colorRect.y, parts, colorRect.height);
 
-            Widgets.DrawBoxSolid(col1R, palette.palette.colorOne);
-            Widgets.DrawBoxSolid(col2R, palette.palette.colorTwo);
-            Widgets.DrawBoxSolid(col3R, palette.palette.colorThree);
-            Widgets.DrawBoxSolid(col4R, palette.palette.colorFour);
-            Widgets.DrawBoxSolid(col5R, palette.palette.colorFive);
-            Widgets.DrawBoxSolid(col6R, palette.palette.colorSix);
+            Widgets.DrawBoxSolid(col1R, palette.Palette.colorOne);
+            Widgets.DrawBoxSolid(col2R, palette.Palette.colorTwo);
+            Widgets.DrawBoxSolid(col3R, palette.Palette.colorThree);
+            Widgets.DrawBoxSolid(col4R, palette.Palette.colorFour);
+            Widgets.DrawBoxSolid(col5R, palette.Palette.colorFive);
+            Widgets.DrawBoxSolid(col6R, palette.Palette.colorSix);
         }
 
         public static void DrawHover(Rect rect)
@@ -101,6 +120,7 @@ namespace RWPaintingTool
             selBorder = Mouse.IsOver(rect) ? borderWhite05 : selBorder;
             Widgets.DrawBox(rect, 2, selBorder);
         }
+        private IPalette lastSelectedPalette;
         public void DrawPalleteButtons(Rect inRect)
         {
             inRect = inRect.ContractedBy(Margin);
@@ -112,7 +132,8 @@ namespace RWPaintingTool
 
             if (Widgets.ButtonText(addButtonRect, "RWPaintingTool_Add".Translate()))
             {
-
+                Current.Game.GetComponent<CustomPaletteStore>().customPalettes.Add(new CustomPalette() { Palette = _tracker.ColorSet, Label = "New palette"});
+                cachedPalettes = null;
             }
 
 
@@ -131,7 +152,12 @@ namespace RWPaintingTool
             removeButtonRect.center = new Vector2(removeButtonRect.center.x, inRect.center.y);
             if (Widgets.ButtonText(removeButtonRect, "RWPaintingTool_Remove".Translate()))
             {
-
+                if (lastSelectedPalette is CustomPalette paletteToRemove)
+                {
+                    Current.Game.GetComponent<CustomPaletteStore>().customPalettes.Remove(paletteToRemove);
+                    cachedPalettes = null;
+                    lastSelectedPalette = null;
+                }
             }
         }
     }
