@@ -36,7 +36,10 @@ namespace RWPaintingTool
 
         private void Accept()
         {
-            this._tracker.Commit();
+            foreach (var tracker in PaintableApparel.Select(ColorTrackerDB.GetTracker))
+            {
+                tracker.Commit();
+            }
             this.Close();
         }
 
