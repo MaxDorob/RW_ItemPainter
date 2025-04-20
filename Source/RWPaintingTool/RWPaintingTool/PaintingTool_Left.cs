@@ -133,7 +133,7 @@ namespace RWPaintingTool
 
             if (Widgets.ButtonText(addButtonRect, "RWPaintingTool_Add".Translate()))
             {
-                Current.Game.GetComponent<CustomPaletteStore>().customPalettes.Add(new CustomPalette() { Palette = _tracker.ColorSet, Label = "New palette"});
+                Current.Game.GetComponent<CustomPaletteStore>().customPalettes.Add(new CustomPalette() { Palette = ColorTracker.TempColorSet ?? ColorTracker.ColorSet, Label = "New palette"});
                 cachedPalettes = null;
             }
 
@@ -143,7 +143,10 @@ namespace RWPaintingTool
             saveButtonRect.center = new Vector2(saveButtonRect.center.x, inRect.center.y);
             if (Widgets.ButtonText(saveButtonRect, "RWPaintingTool_Save".Translate()))
             {
-
+                if (lastSelectedPalette is CustomPalette customPalette)
+                {
+                    customPalette.Palette = ColorTracker.TempColorSet ?? ColorTracker.ColorSet;
+                }
             }
 
 
