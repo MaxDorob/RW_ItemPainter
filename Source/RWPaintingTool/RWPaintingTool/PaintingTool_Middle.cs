@@ -48,7 +48,7 @@ namespace RWPaintingTool
             {
                 yield return new Widgets.DropdownMenuElement<Thing>()
                 {
-                    option = new FloatMenuOption(apparel.Label, () => _thing = apparel),
+                    option = new FloatMenuOption(apparel.Label, () => SetFor(apparel)),
                     payload = apparel
                 };
             }
