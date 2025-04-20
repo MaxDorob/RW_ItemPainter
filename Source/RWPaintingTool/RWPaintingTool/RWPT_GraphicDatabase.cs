@@ -51,6 +51,7 @@ namespace RWPaintingTool
             Graphic graphic;
             if (!allGraphics.TryGetValue(req, out graphic))
             {
+                GraphicsPatches.Colors = req.colors;
                 if (!UnityData.IsInMainThread)
                 {
                     Log.ErrorOnce(string.Format("Attempted to load a graphic off the main thread: {0}", req), req.GetHashCode());
