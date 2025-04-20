@@ -9,8 +9,7 @@ public partial class PaintingTool
     private Pawn? _carryingPawn;
     private Thing _thing;
 
-    //
-    private SixColorSet _colorsSet;
+
     private int _curColorIndex = 0;
     private int _highLightedIndex = -1;
     
@@ -24,48 +23,45 @@ public partial class PaintingTool
     public void SetFor(Thing thing)
     {
         //Resolve graphic
-        var graphic = thing.Graphic;
 
         //
         forcePause = true;
         
         _thing = thing;
-        _colorPicker = new ColorPicker();
-        _colorPicker.ColorChanged += color => Notify_ColorChanged(color, _curColorIndex);
+        _tracker = null;
+
         
         //TODO Get correct colors and then set it too
-        _tracker = ColorTrackerDB.GetTracker(_thing);
         //_maskTracker = ColorTrackerDB.GetMaskTracker(_thing);
         //_selectedMaskIndex = _maskTracker.CurMaskID;
         
         //TLog.Debug("Tracker: " + (_tracker != null));
         //TLog.Debug("MaskTracker: " + (_maskTracker != null));
         
-        _colorsSet = _tracker?.ColorSet ?? new SixColorSet() { colorOne = _thing.DrawColor};
         _curColorIndex = 0;
-        
-        _colorPicker.SetColors(_colorsSet[_curColorIndex]);
+
+        _colorPicker.SetColors(ColorTracker.ColorSet[_curColorIndex]);
     }
-    
+    private ColorTracker ColorTracker => _tracker ??= ColorTrackerDB.GetTracker(_thing);
     private void SetPalette(SixColorSet palette)
     {
-        _colorsSet = palette;
-        if (_tracker != null)
+        if (ColorTracker != null)
         {
-            _tracker.TempColorSet = palette;
+            ColorTracker.TempColorSet = palette;
         }
         apparelColors[_thing as Apparel] = palette.colorOne;
     }
     
-    private void Notify_ColorChanged(Color color, int index)
+    private void Notify_ColorChanged(Color color)
     {
-        _colorsSet[index] = color;
         apparelColors[_thing as Apparel] = color;
-        if (_tracker == null)
+        if (ColorTracker == null)
         {
             return;
         }
-        _tracker.TempColorSet = _colorsSet;
+        var set = ColorTracker.TempColorSet ?? ColorTracker.ColorSet;
+        set[_curColorIndex] = color;
+        ColorTracker.TempColorSet = set;
     }
 
     public override void Close(bool doCloseSound = true)

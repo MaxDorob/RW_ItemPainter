@@ -52,13 +52,10 @@ namespace RWPaintingTool
                 var rect = new Rect(xy.x, xy.y, widthPer, heightPer).Rounded();
                 DrawPaletteOption(rect, palette);
 
-                var oldset = _colorsSet;
                 if (lastSelectedPalette == palette || Mouse.IsOver(rect))
                 {
                     Widgets.DrawHighlight(rect);
-                    _colorsSet = palette.Palette;
                 }
-                _colorsSet = oldset;
 
                 if (Widgets.ButtonInvisible(rect))
                 {

@@ -21,7 +21,10 @@ public partial class PaintingTool : Dialog_StylingStation
     public PaintingTool(Pawn pawn, Thing stylingStation) : base(pawn, stylingStation)
     {
         this.pawn = pawn;
+        _colorPicker = new ColorPicker();
+        _colorPicker.ColorChanged += Notify_ColorChanged;
         SetFor(pawn.apparel.WornApparel.Find(a => a.def.HasModExtension<PaintableExtension>()));
+
     }
     public override Vector2 InitialSize => new(1400f, 750f);
 
@@ -178,7 +181,7 @@ public partial class PaintingTool : Dialog_StylingStation
                             SetFor(apparel);
                         }
 
-                        Notify_ColorChanged(color, _curColorIndex);
+                        Notify_ColorChanged(color);
                     }
                 }
                 else
