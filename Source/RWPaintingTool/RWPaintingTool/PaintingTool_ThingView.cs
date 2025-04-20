@@ -93,21 +93,21 @@ public partial class PaintingTool
     {
         oldColors = new SixColorSet
         {
-            ColorOne = material.GetColor("_Color"),
-            ColorTwo = material.GetColor("_ColorTwo"),
-            ColorThree = material.GetColor("_ColorThree"),
-            ColorFour = material.GetColor("_ColorFour"),
-            ColorFive = material.GetColor("_ColorFive"),
-            ColorSix = material.GetColor("_ColorSix")
+            colorOne = material.GetColor("_Color"),
+            colorTwo = material.GetColor("_ColorTwo"),
+            colorThree = material.GetColor("_ColorThree"),
+            colorFour = material.GetColor("_ColorFour"),
+            colorFive = material.GetColor("_ColorFive"),
+            colorSix = material.GetColor("_ColorSix")
         };
         oldMask = MaskManager.IdFromTexture(material.GetTexture("_MaskTex"));
         
-        material.SetColor("_Color", colors.ColorOne);
-        material.SetColor("_ColorTwo", colors.ColorTwo);
-        material.SetColor("_ColorThree", colors.ColorThree);
-        material.SetColor("_ColorFour", colors.ColorFour);
-        material.SetColor("_ColorFive", colors.ColorFive);
-        material.SetColor("_ColorSix", colors.ColorSix);
+        material.SetColor("_Color", colors.colorOne);
+        material.SetColor("_ColorTwo", colors.colorTwo);
+        material.SetColor("_ColorThree", colors.colorThree);
+        material.SetColor("_ColorFour", colors.colorFour);
+        material.SetColor("_ColorFive", colors.colorFive);
+        material.SetColor("_ColorSix", colors.colorSix);
         material.SetTexture("_MaskTex", MaskManager.GetMask(mask));
     }
 }

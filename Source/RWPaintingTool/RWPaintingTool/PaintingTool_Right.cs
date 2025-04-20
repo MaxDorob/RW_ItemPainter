@@ -79,7 +79,7 @@ namespace RWPaintingTool
         private /*static*/ void DrawMaskEditableColors(Rect colorSelectRect, Apparel apparel)
         {
             var tracker = ColorTrackerDB.GetTracker(apparel);
-            var colorsSet = tracker?.TempColorSet ?? tracker?.ColorSet ?? new SixColorSet() { ColorOne = apparelColors[apparel] };
+            var colorsSet = tracker?.TempColorSet ?? tracker?.ColorSet ?? new SixColorSet() { colorOne = apparelColors[apparel] };
 
             var colorSize = ColorPicker.DefaultSize;
             var colorSelWidth = colorSize.y / 6;

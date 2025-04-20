@@ -4,12 +4,12 @@ namespace RWPaintingTool;
 
 public struct SixColorSet(Color one, Color two, Color three, Color four, Color five, Color six)
 {
-    public Color ColorOne { get; set; } = one;
-    public Color ColorTwo { get; set; } = two;
-    public Color ColorThree { get; set; } = three;
-    public Color ColorFour { get; set; } = four;
-    public Color ColorFive { get; set; } = five;
-    public Color ColorSix { get; set; } = six;
+    public Color colorOne = one;
+    public Color colorTwo = two;
+    public Color colorThree  = three;
+    public Color colorFour = four;
+    public Color colorFive = five;
+    public Color colorSix = six;
 
     public Color this[int colorIndex]
     {
@@ -17,12 +17,12 @@ public struct SixColorSet(Color one, Color two, Color three, Color four, Color f
         {
             return colorIndex switch
             {
-                0 => ColorOne,
-                1 => ColorTwo,
-                2 => ColorThree,
-                3 => ColorFour,
-                4 => ColorFive,
-                5 => ColorSix,
+                0 => colorOne,
+                1 => colorTwo,
+                2 => colorThree,
+                3 => colorFour,
+                4 => colorFive,
+                5 => colorSix,
                 _ => throw new System.ArgumentOutOfRangeException(nameof(colorIndex), colorIndex.ToString())
             };
         }
@@ -30,12 +30,12 @@ public struct SixColorSet(Color one, Color two, Color three, Color four, Color f
         {
             _ = colorIndex switch
             {
-                0 => ColorOne = value,
-                1 => ColorTwo = value,
-                2 => ColorThree = value,
-                3 => ColorFour = value,
-                4 => ColorFive = value,
-                5 => ColorSix = value,
+                0 => colorOne = value,
+                1 => colorTwo = value,
+                2 => colorThree = value,
+                3 => colorFour = value,
+                4 => colorFive = value,
+                5 => colorSix = value,
                 _ => throw new System.ArgumentOutOfRangeException(nameof(colorIndex), colorIndex.ToString())
             };
         }

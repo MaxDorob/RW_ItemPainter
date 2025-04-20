@@ -5,27 +5,22 @@ using Verse;
 
 namespace RWPaintingTool;
 
+public interface IPalette
+{
+    public string Label { get; }
+    public SixColorSet Palette { get; }
+}
+
 public class PaletteGroupDef : Def
 {
     public List<PaletteDef> palettes;
 }
 
-public class PaletteDef : Def
+public class PaletteDef : Def, IPalette
 {
-    public Palette palette;
+    public SixColorSet palette;
+
+    public SixColorSet Palette => palette;
+    public string Label => this.LabelCap;
 }
 
-public struct Palette
-{
-    public Color colorOne;
-    public Color colorTwo;
-    public Color colorThree;
-    public Color colorFour;
-    public Color colorFive;
-    public Color colorSix;
-
-    public static implicit operator SixColorSet(Palette palette)
-    {
-        return new SixColorSet(palette.colorOne, palette.colorTwo, palette.colorThree, palette.colorFour, palette.colorFive, palette.colorSix);
-    }
-}

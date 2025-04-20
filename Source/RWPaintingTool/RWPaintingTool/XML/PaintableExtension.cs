@@ -9,6 +9,6 @@ public class PaintableExtension : DefModExtension
     public int colors = 3;
     public string maskPath;
 
-    public Palette? defaultPalette;
+    public SixColorSet? defaultPalette;
     public PaletteDef paletteDef;
 }

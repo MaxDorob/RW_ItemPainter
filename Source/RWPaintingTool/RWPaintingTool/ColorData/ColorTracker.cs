@@ -65,13 +65,13 @@ public class ColorTracker : IExposable
     internal Color? ColorOneNullable => _one;
     internal Color? ColorTwoNullable => _two;
 
-    public Color ColorOne => ShouldUseTemp ? TempColorSet.Value.ColorOne : _one ?? _thing.DrawColor;
-    public Color ColorTwo => ShouldUseTemp ? TempColorSet.Value.ColorTwo : _two ?? _thing.DrawColorTwo;
-    public Color ColorThree => ShouldUseTemp ? TempColorSet.Value.ColorThree : _three;
+    public Color ColorOne => ShouldUseTemp ? TempColorSet.Value.colorOne : _one ?? _thing.DrawColor;
+    public Color ColorTwo => ShouldUseTemp ? TempColorSet.Value.colorTwo : _two ?? _thing.DrawColorTwo;
+    public Color ColorThree => ShouldUseTemp ? TempColorSet.Value.colorThree : _three;
 
-    public Color ColorFour => ShouldUseTemp ? TempColorSet.Value.ColorFour : _four;
-    public Color ColorFive => ShouldUseTemp ? TempColorSet.Value.ColorFive : _five;
-    public Color ColorSix => ShouldUseTemp ? TempColorSet.Value.ColorSix : _six;
+    public Color ColorFour => ShouldUseTemp ? TempColorSet.Value.colorFour : _four;
+    public Color ColorFive => ShouldUseTemp ? TempColorSet.Value.colorFive : _five;
+    public Color ColorSix => ShouldUseTemp ? TempColorSet.Value.colorSix : _six;
 
     public void SetColors(int index, Color color)
     {
@@ -120,22 +120,22 @@ public class ColorTracker : IExposable
         {
             return new SixColorSet
             {
-                ColorOne = ColorOne,
-                ColorTwo = ColorTwo,
-                ColorThree = ColorThree,
-                ColorFour = ColorFour,
-                ColorFive = ColorFive,
-                ColorSix = ColorSix
+                colorOne = ColorOne,
+                colorTwo = ColorTwo,
+                colorThree = ColorThree,
+                colorFour = ColorFour,
+                colorFive = ColorFive,
+                colorSix = ColorSix
             };
         }
         set
         {
-            _one = value.ColorOne;
-            _two = value.ColorTwo;
-            _three = value.ColorThree;
-            _four = value.ColorFour;
-            _five = value.ColorFive;
-            _six = value.ColorSix;
+            _one = value.colorOne;
+            _two = value.colorTwo;
+            _three = value.colorThree;
+            _four = value.colorFour;
+            _five = value.colorFive;
+            _six = value.colorSix;
         }
     }
     public void Reset()
@@ -148,12 +148,12 @@ public class ColorTracker : IExposable
         {
             return;
         }
-        this.SetColors(0, TempColorSet.Value.ColorOne);
-        this.SetColors(1, TempColorSet.Value.ColorTwo);
-        this.SetColors(2, TempColorSet.Value.ColorThree);
-        this.SetColors(3, TempColorSet.Value.ColorFour);
-        this.SetColors(4, TempColorSet.Value.ColorFive);
-        this.SetColors(5, TempColorSet.Value.ColorSix);
+        this.SetColors(0, TempColorSet.Value.colorOne);
+        this.SetColors(1, TempColorSet.Value.colorTwo);
+        this.SetColors(2, TempColorSet.Value.colorThree);
+        this.SetColors(3, TempColorSet.Value.colorFour);
+        this.SetColors(4, TempColorSet.Value.colorFive);
+        this.SetColors(5, TempColorSet.Value.colorSix);
         TempColorSet = null;
         _thing.Notify_ColorChanged();
     }
