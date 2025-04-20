@@ -45,7 +45,7 @@ namespace RWPaintingTool
 
             Vector2 xy = inRect.position;
             var widthPer = inRect.width;
-            var heightPer = 40;
+            var heightPer = 48;
             for (var i = 0; i < Palettes.Count; i++)
             {
                 var palette = Palettes[i];
