@@ -18,7 +18,7 @@ internal static class GraphicsPatches
     private static readonly int ColorSix = Shader.PropertyToID("_ColorSix");
 
     private static Thing curThing;
-    private static Thing CurThing
+    internal static Thing CurThing
     {
         get => curThing;
         set
@@ -35,7 +35,7 @@ internal static class GraphicsPatches
         }
     }
     static Color[] colors;
-    private static Color[] Colors
+    internal static Color[] Colors
     {
         get
         {
