@@ -20,6 +20,7 @@ public partial class PaintingTool : Dialog_StylingStation
 
     public PaintingTool(Pawn pawn, Thing stylingStation) : base(pawn, stylingStation)
     {
+        this.pawn = pawn;
         SetFor(pawn.apparel.WornApparel.Find(a => a.def.HasModExtension<PaintableExtension>()));
     }
     public override Vector2 InitialSize => new(1400f, 750f);

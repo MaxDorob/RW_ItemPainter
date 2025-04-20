@@ -78,11 +78,15 @@ namespace RWPaintingTool
 
         private /*static*/ void DrawMaskEditableColors(Rect colorSelectRect, Apparel apparel)
         {
-            var colorsSet = ColorTrackerDB.GetTracker(apparel)?.ColorSet ?? new SixColorSet() { ColorOne = apparelColors[apparel] };
+            var tracker = ColorTrackerDB.GetTracker(apparel);
+            var colorsSet = tracker?.TempColorSet ?? tracker?.ColorSet ?? new SixColorSet() { ColorOne = apparelColors[apparel] };
 
             var colorSize = ColorPicker.DefaultSize;
             var colorSelWidth = colorSize.y / 6;
             var subDiv = new RectDivider(colorSelectRect.ContractedBy(0, 2.5f), colorSelectRect.GetHashCode());
+            GraphicsPatches.CurThing = apparel;
+            ApparelGraphicRecordGetter.TryGetGraphicApparel(apparel, pawn?.story?.bodyType, out var graphicRecord);
+            GraphicsPatches.CurThing = apparel;
             for (int i = 0; i < 6; i++)
             {
                 var color = colorsSet[i];
@@ -90,13 +94,21 @@ namespace RWPaintingTool
                 {
                     continue;
                 }
+                var colors = new Color[6];
+                colors[i] = color;
+                GraphicsPatches.Colors = colors;
+                var graphic = graphicRecord.graphic.GetColoredVersion(ShaderDB.CutoutMultiMask, default, default);
+                var mat = graphic.MatAt(rotation);
                 var colorDiv = subDiv.NewCol(colorSelWidth - 5, HorizontalJustification.Left, 5);
                 var colorRect = colorDiv.Rect.Rounded();
                 var isSelected = i == _curColorIndex && _thing == apparel;
                 var mouseOver = colorRect.Contains(Event.current.mousePosition);
                 var isHighlighted = isSelected || mouseOver;
-                Widgets.DrawBoxSolid(colorRect, color);
-                Widgets.Label(colorRect.RightHalf(), (i + 1).ToString());
+
+                mat = RWPT_MaterialPool.MatFrom(new RWPT_MaterialRequest(mat.mainTexture, mat.shader, mat.GetMaskTexture(), colors));
+
+                GenUI.DrawTextureWithMaterial(colorRect, mat.mainTexture, mat);
+                GraphicsPatches.Colors = null;
                 if (mouseOver)
                 {
                     _highLightedIndex = i;
@@ -115,6 +127,7 @@ namespace RWPaintingTool
                     _colorPicker.SetColors(color);
                 }
             }
+            GraphicsPatches.CurThing = null;
         }
     }
 }

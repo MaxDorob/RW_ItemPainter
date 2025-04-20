@@ -51,12 +51,12 @@ namespace Verse
             this.needsMainTex = true;
         }
 
-        public RWPT_MaterialRequest(Texture tex, Shader shader, Color color)
+        public RWPT_MaterialRequest(Texture tex, Shader shader, Texture2D maskTex, params Color[] colors)
         {
             this.shader = shader;
             this.mainTex = tex;
-            this.colors = [color, Color.white];
-            this.maskTex = null;
+            this.colors = colors.Clone() as Color[];
+            this.maskTex = maskTex;
             this.renderQueue = 0;
             this.shaderParameters = null;
             this.needsMainTex = true;
