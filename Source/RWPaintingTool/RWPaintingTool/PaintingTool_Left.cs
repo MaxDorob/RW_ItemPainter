@@ -33,7 +33,7 @@ namespace RWPaintingTool
             if (Palettes.Count == 0) return;
 
             Vector2 xy = inRect.position;
-            var widthPer = inRect.width / 4;
+            var widthPer = inRect.width;
             var heightPer = 40;
             for (var i = 0; i < Palettes.Count; i++)
             {
@@ -53,12 +53,8 @@ namespace RWPaintingTool
                     SetPalette(palette.palette);
                 }
 
-                //Increment x and wrap once reaches width
-                xy.x += widthPer;
-                if (i != 0 && i % 4 == 0)
-                {
-                    xy = new Vector2(inRect.x, xy.y + heightPer);
-                }
+                xy = new Vector2(inRect.x, xy.y + heightPer + Margin / 2);
+
             }
 
             Widgets.EndGroup();
