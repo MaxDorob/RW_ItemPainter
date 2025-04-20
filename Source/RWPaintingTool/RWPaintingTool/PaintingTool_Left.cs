@@ -61,8 +61,11 @@ namespace RWPaintingTool
 
                 if (Widgets.ButtonInvisible(rect))
                 {
+                    if (lastSelectedPalette == palette)
+                    {
+                        SetPalette(palette.Palette);
+                    }
                     lastSelectedPalette = palette;
-                    SetPalette(palette.Palette);
                 }
 
                 xy = new Vector2(inRect.x, xy.y + heightPer + Margin / 2);
