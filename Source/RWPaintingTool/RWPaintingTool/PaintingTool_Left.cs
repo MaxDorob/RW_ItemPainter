@@ -141,12 +141,16 @@ namespace RWPaintingTool
             var saveButtonRect = inRect.RightPart(2f / 3f).LeftHalf().ContractedBy(Margin);
             saveButtonRect.height = ButSize.y;
             saveButtonRect.center = new Vector2(saveButtonRect.center.x, inRect.center.y);
-            if (Widgets.ButtonText(saveButtonRect, "RWPaintingTool_Save".Translate()))
+            if (Widgets.ButtonText(saveButtonRect, "RWPaintingTool_Save".Translate(), active: lastSelectedPalette is CustomPalette))
             {
                 if (lastSelectedPalette is CustomPalette customPalette)
                 {
                     customPalette.Palette = ColorTracker.TempColorSet ?? ColorTracker.ColorSet;
                 }
+            }
+            if (lastSelectedPalette is not CustomPalette && Mouse.IsOver(saveButtonRect))
+            {
+                TooltipHandler.TipRegion(saveButtonRect, "RWPT_PaletteNotSelected".Translate());
             }
 
 
