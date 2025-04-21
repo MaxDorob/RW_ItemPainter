@@ -14,10 +14,14 @@ namespace RWPaintingTool
         private void DrawRightRect(Rect inRect)
         {
             inRect.SplitHorizontally(ButSize.y, out var applyButtonRect, out inRect);
-            if (Widgets.ButtonText(applyButtonRect, "Reset".Translate()))
+            if (Widgets.ButtonText(applyButtonRect.LeftPart(2f / 3f), "Reset".Translate()))
             {
                 ColorTracker.TempColorSet = ColorTracker.ColorSet;
                 _colorPicker.SetColors(ColorTracker.TempColorSet.Value[_curColorIndex]);
+            }
+            if (Widgets.ButtonText(applyButtonRect.RightPart(1f / 3f), "RWPT_ResetCurrent".Translate()))
+            {
+                _colorPicker.SetColors(ColorTracker.ColorSet[_curColorIndex]);
             }
 
             inRect.SplitHorizontally(ButSize.y, out var masksRect, out var colorToolRect);
