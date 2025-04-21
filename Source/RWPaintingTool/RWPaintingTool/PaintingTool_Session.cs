@@ -1,5 +1,6 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -24,7 +25,7 @@ public partial class PaintingTool
         _thing = thing;
         _tracker = null;
         _curColorIndex = 0;
-        _colorPicker.SetColors(ColorTracker.ColorSet[_curColorIndex]);
+        _colorPicker.SetColors(ColorTracker.TempColorSet.Value[_curColorIndex]);
     }
     private ColorTracker ColorTracker => _tracker ??= ColorTrackerDB.GetTracker(_thing);
     private void SetPalette(SixColorSet palette)

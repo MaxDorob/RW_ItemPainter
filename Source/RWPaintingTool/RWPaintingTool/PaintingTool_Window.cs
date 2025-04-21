@@ -25,6 +25,10 @@ public partial class PaintingTool : Window
         this.pawn = pawn;
         _colorPicker = new ColorPicker();
         _colorPicker.ColorChanged += Notify_ColorChanged;
+        foreach (var colorTracker in PaintableApparel.Select(ColorTrackerDB.GetTracker))
+        {
+            colorTracker.TempColorSet = colorTracker.ColorSet;
+        }
         SetFor(pawn.apparel.WornApparel.Find(a => a.def.HasModExtension<PaintableExtension>()));
 
     }
