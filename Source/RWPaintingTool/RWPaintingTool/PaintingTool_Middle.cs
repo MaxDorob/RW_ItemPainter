@@ -24,9 +24,9 @@ namespace RWPaintingTool
             var y = rect2.y;
             Widgets.CheckboxLabeled(new Rect(rect2.x, y, rect2.width, ButSize.y), "ShowHeadgear".Translate(), ref this.showHeadgear, false, null, null, false, false);
             y += ButSize.y;
-            Widgets.CheckboxLabeled(new Rect(rect2.x, y, rect2.width, ButSize.y), "ShowApparel".Translate(), ref this.showClothes, false, null, null, false, false);
+            Widgets.CheckboxLabeled(new Rect(rect2.x, y, rect2.width, ButSize.y), "RWPT_ShowSelectedOnly".Translate(), ref this.showSelectedOnly, false, null, null, false, false);
             y += ButSize.y + Margin;
-            if(Widgets.ButtonText(new Rect(rect2.x, y, rect2.width, ButSize.y), "Accept".Translate()))
+            if (Widgets.ButtonText(new Rect(rect2.x, y, rect2.width, ButSize.y), "Accept".Translate()))
             {
                 Accept();
             }
@@ -58,6 +58,8 @@ namespace RWPaintingTool
         }
 
         Rot4 rotation = Rot4.South;
+        private bool showSelectedOnly = false;
+
         private void DrawPawn(Rect rect)
         {
             //Widgets.BeginGroup(rect);
@@ -68,9 +70,19 @@ namespace RWPaintingTool
                 colorTracker.ShouldUseTemp = true;
             }
             Rect position = rect.ContractedBy(Margin);
-            RenderTexture image = PortraitsCache.Get(this.pawn, new Vector2(position.width, position.height), rotation, Dialog_StylingStation.PortraitOffset, 1.1f, true, true, this.showHeadgear, this.showClothes, this.apparelColors, new Color?(this.desiredHairColor), true, null);
-            GUI.DrawTexture(position, image);
-            
+            if (!showSelectedOnly)
+            {
+                RenderTexture image = PortraitsCache.Get(this.pawn, new Vector2(position.width, position.height), rotation, Dialog_StylingStation.PortraitOffset, 1.1f, true, true, this.showHeadgear, this.showClothes, this.apparelColors, new Color?(this.desiredHairColor), true, null);
+                GUI.DrawTexture(position, image);
+            }
+            else
+            {
+                GraphicsPatches.CurThing = _thing;
+                ApparelGraphicRecordGetter.TryGetGraphicApparel(_thing as Apparel, pawn?.story?.bodyType, out var graphicRecord);
+                var mat = graphicRecord.graphic.MatAt(rotation);
+                GenUI.DrawTextureWithMaterial(position, mat.mainTexture, mat);
+            }
+
             var leftArrowRect = new Rect(rect.xMin, rect.center.y, Margin, Margin);
             if (Widgets.ButtonText(leftArrowRect, "<", false))
             {
