@@ -57,9 +57,6 @@ namespace RWPaintingTool
             }
         }
 
-        Rot4 rotation = Rot4.South;
-        private bool showSelectedOnly = false;
-
         private void DrawPawn(Rect rect)
         {
             //Widgets.BeginGroup(rect);
@@ -72,7 +69,7 @@ namespace RWPaintingTool
             Rect position = rect.ContractedBy(Margin);
             if (!showSelectedOnly)
             {
-                RenderTexture image = PortraitsCache.Get(this.pawn, new Vector2(position.width, position.height), rotation, Dialog_StylingStation.PortraitOffset, 1.1f, true, true, this.showHeadgear, this.showClothes, this.apparelColors, new Color?(this.desiredHairColor), true, null);
+                RenderTexture image = PortraitsCache.Get(this.pawn, new Vector2(position.width, position.height), rotation, Dialog_StylingStation.PortraitOffset, 1.1f, true, true, this.showHeadgear, this.showClothes, this.apparelColors, null, true, null);
                 GUI.DrawTexture(position, image);
             }
             else

@@ -84,10 +84,6 @@ namespace RWPaintingTool
 
                 GenUI.DrawTextureWithMaterial(colorRect, mat.mainTexture, mat);
                 GraphicsPatches.Colors = null;
-                if (mouseOver)
-                {
-                    _highLightedIndex = i;
-                }
                 if (isHighlighted)
                 {
                     Widgets.DrawBox(colorRect, 1);

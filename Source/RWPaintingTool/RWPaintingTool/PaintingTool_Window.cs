@@ -10,7 +10,8 @@ using Verse.Sound;
 
 namespace RWPaintingTool;
 
-public partial class PaintingTool : Dialog_StylingStation
+[StaticConstructorOnStartup]
+public partial class PaintingTool : Window
 {
     [TweakValue("_RWIP", 0f, 700f)]
     private static float colorsWidthPx = 448f;
@@ -19,7 +20,7 @@ public partial class PaintingTool : Dialog_StylingStation
     private static Texture2D borderWhite05 = SolidColorMaterials.NewSolidColorTexture(Colors.White05);
     private static Texture2D borderWhite025 = SolidColorMaterials.NewSolidColorTexture(Colors.White025);
 
-    public PaintingTool(Pawn pawn, Thing stylingStation) : base(pawn, stylingStation)
+    public PaintingTool(Pawn pawn) : base()
     {
         this.pawn = pawn;
         _colorPicker = new ColorPicker();
@@ -38,7 +39,5 @@ public partial class PaintingTool : Dialog_StylingStation
         DrawLeftRect(leftRect);
         DrawMiddlePart(middleRect);
         DrawRightRect(rightRect);
-
-        return;
     }
 }

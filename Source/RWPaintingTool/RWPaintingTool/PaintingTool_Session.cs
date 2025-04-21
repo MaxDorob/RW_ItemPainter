@@ -1,4 +1,5 @@
 ﻿using RimWorld;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -6,40 +7,23 @@ namespace RWPaintingTool;
 
 public partial class PaintingTool
 {
-    private Pawn? _carryingPawn;
+    private Pawn pawn;
     private Thing _thing;
-
-
-    private int _curColorIndex = 0;
-    private int _highLightedIndex = -1;
-    
+    private Dictionary<Apparel, Color> apparelColors = new Dictionary<Apparel, Color>();
+    private Vector2 ButSize = Dialog_StylingStation.ButSize;
+    private Rot4 rotation = Rot4.South;
+    private bool showSelectedOnly = false;
+    private bool showClothes = true, showHeadgear = true;
+    private int _curColorIndex = 0;    
     private ColorTracker _tracker;
-    private MaskTracker _maskTracker;
     
-    // Sides
-    
-    public bool IsPawn => _carryingPawn != null;
     
     public void SetFor(Thing thing)
     {
-        //Resolve graphic
-
-        //
         forcePause = true;
-        
         _thing = thing;
         _tracker = null;
-
-        
-        //TODO Get correct colors and then set it too
-        //_maskTracker = ColorTrackerDB.GetMaskTracker(_thing);
-        //_selectedMaskIndex = _maskTracker.CurMaskID;
-        
-        //TLog.Debug("Tracker: " + (_tracker != null));
-        //TLog.Debug("MaskTracker: " + (_maskTracker != null));
-        
         _curColorIndex = 0;
-
         _colorPicker.SetColors(ColorTracker.ColorSet[_curColorIndex]);
     }
     private ColorTracker ColorTracker => _tracker ??= ColorTrackerDB.GetTracker(_thing);
@@ -73,11 +57,5 @@ public partial class PaintingTool
             colorTracker?.Reset();
         }
         
-    }
-
-    private void Notify_MaskChanged()
-    {
-        //_maskTracker.SetMaskID(_selectedMaskIndex);
-        _tracker.Notify_ColorsChanged();
     }
 }
