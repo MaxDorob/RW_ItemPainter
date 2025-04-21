@@ -16,7 +16,8 @@ namespace RWPaintingTool
             inRect.SplitHorizontally(ButSize.y, out var applyButtonRect, out inRect);
             if (Widgets.ButtonText(applyButtonRect, "Reset".Translate()))
             {
-
+                ColorTracker.TempColorSet = ColorTracker.ColorSet;
+                _colorPicker.SetColors(ColorTracker.TempColorSet.Value[_curColorIndex]);
             }
 
             inRect.SplitHorizontally(ButSize.y, out var masksRect, out var colorToolRect);
