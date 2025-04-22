@@ -14,6 +14,7 @@ internal static class DebugPatches
         {
             if (__instance is { equipment: { } tracker, apparel: { } apparel })
             {
+                if (!apparel.WornApparel.Any(a => a.def.HasModExtension<PaintableExtension>())) return;
                 var gizmos = __result.ToList();
                 __result = gizmos.Append(new Command_Action()
                 {
