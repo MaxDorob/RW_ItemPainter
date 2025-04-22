@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+	<RWPT_ResetCurrent>Сбросить текущее</RWPT_ResetCurrent>
+	<RWPT_ShowSelectedOnly>Показать только выбранное</RWPT_ShowSelectedOnly>
+	<RWPaintingTool_Add>Добавить</RWPaintingTool_Add>
+	<RWPaintingTool_Save>Сохранить</RWPaintingTool_Save>
+	<RWPaintingTool_Remove>Удалить</RWPaintingTool_Remove>
+	<RWPT_PaletteNotSelected>Палитра не выбрана</RWPT_PaletteNotSelected>
+</LanguageData>
