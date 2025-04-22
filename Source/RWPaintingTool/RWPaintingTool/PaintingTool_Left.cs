@@ -22,7 +22,7 @@ namespace RWPaintingTool
             {
                 if (cachedPalettes == null)
                 {
-                    cachedPalettes = DefDatabase<PaletteDef>.AllDefsListForReading.Cast<IPalette>().Union(Current.Game.GetComponent<CustomPaletteStore>().customPalettes).ToList();
+                    cachedPalettes = DefDatabase<PaletteDef>.AllDefsListForReading.Cast<IPalette>().Union(Current.Game.GetComponent<GameComponent_ColorTracking>().customPalettes).ToList();
                 }
                 return cachedPalettes;
             }
@@ -133,7 +133,7 @@ namespace RWPaintingTool
 
             if (Widgets.ButtonText(addButtonRect, "RWPaintingTool_Add".Translate()))
             {
-                Current.Game.GetComponent<CustomPaletteStore>().customPalettes.Add(new CustomPalette() { Palette = ColorTracker.TempColorSet ?? ColorTracker.ColorSet, Label = "New palette"});
+                Current.Game.GetComponent<GameComponent_ColorTracking>().customPalettes.Add(new CustomPalette() { Palette = ColorTracker.TempColorSet ?? ColorTracker.ColorSet, Label = "New palette"});
                 cachedPalettes = null;
             }
 
@@ -162,7 +162,7 @@ namespace RWPaintingTool
             {
                 if (lastSelectedPalette is CustomPalette paletteToRemove)
                 {
-                    Current.Game.GetComponent<CustomPaletteStore>().customPalettes.Remove(paletteToRemove);
+                    Current.Game.GetComponent<GameComponent_ColorTracking>().customPalettes.Remove(paletteToRemove);
                     cachedPalettes = null;
                     lastSelectedPalette = null;
                 }
