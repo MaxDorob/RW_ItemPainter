@@ -21,7 +21,7 @@ internal static class ColorTrackerDB
         _masks.Remove(id);
     }
     [HarmonyPostfix]
-    [HarmonyPatch(typeof(Thing), nameof(Thing.SpawnSetup))]
+    [HarmonyPatch(typeof(Thing), nameof(Thing.PostMake))]
     private static void OnThingSpawned(Thing __instance)
     {
         var thing = __instance;
