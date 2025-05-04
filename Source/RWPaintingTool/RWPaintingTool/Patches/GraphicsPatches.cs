@@ -96,7 +96,7 @@ internal static class GraphicsPatches
                 var graphicBase = t.def.graphicData.Graphic;
                 if (graphicBase.GetType().GetConstructor(Type.EmptyTypes) != null)
                 {
-                    __result = RWPT_GraphicDatabase.Get(new RWPT_GraphicRequest(graphicBase.GetType(), graphicBase.path, graphicBase.Shader, graphicBase.drawSize, graphicBase.data, graphicBase.data?.renderQueue ?? 0, graphicBase.data?.shaderParameters, MaskPath, Colors));
+                    __result = RWPT_GraphicDatabase.Get(new RWPT_GraphicRequest(graphicBase.GetType(), graphicBase.path, ShaderDB.CutoutMultiMask, graphicBase.drawSize, graphicBase.data, graphicBase.data?.renderQueue ?? 0, graphicBase.data?.shaderParameters, MaskPath, Colors));
                     return false;
                 }
             }
