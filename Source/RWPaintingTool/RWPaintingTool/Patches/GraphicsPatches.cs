@@ -166,7 +166,7 @@ internal static class GraphicsPatches
             var maskManager = ColorTrackerDB.GetMaskTracker(thing);
             if (maskManager != null)
             {
-                texture = maskManager.GetMask(Rot4.South) ?? texture;
+                texture = maskManager.GetMask() ?? texture;
             }
             return texture;
         }

@@ -140,7 +140,7 @@ public static class MaskManager
     {
         var bodyTypes = "Male|Female|Thin|Fat|Hulk";
         var cardinalDirections = "North|South|East|West";
-        var regs = $@"^(?<Path>.*\/)(?<Name>[^_/]+(?:_[^_/]+)*?)(?:_(?<BodyType>{bodyTypes}))?(?:_(?<Mask>Mask\d+))?(?:_(?<Rotation>{cardinalDirections}))?(?<VanillaMask>m\d?)?$";
+        var regs = $@"^(?<Path>.*\/)(?<Name>[^_/]+(?:_[^_/]+)*?)(?:_(?<BodyType>{bodyTypes}))?(?:_(?<Mask>Mask\d+))?(?:_(?<Rotation>{cardinalDirections}))?_?(?<VanillaMask>m\d?)?$";
         var reg = new Regex(regs, RegexOptions.IgnoreCase);
         var match = reg.Match(path);
         if (match.Success)
@@ -163,7 +163,11 @@ public static class MaskManager
             {
                 maskID = 0;
             }
-            var rotation = Rot4.FromString(cardinalDirection.CapitalizeFirst());
+            Rot4 rotation = Rot4.Invalid;
+            if(!string.IsNullOrWhiteSpace(cardinalDirection))
+            {
+                Rot4.FromString(cardinalDirection.CapitalizeFirst());
+            }
 
             _masks.Add(new TextureID
             {
