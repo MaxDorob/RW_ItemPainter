@@ -57,7 +57,8 @@ internal static class GraphicsPatches
         {
             if (colors != null && value != null && !Enumerable.SequenceEqual(colors, value))
             {
-                Log.Error($"Trying to change used colors from\n{string.Join(";", colors)}\to\n{string.Join(";", value)}");
+                var errorText = $"Trying to change used colors from\n{string.Join(";", colors)}\to\n{string.Join(";", value)}";
+                Log.ErrorOnce(errorText, errorText.GetHashCode());
             }
             colors = value;
         }
