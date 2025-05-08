@@ -166,7 +166,7 @@ public static class MaskManager
             Rot4 rotation = Rot4.Invalid;
             if(!string.IsNullOrWhiteSpace(cardinalDirection))
             {
-                Rot4.FromString(cardinalDirection.CapitalizeFirst());
+                rotation = Rot4.FromString(cardinalDirection.CapitalizeFirst());
             }
 
             _masks.Add(new TextureID
