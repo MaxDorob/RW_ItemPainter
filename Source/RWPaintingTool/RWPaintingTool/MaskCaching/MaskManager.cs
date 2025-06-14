@@ -119,23 +119,32 @@ public static class MaskManager
         {
             maskFiles = GetMaskFiles(thingDef, thingDef.apparel.wornGraphicPath);
         }
-        else
-        {
-            maskFiles = GetMaskFiles(thingDef, thingDef.graphicData.texPath);
-        }
 
-        if (maskFiles == null) return;
+
+        if (maskFiles != null)
+        {
 #if DEBUG
         Log.Message($"Discovered {maskFiles.Length} maskFiles:\n{string.Join("\n", maskFiles)}");
 #endif
         foreach (var file in maskFiles)
         {
-            var texture = ContentFinder<Texture2D>.Get(file);
-            TryCache(thingDef, file, texture);
+                TryCache(thingDef, file);
+            }
         }
 
+        if (!string.IsNullOrWhiteSpace(thingDef.graphicData.texPath))
+        {
+            foreach (var file in GetMaskFiles(thingDef, thingDef.graphicData.texPath))
+            {
+                TryCache(thingDef, file);
+            }
     }
 
+    }
+    private static void TryCache(ThingDef def, string path)
+    {
+        TryCache(def, path, ContentFinder<Texture2D>.Get(path));
+    }
     private static void TryCache(ThingDef def, string path, Texture2D texture)
     {
         var bodyTypes = "Male|Female|Thin|Fat|Hulk";
