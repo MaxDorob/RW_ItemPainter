@@ -272,6 +272,10 @@ public static class MaskManager
     private static bool IsMaskFile(string fileName)
     {
         fileName = Path.GetFileNameWithoutExtension(fileName);
+        if (new Regex(@".*m\d?").IsMatch(fileName))
+        {
+            return true;
+        }
         if (fileName.Contains("_Mask"))
         {
             return true;
