@@ -57,9 +57,9 @@ public static class MaskManager
                 _masks.TryGetValue(id, out result);
             }
         }
-        if(result == null && !silent)
+        if (result == null && !silent)
         {
-            Log.Error($"{originalId}\n\nAll masks of {id.Def}:\n{string.Join("\n\n", _masks.Keys.Where(x=>x.Def == id.Def))}");
+            Log.Error($"{originalId}\n\nAll masks of {id.Def}:\n{string.Join("\n\n", _masks.Keys.Where(x => x.Def == id.Def))}");
         }
         return result;
     }
@@ -113,32 +113,25 @@ public static class MaskManager
         Log.Message($"Trying to cache masks for: {thingDef}");
 #endif
 
-        string[] maskFiles = null;
+        var maskFiles = Enumerable.Empty<string>();
+
 
         if (thingDef.apparel != null)
         {
-            maskFiles = GetMaskFiles(thingDef, thingDef.apparel.wornGraphicPath);
+            maskFiles = maskFiles.Union(GetMaskFiles(thingDef, thingDef.apparel.wornGraphicPath).Where(x=> x == thingDef.apparel.wornGraphicPath));
         }
-
-
-        if (maskFiles != null)
-        {
-#if DEBUG
-        Log.Message($"Discovered {maskFiles.Length} maskFiles:\n{string.Join("\n", maskFiles)}");
-#endif
-        foreach (var file in maskFiles)
-        {
-                TryCache(thingDef, file);
-            }
-        }
-
         if (!string.IsNullOrWhiteSpace(thingDef.graphicData.texPath))
         {
-            foreach (var file in GetMaskFiles(thingDef, thingDef.graphicData.texPath))
-            {
-                TryCache(thingDef, file);
-            }
-    }
+            maskFiles = maskFiles.Union(GetMaskFiles(thingDef, thingDef.graphicData.texPath).Where(x => x == thingDef.graphicData.texPath));
+        }
+        maskFiles = maskFiles.Distinct().ToList();
+#if DEBUG
+            Log.Message($"Discovered {maskFiles.Count()} maskFiles for {thingDef.defName}(\"{thingDef.apparel?.wornGraphicPath}\", \"{thingDef.graphicData.texPath}\"):\n{string.Join("\n", maskFiles)}");
+#endif
+        foreach (var maskFile in maskFiles)
+        {
+            TryCache(thingDef, maskFile);
+        }
 
     }
     private static void TryCache(ThingDef def, string path)
@@ -147,9 +140,14 @@ public static class MaskManager
     }
     private static void TryCache(ThingDef def, string path, Texture2D texture)
     {
+        if (texture == null)
+        {
+            Log.Error($"Texture was null for {def} with path \"{path}\"");
+            return;
+        }
         var bodyTypes = "Male|Female|Thin|Fat|Hulk";
         var cardinalDirections = "North|South|East|West";
-        var regs = $@"^(?<Path>.*\/)(?<Name>[^_/]+(?:_[^_/]+)*?)(?:_(?<BodyType>{bodyTypes}))?(?:_(?<Mask>Mask\d+))?(?:_(?<Rotation>{cardinalDirections}))?_?(?<VanillaMask>m\d?)?$";
+        var regs = $@"^(?<Path>.*\/)_*(?<Name>[^_/]+(?:_[^_/]+)*?)(?:_(?<BodyType>{bodyTypes}))?(?:_(?<Mask>Mask\d+))?(?:_(?<Rotation>{cardinalDirections}))?_?(?<VanillaMask>m\d?)?$";
         var reg = new Regex(regs, RegexOptions.IgnoreCase);
         var match = reg.Match(path);
         if (match.Success)
@@ -173,18 +171,22 @@ public static class MaskManager
                 maskID = 0;
             }
             Rot4 rotation = Rot4.Invalid;
-            if(!string.IsNullOrWhiteSpace(cardinalDirection))
+            if (!string.IsNullOrWhiteSpace(cardinalDirection))
             {
                 rotation = Rot4.FromString(cardinalDirection.CapitalizeFirst());
             }
-
-            _masks.Add(new TextureID
+            var textureId = new TextureID
             {
                 Def = def,
                 BodyType = bodyTypeDef,
                 MaskID = maskID,
                 Rotation = rotation
-            }, texture);
+            };
+            if (!_masks.TryAdd(textureId, texture))
+            {
+                Log.Warning($"Failed to add a new mask for {def.defName} with path \"{path}\". Replacing existing mask...");
+                _masks[textureId] = texture;
+            }
         }
         else
         {
@@ -272,7 +274,7 @@ public static class MaskManager
     private static bool IsMaskFile(string fileName)
     {
         fileName = Path.GetFileNameWithoutExtension(fileName);
-        if (new Regex(@".*m\d?").IsMatch(fileName))
+        if (new Regex(@".*m\d?$").IsMatch(fileName))
         {
             return true;
         }
@@ -280,9 +282,9 @@ public static class MaskManager
         {
             return true;
         }
-        if (fileName.Contains("northm", StringComparison.OrdinalIgnoreCase) || 
+        if (fileName.Contains("northm", StringComparison.OrdinalIgnoreCase) ||
             fileName.Contains("southm", StringComparison.OrdinalIgnoreCase) ||
-            fileName.Contains("eastm", StringComparison.OrdinalIgnoreCase)  ||
+            fileName.Contains("eastm", StringComparison.OrdinalIgnoreCase) ||
             fileName.Contains("westm", StringComparison.OrdinalIgnoreCase))
         {
             return true;
