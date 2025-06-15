@@ -118,13 +118,13 @@ public static class MaskManager
 
         if (thingDef.apparel != null)
         {
-            maskFiles = maskFiles.Union(GetMaskFiles(thingDef, thingDef.apparel.wornGraphicPath).Where(x=> x == thingDef.apparel.wornGraphicPath));
+            maskFiles = maskFiles.Union(GetMaskFiles(thingDef, thingDef.apparel.wornGraphicPath));
         }
         if (!string.IsNullOrWhiteSpace(thingDef.graphicData.texPath))
         {
-            maskFiles = maskFiles.Union(GetMaskFiles(thingDef, thingDef.graphicData.texPath).Where(x => x == thingDef.graphicData.texPath));
+            maskFiles = maskFiles.Union(GetMaskFiles(thingDef, thingDef.graphicData.texPath));
         }
-        maskFiles = maskFiles.Distinct().ToList();
+        maskFiles = maskFiles.Where(x=>x != thingDef.graphicData.texPath && x != thingDef.apparel?.wornGraphicPath).Distinct().ToList();
 #if DEBUG
             Log.Message($"Discovered {maskFiles.Count()} maskFiles for {thingDef.defName}(\"{thingDef.apparel?.wornGraphicPath}\", \"{thingDef.graphicData.texPath}\"):\n{string.Join("\n", maskFiles)}");
 #endif
