@@ -15,6 +15,7 @@ public sealed class PaintingToolMod : Mod
     public PaintingToolMod(ModContentPack content) : base(content)
     {
         Mod = this;
+        ParseHelper.Parsers<SixColorSet>.Register(SixColorSet.FromString);
         _harmony = new Harmony("telefonmast.paintingtool");
         _harmony.PatchAll();
         
