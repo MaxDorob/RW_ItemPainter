@@ -9,6 +9,7 @@ namespace RWPaintingTool
 {
     public class AvailablePalettes_ModExtension : DefModExtension
     {
+        public ApparelLayerDef apparelLayer;
         public bool pawnIdAsSeed = true;
         public List<SixColorSet> palettes;
     }

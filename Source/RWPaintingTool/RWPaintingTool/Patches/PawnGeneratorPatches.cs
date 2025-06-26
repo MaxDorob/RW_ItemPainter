@@ -17,8 +17,7 @@ namespace RWPaintingTool.Patches
                 return;
             }
 
-            var pawnPalette = pawn.kindDef?.GetModExtension<AvailablePalettes_ModExtension>();
-            if (pawnPalette == null)
+            if (pawn.kindDef?.GetModExtension<AvailablePalettes_ModExtension>() == null)
             {
                 return;
             }
@@ -26,6 +25,11 @@ namespace RWPaintingTool.Patches
             foreach (var apparel in pawn.apparel.WornApparel)
             {
                 var colorTracker = ColorTrackerDB.GetTracker(apparel);
+                AvailablePalettes_ModExtension pawnPalette = pawn.kindDef.modExtensions.OfType<AvailablePalettes_ModExtension>().FirstOrDefault(x => x.apparelLayer == null);
+                foreach (var layer in apparel.def.apparel.layers)
+                {
+                    pawnPalette = pawn.kindDef.modExtensions.OfType<AvailablePalettes_ModExtension>().FirstOrDefault(x=>x.apparelLayer == layer) ?? pawnPalette;
+                }
                 if (colorTracker != null)
                 {
                     if (pawnPalette.pawnIdAsSeed)
