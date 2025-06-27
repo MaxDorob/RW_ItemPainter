@@ -30,7 +30,7 @@ namespace RWPaintingTool.Patches
                 {
                     pawnPalette = pawn.kindDef.modExtensions.OfType<AvailablePalettes_ModExtension>().FirstOrDefault(x=>x.apparelLayer == layer) ?? pawnPalette;
                 }
-                if (colorTracker != null)
+                if (colorTracker != null && pawnPalette != null)
                 {
                     if (pawnPalette.pawnIdAsSeed)
                     {
