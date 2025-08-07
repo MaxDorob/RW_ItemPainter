@@ -60,7 +60,7 @@ namespace RWPaintingTool
             var colorSelWidth = colorSize.y / 6;
             var subDiv = new RectDivider(colorSelectRect.ContractedBy(0, 2.5f), colorSelectRect.GetHashCode());
             GraphicsPatches.CurThing = apparel;
-            ApparelGraphicRecordGetter.TryGetGraphicApparel(apparel, pawn?.story?.bodyType, out var graphicRecord);
+            ApparelGraphicRecordGetter.TryGetGraphicApparel(apparel, pawn?.story?.bodyType, false, out var graphicRecord);
             GraphicsPatches.CurThing = apparel;
             for (int i = 0; i < 6; i++)
             {

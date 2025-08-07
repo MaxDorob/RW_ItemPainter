@@ -75,7 +75,7 @@ namespace RWPaintingTool
             else
             {
                 GraphicsPatches.CurThing = _thing;
-                ApparelGraphicRecordGetter.TryGetGraphicApparel(_thing as Apparel, pawn?.story?.bodyType, out var graphicRecord);
+                ApparelGraphicRecordGetter.TryGetGraphicApparel(_thing as Apparel, pawn?.story?.bodyType, false, out var graphicRecord);
                 var mat = graphicRecord.graphic.MatAt(rotation);
                 GenUI.DrawTextureWithMaterial(position, mat.mainTexture, mat);
             }
