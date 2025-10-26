@@ -1,4 +1,5 @@
-﻿using Verse;
+﻿using System.Collections.Generic;
+using Verse;
 
 namespace RWPaintingTool;
 
@@ -9,6 +10,6 @@ public class PaintableExtension : DefModExtension
     public int colors = 3;
     public string maskPath;
 
-    public SixColorSet? defaultPalette;
+    public List<SixColorSet> defaultPalettes;
     public PaletteDef paletteDef;
 }

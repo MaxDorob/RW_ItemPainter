@@ -49,7 +49,7 @@ public class ColorTracker : IExposable
     public ColorTracker(Thing thing, PaintableExtension extension)
     {
         _thing = thing;
-        var palette = extension.paletteDef != null ? extension.paletteDef.palette : extension.defaultPalette;
+        var palette = extension.paletteDef != null ? extension.paletteDef.palette : extension.defaultPalettes.RandomElement();
         if (palette is { } pal)
         {
             SetColors(0, pal.colorOne);
